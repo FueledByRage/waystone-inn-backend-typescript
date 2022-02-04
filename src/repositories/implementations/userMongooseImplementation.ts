@@ -2,17 +2,26 @@ import { Model } from "mongoose";
 import { UserModel,IUserSchema } from "../../models/user";
 import { IUserRepository } from "../IUserRepository";
 import { IUser } from "../../entities/IUser";
+import { User } from "../../entities/user";
+import { errorFactory } from "../../utils/errorFactory";
 
 export class UserMongoose implements IUserRepository{
-    create(user: Object): Promise<IUser> {
+    create(user: User): Promise<IUser> {
         return new Promise(async (resolve, reject)=>{
+
+            const userFound = await UserModel.findOne({email: user.email}).catch(console.error)
+
+            if(userFound) reject(new Error('Email already in use.'));
+
             const newUser = await UserModel.create(user).catch((e: Error) =>{
                 reject(e);
             });
             if(!newUser) reject(new Error('Error saving user'));
             
             //@ts-ignore
-            await newUser.save();
+            await newUser.save().catch((e: Error)=>{
+                reject(errorFactory('Error saving user.'))
+            });
             //@ts-ignore
             resolve(newUser);
         });
@@ -37,6 +46,17 @@ export class UserMongoose implements IUserRepository{
             await UserModel.deleteOne({_id: id}).catch( e=>{ reject('Error deleting user.'); });
 
             resolve(true);
+        });
+    }
+    login(email: string, password: string): Promise<IUser> {
+        return new Promise(async (resolve, reject)=>{
+            const userFound = await UserModel.findOne({email: email});
+
+            if(!userFound) reject(errorFactory('User not found.', 404));
+
+            //@ts-ignore
+            if(userFound.password == password) resolve(userFound);
+            else reject(errorFactory('Wrong email or password.', 406));
         });
     }
 

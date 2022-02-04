@@ -1,10 +1,13 @@
 version: "3"
 
-services:
-    app:
-      build: .
-      command: yarn start
+services:    
+    database:
+      image: mongo
+      restart: always
       volumes:
-      - .:/usr/app
+        - ~db/mongo:/data/db
       ports:
-      - "8000:8000"
+        - "27017:27017"
+      environment:
+        MONGO_INITDB_ROOT_USERNAME: root
+        MONGO_INITDB_ROOT_PASSWORD: 204207

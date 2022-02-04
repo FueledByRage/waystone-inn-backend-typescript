@@ -7,4 +7,5 @@ export interface IUserRepository{
     read(id: string) : Promise<IUser>
     update(id: string, data: Object) : Promise<boolean>
     delete(id: string) : Promise<boolean>
+    login(email: string, password: string) : Promise<IUser>
 }

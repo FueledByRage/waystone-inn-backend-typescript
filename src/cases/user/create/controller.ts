@@ -16,11 +16,11 @@ export function CreateController(create: Object){
                 const createdUser = await create.execute(newUser).catch((e: Error)=>{
                     throw errorFactory('Error saving user');
                 });
-                res.status(200).send(createdUser);
+                res.status(201).send(createdUser);
                 
             } catch (error) {
                 //@ts-ignore
-                res.status(error.status).send(error.message);
+                cb(error);
             }
         }
     }
