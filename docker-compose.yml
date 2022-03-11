@@ -5,7 +5,7 @@ services:
       image: mongo
       restart: always
       volumes:
-        - ~db/mongo:/data/db
+        - ~C:\Users\erkmg\Documents\mongo\data:/data/db
       ports:
         - "27017:27017"
       environment:

@@ -8,13 +8,13 @@ export function CreateController(create: Function){
     return{
         execute: async (req: Request, res: Response, cb: NextFunction)=>{
             try {
-                const { token } = req.headers;
+                const { authorization } = req.headers;
                 const { name, description } = req.body;
 
-                if(!token || !name || !description) throw errorFactory('Missing params', 406);
+                if(!authorization || !name || !description) throw errorFactory('Missing params', 406);
 
                 //@ts-ignore
-                const userId = await decriptToken(token).catch((e)=>{ errorFactory('Authorization token error') })
+                const userId = await decriptToken(authorization).catch((e)=>{ errorFactory('Authorization token error') })
 
 
                 //@ts-ignore

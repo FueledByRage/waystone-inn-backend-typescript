@@ -9,5 +9,6 @@ router.post('/user/register', CreateUserController.controller.execute);
 router.post('/user/login', LoginController.loginController.login);
 
 router.post('/community/register', CreateCommunityController.controller.execute);
+//router.get('/community/:id')
 
 export { router };

@@ -28,7 +28,7 @@ test('Testing the user register - Not sending params',async ()=>{
     expect(response.statusCode).toBe(406);
 });
 
-test('Testing the user register - Not sending params',async ()=>{
+test('Testing the user register',async ()=>{
     const response = await supertest(app).post('/inn/user/register').send({
        name: 'Erik Natan',
        user: 'Example',
@@ -36,7 +36,18 @@ test('Testing the user register - Not sending params',async ()=>{
        password: 'senha123'
 
     });
-    expect(response.statusCode).toBe(500);
+    expect(response.statusCode).toBe(201);
+});
+
+test('Login with wrong params', async ()=>{
+
+    const response = await supertest(app).post('/inn/user/login').send({
+        email: 'Example@gmail.com',
+        password: 'senha1234'
+    });
+
+    expect(response.statusCode).toBe(406);
+    
 });
 
 test('Test the login route', async()=>{
