@@ -1,5 +1,5 @@
-import { User } from "../../../entities/user"
-import { NextFunction, Request, Response } from "express"
+import { User } from "../../../entities/user";
+import { NextFunction, Request, Response } from "express";
 import { errorFactory } from "../../../utils/errorFactory";
 
 export function CreateController(create: Object){

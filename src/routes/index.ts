@@ -8,6 +8,7 @@ import { FindManyCommunitiesController } from "../cases/community/findMany";
 import { findByNameController } from "../cases/community/findByName";
 import { SubController } from "../cases/community/sub";
 import { UnsubController } from "../cases/community/unsub";
+import { ReadPostsController } from "../cases/post/getPosts";
 
 const router = Router();
 
@@ -22,5 +23,6 @@ router.get('/community/sub/:id', SubController.execute);
 router.get('/community/unsub/:id', UnsubController.execute);
 
 router.post('/post/register', ControllerCreatePost.execute);
+router.get('/posts/:id/:page/:registers', ReadPostsController.execute);
 
 export { router };

@@ -21,13 +21,14 @@ afterAll(async ()=>{
     await Mongoose.disconnect();
 });
 
+// token from an already registered user and a valid community id
 const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyMzg2YzZkYjI0MDVjNmZjZmE5NzcyOCIsImlhdCI6MTY0Nzg3MzU5NX0.iVXAjDrLMzsfXBWupT3ZlQWI2ZBvtSzaRrn9thsNBNM';
 const id = '62386d22c2f3f0cc6314b693';
 
 test('Testing the create community route', async()=>{
     const response = await supertest(app).post('/inn/community/register').send({
         name: 'Navy',
-        description: "Test description - 21/03/2022 - Minha irmã não me deu pipoca"
+        description: "Test description - 21/03/2022 "
     }).set({
         token: token
     });

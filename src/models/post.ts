@@ -27,6 +27,7 @@ const PostSchema = new Schema({
     },
     url: {
         type: String,
+        
     },
     likes:{
         type: Number,
@@ -39,7 +40,7 @@ const PostSchema = new Schema({
     listOfUsersWhoLikedIt:{
         type: Array,
         select: false,
-        default: []
+        default: [],
     },
     listOfUsersWhoDislikedIt:{
         type: Array,

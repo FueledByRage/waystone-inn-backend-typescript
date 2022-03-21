@@ -11,4 +11,6 @@ export interface IPost {
     dislikes: number,
     listOfUsersWhoLikedIt?: Array<String>,
     listOfUsersWhoDislikedIt?: Array<String>,
+    liked? : boolean,
+    disliked? : boolean,
 }

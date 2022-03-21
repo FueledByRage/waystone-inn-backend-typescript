@@ -21,13 +21,14 @@ afterAll(async ()=>{
     await Mongoose.disconnect();
 });
 
+// token from an already registered user and id from a valid community
 const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYxZmE4ODA1M2IxZmVjMDA4OGU5YTYyOCIsImlhdCI6MTY0NzcyOTc3OH0.JDS60m5qKPcupqCuda0bKoLKDkctqP4Mx2eIix7pd5o';
 const id = '622d447924fbd61afca14466';
 
 test('Create post test - POST', async ()=>{
     const response = await supertest(app).post(`/inn/post/register`).send({
-        title: 'About me',
-        body: '',
+        title: 'New Post',
+        body: 'new - 20:14',
         id: id
     }).set({
         token: token
@@ -47,22 +48,22 @@ test('Create post error handler test - POST',async ()=>{
     expect(response.statusCode).toBe(406);
 });
 
-test('GET - Get post with pagination', async()=>{
+test('GET - Get posts with pagination', async()=>{
 
-    const page = 0;;
+    const page = 1;
     const registers = 3;
 
-    const response = await supertest(app).get(`/inn/post/${id}/${page}/${registers}`);
+    const response = await supertest(app).get(`/inn/posts/${id}/${page}/${registers}`);
 
     expect(response.statusCode).toBe(200);
 });
 
-test('GET - Get post with pagination - get a error since the token is not valid', async()=>{
+test('GET - Get posts with pagination - get a error since the token is not valid', async()=>{
 
-    const page = 0;
+    const page = 1;
     const registers = 3;
 
-    const response = await supertest(app).get(`/inn/post/${id}/${page}/${registers}`).set({
+    const response = await supertest(app).get(`/inn/posts/${id}/${page}/${registers}`).set({
         token: 'invalidtoken'
     });
 
