@@ -10,4 +10,4 @@ app.use(express.urlencoded({ extended: true }));
 app.use('/inn', router);
 app.use(errorMiddleware);
 
-export { app }
+export { app };

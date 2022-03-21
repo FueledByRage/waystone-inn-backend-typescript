@@ -5,6 +5,6 @@ export interface IUser{
     email: string;
     password: string;
     date: Date;
-    subs: Array<string>;
-    profileURL: string;
+    subs?: Array<string>;
+    profileURL?: string;
 }

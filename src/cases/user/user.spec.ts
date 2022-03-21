@@ -5,11 +5,11 @@ import supertest from "supertest";
 dotenv.config();
 
 beforeAll(async ()=>{
-    const { DATABASE_USER, DATABASE_PASSWORD, DATABASE_PORT } = process.env;
+    const {  DATABASE_NAME } = process.env;
 
 
     //BD
-    await Mongoose.connect(`mongodb://${DATABASE_USER}:${DATABASE_PASSWORD}@localhost:${DATABASE_PORT}/`).
+    await Mongoose.connect(`mongodb://localhost:27017/${DATABASE_NAME}`).
     catch(
         (e)=>{
             console.log( 'Error ' + e + ' has occuried' );

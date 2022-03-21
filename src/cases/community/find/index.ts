@@ -2,6 +2,6 @@ import { MongooseCommunity } from "../../../repositories/implementations/communi
 import { findController } from "./controller";
 import { find } from "./find";
 
-const communityRepository = new MongooseCommunity();
+const communityRepository = MongooseCommunity();
 const findCommunity = find(communityRepository);
-export const controller = findController(findCommunity.execute);
+export const findCommunityController = findController(findCommunity.execute);

@@ -2,6 +2,6 @@ import { UserMongoose } from "../../../repositories/implementations/userMongoose
 import { controllerLogin } from "./controller";
 import { login } from "./login";
 
-const userRepository = new UserMongoose();
+const userRepository = UserMongoose();
 const userLogin = login(userRepository);
 export const loginController = controllerLogin(userLogin.execute);

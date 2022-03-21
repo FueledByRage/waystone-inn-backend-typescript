@@ -16,7 +16,7 @@ export function controllerLogin(login: Function){
                 const token = await encrypt({id: user._id}).catch( (e: Error)=>{
                     throw errorFactory('Error generating user token.', 500);
                 });
-                res.status(200).send({token: token});
+                res.send({token: token, username: user.user});
                 
             } catch (error) {
                 cb(error);

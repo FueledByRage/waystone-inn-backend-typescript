@@ -4,8 +4,10 @@ dotenv.config();
 
 const { SECRET_KEY } = process.env;
 
-export function decriptToken(token: string){
+export function decriptToken(token: string = '') : Promise<string> {
     return new Promise((resolve, reject) =>{
+        if(token.split('.').length != 3) reject(new Error('Invalid token'));
+
         //@ts-ignore
         jwt.verify(token, SECRET_KEY, (error, decoded) => {
             if(error) reject(error)
@@ -21,7 +23,6 @@ export function encrypt(data: object){
             const token = jwt.sign(data, SECRET_KEY);
             resolve(token);
         } catch (error) {
-            console.error(error);
             reject(error);
         }
     });

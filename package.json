@@ -8,7 +8,8 @@
     "production": "tsnd ./src/server",
     "test": "jest",
     "user": "jest ./src/cases/user/user.spec.ts",
-    "community": "jest ./src/cases/community/community.spec.ts"
+    "community": "jest ./src/cases/community/community.spec.ts",
+    "post": "jest ./src/cases/post/post.spec.ts"
   },
   "devDependencies": {
     "-": "^0.0.1",

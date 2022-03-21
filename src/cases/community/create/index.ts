@@ -2,6 +2,6 @@ import { MongooseCommunity } from "../../../repositories/implementations/communi
 import { create } from "./create";
 import { CreateController } from "./controller";
 
-const mongooseRepository = new MongooseCommunity();
+const mongooseRepository = MongooseCommunity();
 const createFunction =  create(mongooseRepository);
 export const controller = CreateController(createFunction.execute);

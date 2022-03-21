@@ -33,7 +33,8 @@ const userSchema = new Schema({
     },
     subs:{
         type: Array,
-        default: []
+        default: [],
+        select: false
     },
     profileURL:{
         type: String,

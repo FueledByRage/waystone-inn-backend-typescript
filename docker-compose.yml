@@ -5,9 +5,8 @@ services:
       image: mongo
       restart: always
       volumes:
-        - ~C:\Users\erkmg\Documents\mongo\data:/data/db
+        - ~\erkmg\Documents\mongo\data:/data/db
       ports:
         - "27017:27017"
       environment:
-        MONGO_INITDB_ROOT_USERNAME: root
-        MONGO_INITDB_ROOT_PASSWORD: 204207
+        MONGO_INITDB_DATABASE: inn

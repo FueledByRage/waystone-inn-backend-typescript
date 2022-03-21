@@ -24,7 +24,8 @@ const communitySchema = new Schema({
     },
     members:{
         type: Array,
-        required: true
+        required: true,
+        select: false
     },
     date:{
         type: Date,
