@@ -23,16 +23,16 @@ afterAll(async ()=>{
 
 const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyMzg2YzZkYjI0MDVjNmZjZmE5NzcyOCIsImlhdCI6MTY0Nzg3MzU5NX0.iVXAjDrLMzsfXBWupT3ZlQWI2ZBvtSzaRrn9thsNBNM';
 const id = '62386d22c2f3f0cc6314b693';
-/*
+
 test('Testing the create community route', async()=>{
     const response = await supertest(app).post('/inn/community/register').send({
-        name: 'Community',
-        description: "Test description - 21/03/2022"
+        name: 'Navy',
+        description: "Test description - 21/03/2022 - Minha irmã não me deu pipoca"
     }).set({
         token: token
     });
     expect(response.statusCode).toBe(201);
-});*/
+});
 
 
 test('Must return the data of a community ',async()=>{
@@ -104,7 +104,7 @@ test('GET Testing sub', async ()=>{
     expect(response.statusCode).toBe(200);
 });
 
-/*
+
 test('GET Testing unsub', async ()=>{
 
     const response = await supertest(app).get(`/inn/community/unsub/${id}`).set({
@@ -112,7 +112,7 @@ test('GET Testing unsub', async ()=>{
     });
 
     expect(response.statusCode).toBe(200);
-});*/
+});
 
 test('GET Testing get communities by author route - Not sending authorization token', async ()=>{
 

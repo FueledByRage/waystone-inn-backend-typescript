@@ -10,7 +10,7 @@ export function unsub( communityRepository: ICommunityRepository) : IUnsubCommun
         execute(userId: string, communityId: string) : Promise<void>{
             return new Promise( async (resolve, reject)=>{
 
-                await communityRepository.sub(userId, communityId)
+                await communityRepository.unsub(userId, communityId)
                 .catch((error: Error)=>{
                     reject(error);
                 });

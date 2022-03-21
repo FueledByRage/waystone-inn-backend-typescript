@@ -5,6 +5,4 @@ import { UserMongoose } from "../../../repositories/implementations/userMongoose
 const createImplementation = UserMongoose();
 
 const create = CreateUser(createImplementation);
-const controller = CreateController(create);
-
-export { create, controller }
+export const CreateUserController = CreateController(create);

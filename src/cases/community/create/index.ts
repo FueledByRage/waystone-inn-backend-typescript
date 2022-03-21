@@ -4,4 +4,4 @@ import { CreateController } from "./controller";
 
 const mongooseRepository = MongooseCommunity();
 const createFunction =  create(mongooseRepository);
-export const controller = CreateController(createFunction.execute);
+export const CreateCommunityController = CreateController(createFunction.execute);

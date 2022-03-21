@@ -4,4 +4,4 @@ import { login } from "./login";
 
 const userRepository = UserMongoose();
 const userLogin = login(userRepository);
-export const loginController = controllerLogin(userLogin.execute);
+export const LoginController = controllerLogin(userLogin.execute);

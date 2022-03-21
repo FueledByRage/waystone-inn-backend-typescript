@@ -83,10 +83,8 @@ export function MongooseCommunity() : ICommunityRepository {
                 if(!user || !community) reject(errorFactory('Error finding community/user.', 404));
 
                 if(!community?.members.includes(userId)){
-                    community?.members.push(userId);
-                    user?.subs.push(communityId);
-                    await community?.save();
-                    await user?.save();
+                    await community?.updateOne({$push: { members: userId }});
+                    await user?.updateOne({$push: { subs: communityId }});
                 }
                 resolve();
             });
@@ -98,9 +96,10 @@ export function MongooseCommunity() : ICommunityRepository {
 
                 if(!user || !community) reject(errorFactory('Error finding community/user.', 404));
 
-                if(!community?.members.includes(userId)){
-                    await community?.save();
-                    await user?.save();
+                if(community?.members.includes(userId)){
+                    console.log('here');
+                    await community?.updateOne({ $pull:{ 'members': userId }});
+                    await user?.updateOne({ $pull:{'subs': communityId} });
                 }
                 resolve();
             });

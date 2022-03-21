@@ -7,7 +7,7 @@ export function UnsubCommunityController( unsub: IUnsubCommunity ){
     return{
         async execute(req: Request, res: Response, cb: NextFunction){
             try {
-                const { communityId } = req.params;
+                const { id } = req.params;
                 const { token } = req.headers;
 
                 if(!token){ 
@@ -23,8 +23,9 @@ export function UnsubCommunityController( unsub: IUnsubCommunity ){
                 });
 
                 //@ts-ignore
-                await unsub.execute(userId, communityId).catch((error: Error)=>{
+                await unsub.execute(userId, id).catch((error: Error)=>{
                     const createdError = errorFactory('Error executing request.', 500);
+                    throw createdError;
                 });
 
                 res.status(200).send();
