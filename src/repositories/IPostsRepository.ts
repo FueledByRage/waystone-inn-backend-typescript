@@ -12,4 +12,5 @@ export interface IPostRepository{
     readPosts(id: string, page: Number, registers: number): Promise<IReadPost>;
     getPostsFeed(id: string, page: Number, registers: number): Promise<IReadPost>;
     read(id: string) : Promise<IPost>;
+    delete(id: string, userId: string) : Promise<void> 
 }

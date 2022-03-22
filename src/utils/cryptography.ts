@@ -4,7 +4,7 @@ dotenv.config();
 
 const { SECRET_KEY } = process.env;
 
-export function decriptToken(token: string = '') : Promise<string> {
+export function decriptToken(token: string) : Promise<string> {
     return new Promise((resolve, reject) =>{
         if(token.split('.').length != 3) reject(new Error('Invalid token'));
 

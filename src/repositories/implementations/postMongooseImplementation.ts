@@ -64,6 +64,20 @@ export function MongoosePost(): IPostRepository{
                 //@ts-ignore
                 resolve(post);
             });
+        },
+        delete(id: string, userId: string) : Promise<void>{
+            return new Promise(async (resolve, reject) =>{
+                const deletePost = await PostModel.deleteOne({ _id: id, authorId: userId })
+                .catch((error: Error)=>{
+                    const createdError = errorFactory('Error executing database request.', 500);
+                    reject(createdError);
+                });
+                
+                //@ts-ignore
+                if(deletePost.deletedCount < 1) reject(new Error('Error deleting post.'));
+
+                resolve();
+            });
         }
 
     }
