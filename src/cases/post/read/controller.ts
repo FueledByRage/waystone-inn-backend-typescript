@@ -1,23 +1,25 @@
-import { IReadPosts } from "./get";
+import { IReadPost } from "./get";
 import { NextFunction, Request, Response } from "express";
 import { errorFactory } from "../../../utils/errorFactory";
 import { decriptToken } from "../../../utils/cryptography";
 
-export function readPostsController(readPosts: IReadPosts){
+export function readPostController(readPosts: IReadPost){
     return{
         async execute(req: Request, res: Response, cb: NextFunction){
             try {
-                const { id, page, registers } = req.params;
+                const { id } = req.params;
                 const { token } = req.headers;
-                
-                
-                const response = await readPosts.execute(id, parseInt(page), parseInt(registers))
+            
+                const post = await readPosts.execute(id)
                 .catch((error: Error) =>{
-                    const createdError = errorFactory('Error reaching posts', 500);
+                    const createdError = errorFactory('Error reaching post', 404);
                     throw createdError;
                 });
 
-                if(!token) return res.json(response);
+                Reflect.deleteProperty(post, 'listOfUsersWhoLikedIt');
+                Reflect.deleteProperty(post, 'listOfUsersWhoDislikedIt');
+
+                if(!token) return res.json(post);
 
                 //@ts-ignore
                 const userId = await decriptToken(token).catch((error: Error) =>{
@@ -25,14 +27,12 @@ export function readPostsController(readPosts: IReadPosts){
                     throw createdError;
                 });
 
-                response.posts.forEach((post) =>{
-                    post.liked = post.listOfUsersWhoLikedIt?.includes(userId);
-                    post.disliked = post.listOfUsersWhoDislikedIt?.includes(userId);
-                    Reflect.deleteProperty(post, 'listOfUsersWhoLikedIt');
-                    Reflect.deleteProperty(post, 'listOfUsersWhoDislikedIt');
-                });
+                post.liked = post.listOfUsersWhoLikedIt?.includes(userId);
+                post.disliked = post.listOfUsersWhoDislikedIt?.includes(userId);
+                Reflect.deleteProperty(post, 'listOfUsersWhoLikedIt');
+                Reflect.deleteProperty(post, 'listOfUsersWhoDislikedIt');
 
-                res.json(response);
+                res.json(post);
             } catch (error) {
                 cb(error);
             }

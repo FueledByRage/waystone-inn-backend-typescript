@@ -10,4 +10,5 @@ export interface IReadPost {
 export interface IPostRepository{
     create(post: Post): Promise<IPost>;
     readPosts(id: string, page: Number, registers: number): Promise<IReadPost>;
+    read(id: string) : Promise<IPost>;
 }

@@ -28,7 +28,7 @@ const id = '622d447924fbd61afca14466';
 test('Create post test - POST', async ()=>{
     const response = await supertest(app).post(`/inn/post/register`).send({
         title: 'New Post',
-        body: 'new - 20:14',
+        body: 'new - 20:50',
         id: id
     }).set({
         token: token
@@ -53,7 +53,9 @@ test('GET - Get posts with pagination', async()=>{
     const page = 1;
     const registers = 3;
 
-    const response = await supertest(app).get(`/inn/posts/${id}/${page}/${registers}`);
+    const response = await supertest(app).get(`/inn/posts/${id}/${page}/${registers}`).set({
+        token: token
+    });
 
     expect(response.statusCode).toBe(200);
 });
@@ -68,4 +70,52 @@ test('GET - Get posts with pagination - get a error since the token is not valid
     });
 
     expect(response.statusCode).toBe(406);
+});
+
+test('GET - Get posts feed with pagination', async()=>{
+    const page = 1;
+    const registers = 3;
+
+    const response = await supertest(app).get(`/inn/posts/feed/${page}/${registers}`).set({
+        token: token
+    });
+
+    expect(response.statusCode).toBe(200);
+});
+
+test('GET - Get posts feed with pagination - get a error since the token is not valid', async()=>{
+
+    const page = 1;
+    const registers = 3;
+
+    //Not sending token
+    const response = await supertest(app).get(`/inn/posts/feed/${page}/${registers}`);
+
+    expect(response.statusCode).toBe(406);
+});
+
+test('GET = Get post data', async ()=>{
+    let postId = '6238f1009115686e45eef31c';
+
+    const response = await supertest(app).get(`/inn/post/${postId}`).set({
+        token: token
+    });
+
+    expect(response.statusCode).toBe(200);
+});
+
+test('GET = Get post data without token', async ()=>{
+    let postId = '6238f1009115686e45eef31c';
+
+    const response = await supertest(app).get(`/inn/post/${postId}`);
+
+    expect(response.statusCode).toBe(200);
+});
+
+test('GET - Get post data - expect error since the id is not valid', async()=>{
+
+    let postId = 'not'
+    const response = await supertest(app).get(`/inn/post/${postId}`);;
+
+    expect(response.statusCode).toBe(404);
 });

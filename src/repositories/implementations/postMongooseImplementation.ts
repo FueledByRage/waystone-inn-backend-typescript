@@ -24,12 +24,29 @@ export function MongoosePost(): IPostRepository{
                 
                 const count = await PostModel.find({ communityId: id}).countDocuments();
 
-                const posts = await PostModel.find({ communityId: id }).skip(skip).limit(registers)
+                const posts = await PostModel.find({ communityId: id })
+                .select('+listOfUsersWhoLikedIt +listOfUsersWhoDislikedIt')
+                .skip(skip).limit(registers)
                 .catch((error: Error) =>{ reject(new Error(`Error: ${error.message}`)) });
 
                 //@ts-ignore
                 resolve({ posts: posts, count: count });  
             });
+        },
+        read(id: string) : Promise<IPost>{
+            return new Promise(async (resolve, reject) =>{
+                const post = await PostModel.findById(id)
+                .select('+listOfUsersWhoLikedIt +listOfUsersWhoDislikedIt').catch((error: Error)=>{
+                    const createdError = errorFactory('Could not execute search on database.', 500);
+                    reject(createdError);
+                });
+
+                if(!post) reject(new Error('Post not found'));
+                
+                //@ts-ignore
+                resolve(post);
+            });
         }
+
     }
 }

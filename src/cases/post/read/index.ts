@@ -1,7 +1,7 @@
-import { readPostsController } from "./controller";
-import { ReadPosts } from "./get";
+import { readPostController } from "./controller";
+import { ReadPost } from "./get";
 import { MongoosePost } from "../../../repositories/implementations/postMongooseImplementation";
 
 const implementation = MongoosePost();
-const read = ReadPosts(implementation);1
-export const ReadPostsController = readPostsController(read);
+const read = ReadPost(implementation);
+export const ReadPostController = readPostController(read);

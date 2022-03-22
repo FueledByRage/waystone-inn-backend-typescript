@@ -1,30 +1,22 @@
 import { IPost } from "../../../entities/IPosts";
 import { IPostRepository } from "../../../repositories/IPostsRepository";
 
-interface IReadPostsReturn{
-    posts: Array<IPost>,
-    lastPage: boolean
+export interface IReadPost {
+    execute(id: string) : Promise<IPost>
 }
 
-export interface IReadPosts {
-    execute(id: string, page: number, registers: number) : Promise<IReadPostsReturn>
-}
-
-export function ReadPosts(repository: IPostRepository) : IReadPosts {
+export function ReadPost(repository: IPostRepository) : IReadPost {
 
     return{
-        execute(id: string, page: number, registers: number) : Promise<IReadPostsReturn>{
+        execute(id: string) : Promise<IPost>{
             return new Promise(async (resolve, reject)=>{
-                const skip = (page - 1) * registers;
-                const response = await repository.readPosts(id, skip, registers)
+                const post = await repository.read(id)
                 .catch((error: Error) =>{
                     reject(error);
                 });
 
                 //@ts-ignore
-                const lastPage = response.count - (skip + registers) <=0;
-                //@ts-ignore
-                resolve({posts: response.posts, lastPage: lastPage});
+                resolve(post);
             });
         }
     }
