@@ -16,6 +16,7 @@ export function MongooseCommunity() : ICommunityRepository {
     
     
                 const community = new Community(userFound._id, name, description);
+                community.members.push(userFound._id);
                 const newCommunity = await CommunityModel.create(community).catch((e: Error)=>{
                     reject(errorFactory('Error creating community.'));
                 });
@@ -23,6 +24,9 @@ export function MongooseCommunity() : ICommunityRepository {
                 await newCommunity.save().catch((e: Error)=>{
                     reject(errorFactory('Error saving community.'))
                 });
+                
+                //@ts-ignore
+                userFound.updateOne({$pull:{ subs: newCommunity._id }});
                 //@ts-ignore
                 resolve(newCommunity);
             });

@@ -1,6 +1,7 @@
 import { IPost } from "../../entities/IPosts";
 import { Post } from "../../entities/Post";
 import { PostModel } from "../../models/post";
+import { UserModel } from "../../models/user";
 import { errorFactory } from "../../utils/errorFactory";
 import { IPostRepository } from "../IPostsRepository";
 import { IReadPost } from "../IPostsRepository";
@@ -29,6 +30,23 @@ export function MongoosePost(): IPostRepository{
                 .skip(skip).limit(registers)
                 .catch((error: Error) =>{ reject(new Error(`Error: ${error.message}`)) });
 
+                //@ts-ignore
+                resolve({ posts: posts, count: count });  
+            });
+        },
+        getPostsFeed(id: string, skip: number, registers: number) : Promise<IReadPost> {
+            return new Promise(async (resolve, reject) =>{
+                const userFound = await UserModel.findById(id).select('+subs');
+                
+                //@ts-ignore
+                const count = await PostModel.find({ communityId: userFound.subs}).countDocuments();
+                
+                //@ts-ignore
+                const posts = await PostModel.find({ communityId: userFound.subs })
+                .select('+listOfUsersWhoLikedIt +listOfUsersWhoDislikedIt')
+                .skip(skip).limit(registers)
+                .catch((error: Error) =>{ reject(new Error(`Error: ${error.message}`)) });
+                
                 //@ts-ignore
                 resolve({ posts: posts, count: count });  
             });

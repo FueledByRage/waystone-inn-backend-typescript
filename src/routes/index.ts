@@ -10,6 +10,7 @@ import { SubController } from "../cases/community/sub";
 import { UnsubController } from "../cases/community/unsub";
 import { ReadPostsController } from "../cases/post/readPosts";
 import { ReadPostController } from "../cases/post/read";
+import { GetPostsFeedController } from "../cases/post/getPostsFeed";
 
 const router = Router();
 
@@ -26,5 +27,6 @@ router.get('/community/unsub/:id', UnsubController.execute);
 router.post('/post/register', ControllerCreatePost.execute);
 router.get('/posts/:id/:page/:registers', ReadPostsController.execute);
 router.get('/post/:id', ReadPostController.execute);
+router.get('/feed/:page/:registers', GetPostsFeedController.execute);
 
 export { router };

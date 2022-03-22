@@ -7,7 +7,7 @@ const { DATABASE_USER, DATABASE_PASSWORD, DATABASE_PORT, DATABASE_NAME, API_PORT
 
 //BD
 Mongoose.connect(`mongodb://localhost:27017/${DATABASE_NAME}`).
-then(()=>{
+then( async ()=>{
     console.log('Connected');
     //console.log(`mongodb://${DATABASE_USER}:${DATABASE_PASSWORD}@localhost:${DATABASE_PORT}/`);
 }).catch(
@@ -15,6 +15,7 @@ then(()=>{
         console.log( 'Error ' + e + ' has occuried' )
     }
 );
+
 
 
 app.listen(API_PORT, ()=>{

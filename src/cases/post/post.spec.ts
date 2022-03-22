@@ -22,13 +22,14 @@ afterAll(async ()=>{
 });
 
 // token from an already registered user and id from a valid community
-const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYxZmE4ODA1M2IxZmVjMDA4OGU5YTYyOCIsImlhdCI6MTY0NzcyOTc3OH0.JDS60m5qKPcupqCuda0bKoLKDkctqP4Mx2eIix7pd5o';
-const id = '622d447924fbd61afca14466';
+const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyMzc1OGFhOGVhM2RmNzVkY2NhYzgwNSIsImlhdCI6MTY0Nzk0OTk5MX0.kUOpo-93KOCZIljL5WcBWvF1cd7OXrzcZCvgYDrcRwg';
+const id = '623875650ae05aa133288c44';
+
 
 test('Create post test - POST', async ()=>{
     const response = await supertest(app).post(`/inn/post/register`).send({
         title: 'New Post',
-        body: 'new - 20:50',
+        body: 'new - 22/03/2022 - 09:22',
         id: id
     }).set({
         token: token
@@ -76,7 +77,7 @@ test('GET - Get posts feed with pagination', async()=>{
     const page = 1;
     const registers = 3;
 
-    const response = await supertest(app).get(`/inn/posts/feed/${page}/${registers}`).set({
+    const response = await supertest(app).get(`/inn/feed/${page}/${registers}`).set({
         token: token
     });
 
@@ -89,12 +90,12 @@ test('GET - Get posts feed with pagination - get a error since the token is not 
     const registers = 3;
 
     //Not sending token
-    const response = await supertest(app).get(`/inn/posts/feed/${page}/${registers}`);
+    const response = await supertest(app).get(`/inn/feed/${page}/${registers}`);
 
     expect(response.statusCode).toBe(406);
 });
 
-test('GET = Get post data', async ()=>{
+test('GET - Get post data', async ()=>{
     let postId = '6238f1009115686e45eef31c';
 
     const response = await supertest(app).get(`/inn/post/${postId}`).set({
@@ -104,7 +105,7 @@ test('GET = Get post data', async ()=>{
     expect(response.statusCode).toBe(200);
 });
 
-test('GET = Get post data without token', async ()=>{
+test('GET - Get post data without token', async ()=>{
     let postId = '6238f1009115686e45eef31c';
 
     const response = await supertest(app).get(`/inn/post/${postId}`);
@@ -115,7 +116,38 @@ test('GET = Get post data without token', async ()=>{
 test('GET - Get post data - expect error since the id is not valid', async()=>{
 
     let postId = 'not'
-    const response = await supertest(app).get(`/inn/post/${postId}`);;
+    const response = await supertest(app).get(`/inn/post/${postId}`);
 
     expect(response.statusCode).toBe(404);
+});
+
+test('DELETE - Delete a post', async ()=>{
+    let postId = '';
+    const response = await supertest(app).delete(`/inn/post/${postId}`).set({
+        token: token
+    });
+
+    expect(response.statusCode).toBe(200);
+});
+
+test('DELETE - Testing delete post authorization', async ()=>{
+    let postId = '';
+
+    //not sending a token
+    const response = await supertest(app).delete(`/inn/post/${postId}`);
+
+    expect(response.statusCode).toBe(406);
+});
+
+test('DELETE - Testing delete post sending a not authorized token', async ()=>{
+    
+    let postId = '';
+    let invalidToken = '';
+
+    //Sending a invalid token -
+    const response = await supertest(app).delete(`/inn/post/${postId}`).set({
+        token: invalidToken
+    });
+
+    expect(response.statusCode).toBe(406);
 });
