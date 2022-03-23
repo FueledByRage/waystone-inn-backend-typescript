@@ -26,7 +26,7 @@ const postId = '6238fa96ff7eb52d8867f485';
 
 test('POST - Testing create comment', async() =>{
     const response = await supertest(app).post('/inn/comment/register').send({
-        comment: 'new test',
+        comment: 'new test - 22:11',
         id: postId
     }).set({
         token: token

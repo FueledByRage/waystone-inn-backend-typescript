@@ -13,6 +13,7 @@ import { ReadPostController } from "../cases/post/read";
 import { GetPostsFeedController } from "../cases/post/getPostsFeed";
 import { DeletePostController } from "../cases/post/delete";
 import { CreateCommentController } from "../cases/comment/create";
+import { ReadCommentsController } from "../cases/comment/read";
 
 const router = Router();
 
@@ -32,6 +33,6 @@ router.get('/post/:id', ReadPostController.execute);
 router.get('/feed/:page/:registers', GetPostsFeedController.execute);
 router.delete('/post/:id', DeletePostController.execute);
 
-router.post('/comment/register', CreateCommentController.execute)
-
+router.post('/comment/register', CreateCommentController.execute);
+router.get('/comments/:id', ReadCommentsController.execute);
 export { router };
