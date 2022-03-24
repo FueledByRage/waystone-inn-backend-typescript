@@ -51,3 +51,31 @@ test('GET - Testing get comments route', async()=>{
 
     expect(response.statusCode).toBe(200);
 });
+
+test('Delete - testing delete comment route', async ()=>{
+    const commentId = '';
+    const response = await supertest(app).delete(`/inn/comment/${commentId}`).set({
+        token: token
+    });
+
+    expect(response.statusCode).toBe(200);
+});
+
+test('Delete - testing delete comment route error handler - not sending token', async ()=>{
+    const commentId = '';
+    const response = await supertest(app).delete(`/inn/comment/${commentId}`);
+
+    expect(response.statusCode).toBe(406);
+});
+
+test('Delete - testing delete comment route - sending wrong token', async ()=>{
+    
+    const commentId = '';
+    const wrongToken = '';
+
+    const response = await supertest(app).delete(`/inn/comment/${commentId}`).set({
+        token: wrongToken
+    });
+
+    expect(response.statusCode).toBe(406);
+});
