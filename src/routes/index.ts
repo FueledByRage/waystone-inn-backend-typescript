@@ -14,6 +14,7 @@ import { GetPostsFeedController } from "../cases/post/getPostsFeed";
 import { DeletePostController } from "../cases/post/delete";
 import { CreateCommentController } from "../cases/comment/create";
 import { ReadCommentsController } from "../cases/comment/read";
+import { DeleteCommentController } from "../cases/comment/delete";
 
 const router = Router();
 
@@ -35,4 +36,6 @@ router.delete('/post/:id', DeletePostController.execute);
 
 router.post('/comment/register', CreateCommentController.execute);
 router.get('/comments/:id', ReadCommentsController.execute);
+router.delete('/comment/:id', DeleteCommentController.execute);
+
 export { router };

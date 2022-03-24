@@ -21,7 +21,7 @@ afterAll(async ()=>{
     await Mongoose.disconnect();
 });
 
-const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyMzc1OGFhOGVhM2RmNzVkY2NhYzgwNSIsImlhdCI6MTY0Nzk5MjcxNH0.n17zyZZX6bWOaX87092t36K69QOnZrw2MZn2I-EBsPQ";
+const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyMzc1OGFhOGVhM2RmNzVkY2NhYzgwNSIsImlhdCI6MTY0ODA4NTY3Nn0.iJM4b0X9iLilKnjJK3wJZSosnxQIO2rmWQ2tK0qEa8o";
 const postId = '6238fa96ff7eb52d8867f485';
 
 test('POST - Testing create comment', async() =>{
@@ -77,5 +77,5 @@ test('Delete - testing delete comment route - sending wrong token', async ()=>{
         token: wrongToken
     });
 
-    expect(response.statusCode).toBe(406);
+    expect(response.statusCode).toBe(500);
 });

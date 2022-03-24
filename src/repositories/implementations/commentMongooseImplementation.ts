@@ -30,6 +30,19 @@ export function MongooseComment() : ICommentRepository{
                 //@ts-ignore
                 resolve(comments);
             });
+        },
+        delete(id: string, userId: string) : Promise<void>{
+            return new Promise(async (resolve, reject)=>{
+                const deleteComment = await CommentModel.deleteOne({_id: id, authorId: userId})
+                .catch((error: Error) =>{
+                    reject(error);
+                });
+
+                //@ts-ignore
+                if(deleteComment.deletedCount < 1) reject(new Error('Error deleting comment.'));
+
+                resolve();
+            });
         }
     }
 }
