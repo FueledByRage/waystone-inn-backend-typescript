@@ -2,7 +2,11 @@ import { User } from "../../../entities/user";
 import { NextFunction, Request, Response } from "express";
 import { errorFactory } from "../../../utils/errorFactory";
 
-export function CreateController(create: Object){
+interface ICreateUser{
+    execute: ( user : User )=> Promise<User | void | null>
+}
+
+export function CreateController(create: ICreateUser){
     return{
         
         execute: async (req: Request, res: Response, cb: NextFunction)=>{
@@ -12,14 +16,10 @@ export function CreateController(create: Object){
 
                 const newUser = new User(user, name, password, email);
                 
-                //@ts-ignore
-                const createdUser = await create.execute(newUser).catch((e: Error)=>{
-                    throw errorFactory('Error saving user');
-                });
+                const createdUser = await create.execute(newUser);
+
                 res.status(201).send(createdUser);
-                
             } catch (error) {
-                //@ts-ignore
                 cb(error);
             }
         }

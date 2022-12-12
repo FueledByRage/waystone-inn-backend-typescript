@@ -1,17 +1,20 @@
 import { Request, Response, NextFunction } from "express";
 import { encrypt } from "../../../utils/cryptography";
 import { errorFactory } from "../../../utils/errorFactory";
+import { User } from "../../../entities/user";
 
-export function controllerLogin(login: Function){
+interface ILogin{
+    execute: ( email : string, password : string ) => Promise<User>
+}
+
+export function controllerLogin(login: ILogin){
     return{
         login: async (req: Request, res: Response, cb: NextFunction)=>{
             
             try {
                 const { email, password } = req.body;
 
-                const user = await login(email, password).catch( (e: Error)=>{
-                    throw e;
-                });
+                const user = await login.execute(email, password);
 
                 const token = await encrypt({id: user._id}).catch( (e: Error)=>{
                     throw errorFactory('Error generating user token.', 500);

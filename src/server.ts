@@ -1,9 +1,11 @@
 import { app } from "./app";
 import * as dotenv from 'dotenv';
+import 'cors';
 import Mongoose from "mongoose";
 dotenv.config();
 
 const { DATABASE_USER, DATABASE_PASSWORD, DATABASE_PORT, DATABASE_NAME, API_PORT } = process.env
+
 
 //BD
 Mongoose.connect(`mongodb://localhost:27017/${DATABASE_NAME}`).

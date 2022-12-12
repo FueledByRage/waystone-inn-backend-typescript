@@ -2,6 +2,7 @@ import { app } from "../../app";
 import  Mongoose  from "mongoose";
 import * as dotenv from "dotenv";
 import supertest from "supertest";
+import { text } from "express";
 dotenv.config();
 
 beforeAll(async ()=>{
@@ -50,6 +51,16 @@ test('Login with wrong params', async ()=>{
     
 });
 
+
+test('Login with a not registered email', async () => {
+    const response = await supertest(app).post('/inn/user/login').send({
+        email: 'random@gmail.com',
+        password: 'senha123'
+    })
+
+    expect(response.statusCode).toBe(406);
+})
+
 test('Test the login route', async()=>{
     const response = await supertest(app).post('/inn/user/login').send({
         email: 'Example@gmail.com',
@@ -58,3 +69,8 @@ test('Test the login route', async()=>{
 
     expect(response.statusCode).toBe(200);
 });
+
+test('Test the get user by username', async ()=>{
+    const response = await supertest(app).get('/inn/user/Example');
+    expect(response.statusCode).toBe(200);
+})

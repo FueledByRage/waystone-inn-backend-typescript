@@ -15,11 +15,13 @@ import { DeletePostController } from "../cases/post/delete";
 import { CreateCommentController } from "../cases/comment/create";
 import { ReadCommentsController } from "../cases/comment/read";
 import { DeleteCommentController } from "../cases/comment/delete";
+import { getByUsernameController } from "../cases/user/get";
 
 const router = Router();
 
 router.post('/user/register', CreateUserController.execute);
 router.post('/user/login', LoginController.login);
+router.get('/user/:username', getByUsernameController.execute)
 
 router.post('/community/register', CreateCommunityController.execute);
 router.get('/community/:id', findCommunityController.execute);

@@ -1,11 +1,10 @@
-import { Request, Response } from "express";
+import { Request, Response, NextFunction } from "express";
 
-export function errorMiddleware(error: Error, req: Request, res: Response){
+export function errorMiddleware(error: Error, req: Request, res: Response, next : NextFunction){
 
     if(!error) return;
-
     //@ts-ignore
     const { status, message } = error;
     
-    res.status(status == 0 ? 500 : status).json({error: message});
+    res.status(!status ? 500 : status).send(message);
 }
