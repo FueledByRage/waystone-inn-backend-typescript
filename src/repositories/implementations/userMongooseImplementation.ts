@@ -10,10 +10,6 @@ export function UserMongoose(): IUserRepository{
     create(user: User): Promise< IUser | void | null> {
         return new Promise(async (resolve, reject)=>{
             try {
-                const userFound = await UserModel.findOne({email: user.email});
-    
-                if(userFound) throw new Error('Email already in use.');
-    
                 const newUser = await UserModel.create(user);
                 
                 await newUser.save();

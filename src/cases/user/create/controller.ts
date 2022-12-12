@@ -15,7 +15,6 @@ export function CreateController(create: ICreateUser){
                 if(!user || !name || !email || !password) throw errorFactory('Missing params', 406);
 
                 const newUser = new User(user, name, password, email);
-                
                 const createdUser = await create.execute(newUser);
 
                 res.status(201).send(createdUser);
