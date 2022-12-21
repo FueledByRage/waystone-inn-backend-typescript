@@ -1,3 +1,4 @@
+import { DTOPost } from "../../entities/DTOs/DTOPost";
 import { IPost } from "../../entities/IPosts";
 import { Post } from "../../entities/Post";
 import { PostModel } from "../../models/post";
@@ -8,9 +9,10 @@ import { IReadPost } from "../IPostsRepository";
 
 export function MongoosePost(): IPostRepository{
     return{
-        create(post: Post){
+        create(data: DTOPost){
             return new Promise(async (resolve, reject)=>{
-                const createdPost = await PostModel.create(post).catch((error: Error)=>{
+                const post = new Post(data);
+                const createdPost = await (await PostModel.create(post)).save().catch((error: Error)=>{
                     const createdError = errorFactory('Error creating post - Failed to execute', 500);
                     reject(createdError);
                 });
@@ -24,9 +26,8 @@ export function MongoosePost(): IPostRepository{
             return new Promise(async (resolve, reject) =>{
                 
                 const count = await PostModel.find({ communityId: id}).countDocuments();
-
+                
                 const posts = await PostModel.find({ communityId: id })
-                .select('+listOfUsersWhoLikedIt +listOfUsersWhoDislikedIt')
                 .skip(skip).limit(registers)
                 .catch((error: Error) =>{ reject(new Error(`Error: ${error.message}`)) });
 
@@ -36,33 +37,37 @@ export function MongoosePost(): IPostRepository{
         },
         getPostsFeed(id: string, skip: number, registers: number) : Promise<IReadPost> {
             return new Promise(async (resolve, reject) =>{
-                const userFound = await UserModel.findById(id).select('+subs');
-                
-                //@ts-ignore
-                const count = await PostModel.find({ communityId: userFound.subs}).countDocuments();
-                
-                //@ts-ignore
-                const posts = await PostModel.find({ communityId: userFound.subs })
-                .select('+listOfUsersWhoLikedIt +listOfUsersWhoDislikedIt')
-                .skip(skip).limit(registers)
-                .catch((error: Error) =>{ reject(new Error(`Error: ${error.message}`)) });
-                
-                //@ts-ignore
-                resolve({ posts: posts, count: count });  
+
+                try {
+                    const userFound = await UserModel.findById(id).select('+subs');
+                    
+                    const count = await PostModel.find({ communityId: userFound?.subs}).countDocuments()
+                    .catch(error => {throw new Error('Error executing query')});
+                    
+                    const posts = await PostModel.find({ communityId: userFound?.subs })
+                    .skip(skip)
+                    .limit(registers)
+                    .catch(error => {throw new Error('Error executing query')});
+                    
+                    if(posts && count ) return resolve({ posts, count });  
+                    throw new Error('Error reaching data');
+                    
+                } catch (error) {
+                    reject(error);
+                }
+
             });
         },
         read(id: string) : Promise<IPost>{
             return new Promise(async (resolve, reject) =>{
                 const post = await PostModel.findById(id)
-                .select('+listOfUsersWhoLikedIt +listOfUsersWhoDislikedIt').catch((error: Error)=>{
+                .catch((error: Error)=>{
                     const createdError = errorFactory('Could not execute search on database.', 500);
                     reject(createdError);
                 });
 
-                if(!post) reject(new Error('Post not found'));
-                
-                //@ts-ignore
-                resolve(post);
+                post && resolve(post);
+                reject(errorFactory('Post not found', 404));
             });
         },
         delete(id: string, userId: string) : Promise<void>{

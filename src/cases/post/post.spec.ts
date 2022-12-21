@@ -22,8 +22,8 @@ afterAll(async ()=>{
 });
 
 // token from an already registered user and id from a valid community
-const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyMzg2YzZkYjI0MDVjNmZjZmE5NzcyOCIsImlhdCI6MTY0Nzk1OTU3OH0.7jf_Zy5DPnxEwNhpXrb7ncDdBGCwZLN4EOREKtSfPks';
-const id = '623875650ae05aa133288c44';
+const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzOTFkZjA0YmM3M2U0MDg1NGQ5NzA2YyIsImlhdCI6MTY3MTExNDU2MX0.ZGq1ou8gHRuFvZmXG6XKxkpusmkzyYwF5up1R4uSh8s';
+const id = '62386d22c2f3f0cc6314b693';
 
 
 test('Create post test - POST', async ()=>{
@@ -78,7 +78,7 @@ test('GET - Get posts feed with pagination', async()=>{
     const registers = 3;
 
     const response = await supertest(app).get(`/inn/feed/${page}/${registers}`).set({
-        token: token
+        token
     });
 
     expect(response.statusCode).toBe(200);
@@ -96,17 +96,18 @@ test('GET - Get posts feed with pagination - get a error since the token is not 
 });
 
 test('GET - Get post data', async ()=>{
-    let postId = '6238f1009115686e45eef31c';
+    let postId = '63a06a544cfe4b5f254a1bee';
 
     const response = await supertest(app).get(`/inn/post/${postId}`).set({
-        token: token
+        token
     });
 
     expect(response.statusCode).toBe(200);
 });
 
+
 test('GET - Get post data without token', async ()=>{
-    let postId = '6238f1009115686e45eef31c';
+    let postId = '63a06a544cfe4b5f254a1bee';
 
     const response = await supertest(app).get(`/inn/post/${postId}`);
 
@@ -122,7 +123,7 @@ test('GET - Get post data - expect error since the id is not valid', async()=>{
 });
 
 test('DELETE - Delete a post', async ()=>{
-    let postId = '6239dea10a493b8d5c3eed3b';
+    let postId = '63a070dbdb5ef6db4a517701';
     const response = await supertest(app).delete(`/inn/post/${postId}`).set({
         token: token
     });
@@ -131,7 +132,7 @@ test('DELETE - Delete a post', async ()=>{
 });
 
 test('DELETE - Testing delete post authorization', async ()=>{
-    let postId = '6239dea10a493b8d5c3eed3b';
+    let postId = '63a070dbdb5ef6db4a517701';
 
     //not sending a token
     const response = await supertest(app).delete(`/inn/post/${postId}`);
@@ -141,7 +142,7 @@ test('DELETE - Testing delete post authorization', async ()=>{
 
 test('DELETE - Testing delete post sending a not authorized token', async ()=>{
     
-    let postId = '6239d8792190b659d7f9c9be';
+    let postId = '63a070dbdb5ef6db4a517701';
     let invalidToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyMzc1OGFhOGVhM2RmNzVkY2NhYzgwNSIsImlhdCI6MTY0Nzk1OTY2OH0.ewFs9LKxo_mCm7NZJCZu2qIbwwIopyeSY2dXEl4hUag';
 
     //Sending a invalid token -

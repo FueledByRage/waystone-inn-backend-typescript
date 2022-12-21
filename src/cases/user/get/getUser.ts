@@ -11,7 +11,7 @@ export const GetUser = (userRepository: IUserRepository) =>{
                 });
 
                 resolve(user);
-            })
+            });
 
         }
     }

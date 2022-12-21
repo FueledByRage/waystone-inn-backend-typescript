@@ -16,10 +16,11 @@ export function controllerLogin(login: ILogin){
 
                 const user = await login.execute(email, password);
 
-                const token = await encrypt({id: user._id}).catch( (e: Error)=>{
+                const token = await encrypt({id : user._id}).catch( (e: Error)=>{
                     throw errorFactory('Error generating user token.', 500);
                 });
-                res.send({token: token, username: user.user});
+
+                res.send({token, username: user.user});
                 
             } catch (error) {
                 cb(error);

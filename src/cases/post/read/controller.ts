@@ -10,30 +10,11 @@ export function readPostController(readPosts: IReadPost){
                 const { id } = req.params;
                 const { token } = req.headers;
             
-                const post = await readPosts.execute(id)
-                .catch((error: Error) =>{
-                    const createdError = errorFactory('Error reaching post', 404);
-                    throw createdError;
-                });
-
-                Reflect.deleteProperty(post, 'listOfUsersWhoLikedIt');
-                Reflect.deleteProperty(post, 'listOfUsersWhoDislikedIt');
-
-                if(!token) return res.json(post);
-
-                //@ts-ignore
-                const userId = await decriptToken(token).catch((error: Error) =>{
-                    const createdError = errorFactory(error.message, 406);
-                    throw createdError;
-                });
-
-                post.liked = post.listOfUsersWhoLikedIt?.includes(userId);
-                post.disliked = post.listOfUsersWhoDislikedIt?.includes(userId);
-                Reflect.deleteProperty(post, 'listOfUsersWhoLikedIt');
-                Reflect.deleteProperty(post, 'listOfUsersWhoDislikedIt');
+                const post = await readPosts.execute(id, token );
 
                 res.json(post);
             } catch (error) {
+                console.error(error);
                 cb(error);
             }
         }

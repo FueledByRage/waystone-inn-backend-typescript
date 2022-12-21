@@ -1,21 +1,22 @@
+import { DTOPost } from "../../../entities/DTOs/DTOPost";
 import { Post } from "../../../entities/Post";
 import { IPostRepository } from "../../../repositories/IPostsRepository";
 
 
 export interface ICreatePost {
-    execute(title: string, body: string, id: string, authorId: string) : Promise<Post>;
+    execute(data : DTOPost) : Promise<Post>;
 }
 
 
 export function CreatePost(repository: IPostRepository) : ICreatePost{
     return{
-        execute(title: string, body: string, id: string, authorId: string) :Promise<Post>{
+        execute(data : DTOPost) :Promise<Post>{
             return new Promise( async (resolve, reject) =>{
-                const post = new Post(authorId, id, title, body);
-                const newPost = await repository.create(post);
+
+                const newPost = await repository.create(data).catch(error => reject('Error salving post'));
                 
-                //@ts-ignore
-                resolve(newPost);
+                if(newPost) resolve(newPost);
+                reject(Error('Error saving post'));
             });
         }
     }

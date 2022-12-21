@@ -5,33 +5,29 @@ import { UserModel } from "../../models/user";
 import { iCommunity } from "../../entities/ICommunity";
 import { ICommunityRepository } from "../ICommunityRepository";
 import { findIndex } from "./implementatiosUtils";
+import { DTOCommunity } from "../../entities/DTOs/DTOCommunity";
+import { DTOGetPosts } from "../../entities/DTOs/DTOGetPosts";
+import { ICommunityAndPosts } from "../../cases/community/FindWithPosts/find";
 
 export function MongooseCommunity() : ICommunityRepository {
     return{
-        create(name: string, description: string, userId: string): Promise<iCommunity> {
+        create(data : DTOCommunity): Promise<iCommunity | void | null> {
             return new Promise(async (resolve, reject)=>{
-                const userFound = await UserModel.findById(userId);
-                    
+                const userFound = await UserModel.findById(data.authorId);
                 if(!userFound) throw errorFactory('User not found.', 406);
     
-    
-                const community = new Community(userFound._id, name, description);
-                community.members.push(userFound._id);
-                const newCommunity = await CommunityModel.create(community).catch((e: Error)=>{
-                    reject(errorFactory('Error creating community.'));
-                });
-                //@ts-ignore
-                await newCommunity.save().catch((e: Error)=>{
-                    reject(errorFactory('Error saving community.'))
+                const community = new Community(data);
+
+                const newCommunity = await ( await CommunityModel.create(community)).save().catch((e: Error)=>{
+                    reject(errorFactory('Error saving community.'));
                 });
                 
-                //@ts-ignore
-                userFound.updateOne({$pull:{ subs: newCommunity._id }});
-                //@ts-ignore
+                console.log('here')
+                newCommunity && await userFound.updateOne({$pull:{ subs: newCommunity._id }});
                 resolve(newCommunity);
             });
         },
-        read(id: string): Promise<Community> {
+        read(id: string): Promise<iCommunity | void | null> {
             return new Promise( async (resolve, reject)=>{
                 const community = await CommunityModel.findById(id).select('+members').catch((e: Error) =>{
                     reject(errorFactory('Error reading database'));
@@ -39,7 +35,6 @@ export function MongooseCommunity() : ICommunityRepository {
     
                 if(!community) reject(errorFactory('Community not found.', 404));
     
-                //@ts-ignore
                 resolve(community);
             });
         },
@@ -55,22 +50,22 @@ export function MongooseCommunity() : ICommunityRepository {
                 resolve(communities);
             });
         },
-        getCommunitiesById(id: string): Promise<Community[]> {
+        getCommunitiesById(id: string): Promise<iCommunity[] | void | null> {
             return new Promise( async (resolve, reject)=>{
                 const user = await UserModel.findById(id);
-                //@ts-ignore
-                const communities = await CommunityModel.find( { '_id': {$in: user._id} }).limit(3)
+
+                const communities = await CommunityModel.find( { '_id': {$in: user?._id} }).limit(3)
                 .catch((error: Error) => {
                     const createdError = errorFactory('Error executing search');
                     reject(createdError);
                 });
-
-                //@ts-ignore
                 resolve(communities);
             });
         },
-        getCommunityAndPosts(id: string, page: number): Promise<{ community: Community; }[]> {
-            return new Promise((resolve, reject)=>{});
+        getCommunityAndPosts(data : DTOGetPosts): Promise<ICommunityAndPosts> {
+            return new Promise((resolve, reject)=>{
+
+            });
             
         },
         update(id: string, data: Object): Promise<Community> {
@@ -101,7 +96,6 @@ export function MongooseCommunity() : ICommunityRepository {
                 if(!user || !community) reject(errorFactory('Error finding community/user.', 404));
 
                 if(community?.members.includes(userId)){
-                    console.log('here');
                     await community?.updateOne({ $pull:{ 'members': userId }});
                     await user?.updateOne({ $pull:{'subs': communityId} });
                 }

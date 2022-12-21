@@ -1,12 +1,15 @@
+import { ICommunityAndPosts } from "../cases/community/FindWithPosts/find";
 import { Community } from "../entities/Community";
+import { DTOCommunity } from "../entities/DTOs/DTOCommunity";
+import { DTOGetPosts } from "../entities/DTOs/DTOGetPosts";
 import { iCommunity } from "../entities/ICommunity";
 
 export interface ICommunityRepository{    
-    create(name: string, description: string, userId: string): Promise<iCommunity>
-    read(id: string): Promise<Community>
-    getCommunitiesById(id: string): Promise<Array<Community>>
+    create(data : DTOCommunity): Promise<iCommunity | void | null>
+    read(id: string): Promise<iCommunity | void | null >
+    getCommunitiesById(id: string): Promise<Array<iCommunity> | null | void >
     getCommunitiesByName(name: string): Promise<Array<iCommunity>>
-    getCommunityAndPosts(id: string, page: number): Promise<Array<{ community:Community }>>
+    getCommunityAndPosts(data : DTOGetPosts): Promise<ICommunityAndPosts>
     update(id: string, data: Object): Promise<Community>
     delete(id: string): Promise<boolean>
     sub(userId: string, communityId : string): Promise<void>

@@ -22,8 +22,8 @@ afterAll(async ()=>{
 });
 
 // token from an already registered user and a valid community id
-const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyMzg2YzZkYjI0MDVjNmZjZmE5NzcyOCIsImlhdCI6MTY0Nzg3MzU5NX0.iVXAjDrLMzsfXBWupT3ZlQWI2ZBvtSzaRrn9thsNBNM';
-const id = '62386d22c2f3f0cc6314b693';
+const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzOTFkZjA0YmM3M2U0MDg1NGQ5NzA2YyIsImlhdCI6MTY3MTExNDU2MX0.ZGq1ou8gHRuFvZmXG6XKxkpusmkzyYwF5up1R4uSh8s';
+const id = '639b4fc888f1d73054943373';
 
 test('Testing the create community route', async()=>{
     const response = await supertest(app).post('/inn/community/register').send({
@@ -54,7 +54,6 @@ test('This test is suposed to get 3 communities from a given user', async ()=>{
     const response = await supertest(app).get(`/inn/communities`).set({
         token: token 
     });
-
     expect(response.statusCode).toBe(200);
 });
 
@@ -82,7 +81,6 @@ test('Must get an array of communities using a name as param', async ()=>{
 
     const response = await supertest(app).get(`/inn/communities/${name}`);
 
-    //@ts-ignore
     expect(response.statusCode).toBe(200);
 });
 

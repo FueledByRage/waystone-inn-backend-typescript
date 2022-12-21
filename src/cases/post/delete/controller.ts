@@ -14,17 +14,14 @@ export function deletePostController( deletePost : IDeletePost){
                 if(!token) throw errorFactory('Authorization token missing.', 406);
 
                 //@ts-ignore
-                const userId = await decriptToken(token).catch((error: Error)=>{
-                    throw errorFactory('Invalid authorization token.', 406);
-                }); 
+                const userId = await decriptToken(token);
 
-                await deletePost.execute(id, userId).catch((error: Error) =>{
-                    throw errorFactory('Error executing action.', 500);
-                });
+                await deletePost.execute(id, userId);
 
                 res.send();
                 
             } catch (error) {
+                console.log(error);
                 cb(error);
             }
         }

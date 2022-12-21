@@ -1,12 +1,13 @@
-import { Community } from "../../../entities/Community";
+import { DTOCommunity } from "../../../entities/DTOs/DTOCommunity";
+import { iCommunity } from "../../../entities/ICommunity";
 import { ICommunityRepository } from "../../../repositories/ICommunityRepository";
 
 export function create(communityRepository: ICommunityRepository){
     
     return{
-        execute: (name: string, description: string, userId: string)=>{
+        execute: (data : DTOCommunity) : Promise<iCommunity | void | null> => {
             return new Promise( async (resolve, reject)=>{
-                const newCommunity = await communityRepository.create(name, description, userId).catch(e =>{ reject(e); })
+                const newCommunity = await communityRepository.create(data).catch(e =>{ reject(e); })
                 resolve(newCommunity);
             })
 

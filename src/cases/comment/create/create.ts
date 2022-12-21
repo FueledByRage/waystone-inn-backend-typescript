@@ -1,26 +1,25 @@
 import { Comment } from "../../../entities/Comments";
+import { DTOComment } from "../../../entities/DTOs/DTOComments";
 import { IComment } from "../../../entities/IComments";
 import { ICommentRepository } from "../../../repositories/ICommentRepository";
 
 
 
 export interface ICreateComment {
-    execute(id: string, userId: string, commentBody: string) : Promise<Comment>;
+    execute(data : DTOComment) : Promise<Comment>;
 }
 
 
 export function CreateComment(repository: ICommentRepository) : ICreateComment{
     return{
-        execute(id: string, userId: string, commentBody: string ) : Promise<IComment>{
+        execute(data : DTOComment) : Promise<IComment>{
             return new Promise( async (resolve, reject) =>{
-                const comment = new Comment(id, userId, commentBody);
 
-                const newComment = await repository.create(comment).catch((error: Error)=>{
+                const newComment = await repository.create(data).catch((error: Error)=>{
                     reject(error);
                 });
                 
-                //@ts-ignore
-                resolve(newComment);
+                newComment && resolve(newComment);
             });
         }
     }

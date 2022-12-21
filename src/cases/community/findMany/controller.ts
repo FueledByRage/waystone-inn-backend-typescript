@@ -15,19 +15,11 @@ export function FindManyCommunityController(findMany: IFindManyCommunity){
                     cb(createdError);
                 }
 
-                //@ts-ignores
-                const userId = await decriptToken(token).catch((error: Error) =>{
-                    const createdError = errorFactory('Error validating token.', 406);
-                    throw createdError;
-                });
+                //@ts-ignore
+                const userId = await decriptToken(token);
                 
                 //@ts-ignore
-                const communities = await findMany.execute(userId)
-                .catch((e: Error)=>{
-                    const createdError = errorFactory('Error finding data.');
-                    
-                    throw createdError;
-                });
+                const communities = await findMany.execute(userId);
 
                 res.json(communities);
                 

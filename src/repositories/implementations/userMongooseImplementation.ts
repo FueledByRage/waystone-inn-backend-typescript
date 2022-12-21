@@ -4,28 +4,29 @@ import { IUserRepository } from "../IUserRepository";
 import { IUser } from "../../entities/IUser";
 import { User } from "../../entities/user";
 import { errorFactory } from "../../utils/errorFactory";
+import { DTOUser } from "../../entities/DTOs/DTOUser";
 
 export function UserMongoose(): IUserRepository{
     return{
-    create(user: User): Promise< IUser | void | null> {
+    create(data: DTOUser): Promise< User | void | null> {
         return new Promise(async (resolve, reject)=>{
             try {
-                const newUser = await UserModel.create(user);
+                const newUser = await (await UserModel.create(data)).save();
                 
-                await newUser.save();
-    
-                resolve(newUser);
+                const user = new User(data, newUser._id);
+                
+                resolve(user);
             } catch (error) {
                 reject(error);
             }
         });
     },
-    read(username: string): Promise<IUser | void | null> {
+    read(username: string): Promise<User | void | null> {
         return new Promise(async (resolve, reject)=>{
-            const user = await UserModel.findOne({ user: username}).catch( e =>{
+            const user = await UserModel.findOne({ user: username}).select("-password")
+            .catch( e =>{
                 return reject('An error has occurried finding the user')
             });
-            //if(!user) return reject('User not found.');
             return resolve(user);
         })
     },
@@ -43,14 +44,23 @@ export function UserMongoose(): IUserRepository{
             resolve(true);
         });
     },
-    getByEmail(email: string): Promise<IUser | void | null> {
+    getByEmail(email: string): Promise<User | void | null> {
         return new Promise(async (resolve, reject) =>{
         
             const user = await UserModel.findOne({ email }).catch( e =>{
                 reject('Error executing query.');
             });
-
             return resolve(user);
         });
+    },
+    findById( id : string ) : Promise<User>{
+        return new Promise( async (resolve, reject )=>{
+            const user = await UserModel.findById(id).catch(error =>{
+                reject(new Error('Error executing search'));
+            });
+            
+            user && resolve(user);
+            reject(errorFactory('Error finding user', 404));
+        })
     }}
 }

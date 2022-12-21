@@ -29,7 +29,7 @@ test('Testing the user register - Not sending params',async ()=>{
     expect(response.statusCode).toBe(406);
 });
 
-/*test('Testing the user register',async ()=>{
+test('Testing the user register',async ()=>{
     const response = await supertest(app).post('/inn/user/register').send({
        name: 'Erik Natan',
        user: 'Example',
@@ -38,7 +38,7 @@ test('Testing the user register - Not sending params',async ()=>{
 
     });
     expect(response.statusCode).toBe(201);
-});*/
+});
 
 test('Login with wrong params', async ()=>{
 
