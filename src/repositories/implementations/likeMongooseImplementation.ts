@@ -8,7 +8,7 @@ import { ILikeRepository } from "../ILikesRepository";
 export function MongooseLike() : ILikeRepository{
     return{
         create(data : DTOLike ) : Promise<boolean> {
-            return new Promise( async (resolve, reject)=>{
+        return new Promise( async (resolve, reject)=>{
                 const newLike = new Like(data);
                 const createdLike = await (await LikeModel.create(newLike)).save().catch(e =>{
                     reject(errorFactory('Error executing query'));
@@ -27,9 +27,28 @@ export function MongooseLike() : ILikeRepository{
             });
         },
         delete(DTOLike : DTOLike) : Promise<boolean>{
-            return new Promise((resolve, reject) =>{
+            return new Promise( async (resolve, reject) =>{
+                const removeLike = await LikeModel.deleteOne({
+                    postId : DTOLike.postId,
+                    userId : DTOLike.userId
+                }).catch( error  =>{
+                    console.error(error);
+                    reject(errorFactory('Error deleting like'));
+                });
 
-            });
-        }
+                const removed = removeLike ? removeLike.deletedCount > 0 : false;
+
+                resolve(removed);
+        })
+        },
+        getCount(postId : string) : Promise<number> {
+            return new Promise( async (resolve, reject)=>{
+                const count = await LikeModel.findOne({
+                    postId
+                }).count()
+
+                resolve(count);
+            })
+        },
     }
 }

@@ -4,5 +4,6 @@ export class DTOPost{
         public communityId: string,
         public title: string,
         public body: string,
+        public filename?: string
     ){}
 }

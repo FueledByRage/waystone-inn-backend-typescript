@@ -20,7 +20,7 @@ export function getPostsFeed(repository: IPostRepository, likeRepository : ILike
         execute(data : DTOGetPosts) : Promise<IGetPostsFeedReturn>{
             return new Promise(async (resolve, reject)=>{
                 const skip = (data.page - 1) * data.register;
-                const id = await decriptToken(data.token).catch( e=>{
+                const id = await decriptToken(data.id).catch( e=>{
                     reject(e);
                 });
 
@@ -33,7 +33,9 @@ export function getPostsFeed(repository: IPostRepository, likeRepository : ILike
                     const dtoLike = new DTOLike(id || '', post._id)
                     const like = await likeRepository.read(dtoLike);
                     if(like) post.liked = true;
-                    return post
+                    const count = await likeRepository.getCount(dtoLike.postId);
+                    post.likesCount = count;
+                    return post;
                 }));
 
                 const lastPage = response ? response.count - (skip + data.register) <=0 : true;

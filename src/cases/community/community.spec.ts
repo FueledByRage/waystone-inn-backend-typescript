@@ -22,13 +22,13 @@ afterAll(async ()=>{
 });
 
 // token from an already registered user and a valid community id
-const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzOTFkZjA0YmM3M2U0MDg1NGQ5NzA2YyIsImlhdCI6MTY3MTExNDU2MX0.ZGq1ou8gHRuFvZmXG6XKxkpusmkzyYwF5up1R4uSh8s';
+const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzOTFkZjA0YmM3M2U0MDg1NGQ5NzA2YyIsImlhdCI6MTY3MjQxMDk2NH0.VPzxlKtvVT8KOWwG6miXc19JxiGZi6nakSsN8uubjaM';
 const id = '639b4fc888f1d73054943373';
 
 test('Testing the create community route', async()=>{
     const response = await supertest(app).post('/inn/community/register').send({
-        name: 'Navy',
-        description: "Test description - 21/03/2022 "
+        name: 'CP9',
+        description: "30/12/2022"
     }).set({
         token: token
     });
@@ -48,7 +48,7 @@ test('This test is suposed to get an error since the id is not valid',async()=>{
     expect(response.statusCode).toBe(404);
 });
 
-
+/*
 test('This test is suposed to get 3 communities from a given user', async ()=>{
 
     const response = await supertest(app).get(`/inn/communities`).set({
@@ -67,12 +67,12 @@ test('Test if a undefined token get a expected response', async ()=>{
 test('Test if a not registered token get a expected response', async ()=>{
     const invalidToken = 'noteregistered';
 
-    const response = await supertest(app).get(`/inn/communities`) .set({
+    const response = await supertest(app).get(`/inn/communities`).set({
         token: invalidToken 
     });
 
     expect(response.statusCode).toBe(406);
-});
+});*/
 
 test('Must get an array of communities using a name as param', async ()=>{
     const name = 'Community';

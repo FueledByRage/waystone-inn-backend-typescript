@@ -1,5 +1,8 @@
 import { Schema, model } from "mongoose";
 import { IPost } from "../entities/IPosts";
+import * as dotenv from 'dotenv';
+
+dotenv.config();
 
 
 const PostSchema = new Schema({
@@ -27,7 +30,6 @@ const PostSchema = new Schema({
     },
     url: {
         type: String,
-        
     },
     likes:{
         type: Number,
@@ -46,11 +48,14 @@ const PostSchema = new Schema({
         type: Array,
         select: false,
         default: []
-    }
+    },
+    fileName:{
+        type: String
+    },
 });
 
 PostSchema.pre('save', function(){
-    if(!this.url && this.fileName) this.url = ``
+        if(!this.url && this.fileName) this.url = `${process.env.UPLOAD_URL}img/posts/${this.filename}`
 });
 
 export const PostModel = model<IPost>('Post', PostSchema);

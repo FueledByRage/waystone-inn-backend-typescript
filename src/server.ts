@@ -4,7 +4,7 @@ import 'cors';
 import Mongoose from "mongoose";
 dotenv.config();
 
-const { DATABASE_USER, DATABASE_PASSWORD, DATABASE_PORT, DATABASE_NAME, API_PORT } = process.env
+const { DATABASE_USER, DATABASE_PASSWORD, DATABASE_PORT, DATABASE_NAME, API_PORT } = process.env;
 
 
 //BD

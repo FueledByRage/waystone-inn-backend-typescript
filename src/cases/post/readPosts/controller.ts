@@ -13,8 +13,8 @@ export function readPostsController(readPosts: IReadPosts){
                 
                 //@ts-ignore
                 const data = new DTOPostByCommunity(token, id, parseInt(page), parseInt(registers))
-            
-                let response = await readPosts.execute(data);
+                
+                const response = await readPosts.execute(data);
 
                 res.json(response);
             } catch (error) {

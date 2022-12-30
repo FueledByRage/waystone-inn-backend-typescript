@@ -2,27 +2,34 @@ import { ICommunityRepository } from "../../../repositories/ICommunityRepository
 import { errorFactory } from "../../../utils/errorFactory";
 import { decriptToken } from "../../../utils/cryptography";
 import { IFindCommunityOutput } from "./controller";
+import { ISubRepository } from "../../../repositories/ISubRepository";
+import { DTOSub } from "../../../entities/DTOs/DTOSub";
 
-export function find(communityRepository: ICommunityRepository){
+export function find(communityRepository: ICommunityRepository, subRepository : ISubRepository){
     return{
         execute:(id: string, token : string | string[] ) : Promise<IFindCommunityOutput> =>{
             return new Promise( async (resolve, reject)=>{
-                const community = await communityRepository.read(id)
-                .catch( e =>{ reject(new Error('Error finding community.')) });
+                try {
+                    const community = await communityRepository.read(id)
+                    .catch( e =>{ 
+                        reject(new Error('Error finding community.')) });
+    
+                    if(!token) resolve({ community, sub : false });
+    
+                    //@ts-ignore
+                    const userId = await decriptToken(token);              
+                    
+                    const subData = new DTOSub(userId, id, false);
+    
+                    await subRepository.read(subData).catch(e =>{
+                        resolve({ community,  sub: false});
 
-                //@ts-ignore
-                const userId = await decriptToken(token).catch((error: Error) =>{
-                    const createdError = errorFactory('Error validating token.', 406);
-                    reject(createdError);
-                });                
-                
-                const sub = token == '' ? false : community?.members?.includes(userId || '');
-                community && Reflect.deleteProperty(
-                    community,
-                    'members'
-                );
-
-                resolve({ community, sub });
+                    })
+                    resolve({ community,  sub: true});
+                    
+                } catch (error) {
+                    reject(error);
+                }
             });
         }
     }

@@ -11,6 +11,7 @@ export function UserMongoose(): IUserRepository{
     create(data: DTOUser): Promise< User | void | null> {
         return new Promise(async (resolve, reject)=>{
             try {
+                //if(data.profileFileName) data.
                 const newUser = await (await UserModel.create(data)).save();
                 
                 const user = new User(data, newUser._id);

@@ -37,6 +37,9 @@ export function ReadPosts(repository: IPostRepository, likeRepository : ILikeRep
                     const dataLike = new DTOLike(userId || '', post._id);
                     const isLiked = await likeRepository.read(dataLike).catch((error) =>{});
 
+                    const count = await likeRepository.getCount(dataLike.postId);
+                    post.likesCount = count;
+
                     post.liked = isLiked != null;
                     return post;
                 }));

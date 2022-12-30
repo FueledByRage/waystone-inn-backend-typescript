@@ -15,7 +15,7 @@ export function CreateUser(userRepository: IUserRepository)  {
                     username
                 ]
             );
-            if(results[0])  return resolve('Email already registered');
+            if(results[0]) return resolve('Email already registered');
             if(results[1]) return resolve('This username has been taken');
             return resolve(null);
         });

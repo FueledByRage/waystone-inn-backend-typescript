@@ -11,10 +11,8 @@ export function readPostController(readPosts: IReadPost){
                 const { token } = req.headers;
             
                 const post = await readPosts.execute(id, token );
-
                 res.json(post);
             } catch (error) {
-                console.error(error);
                 cb(error);
             }
         }

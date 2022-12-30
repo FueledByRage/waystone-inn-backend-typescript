@@ -92,5 +92,5 @@ test('Remove like - testing token validation',async () => {
         token : ''
     });
 
-    expect(response.statusCode).toBe(406);
+    expect(response.statusCode).toBe(500);
 });

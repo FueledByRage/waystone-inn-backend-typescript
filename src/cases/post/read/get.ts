@@ -21,17 +21,20 @@ export function ReadPost(repository: IPostRepository, likeRepository : ILikeRepo
                     reject(error);
                 });
 
-                console.log(token);
+
                 //@ts-ignore
                 if(!token) return resolve(post);
                 
                 //@ts-ignore
-                const userId = await decriptToken(id).catch((error: Error) =>{
+                const userId = await decriptToken(token).catch((error: Error) =>{
                     reject(errorFactory('Authentication error', 406));
                 });                
 
                 const dataLike = new DTOLike(userId || '' , id);
                 const like = await likeRepository.read(dataLike);
+
+                const count = await likeRepository.getCount(dataLike.postId);
+                if(post) post.likesCount = count;
 
                 if(like && post) post.liked = true;
                 else if(!like && post) post.liked = false;

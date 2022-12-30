@@ -5,4 +5,5 @@ export interface iCommunity{
     description: string;
     members?: Array<string>;
     date: Date;
+    sub?: boolean
 }

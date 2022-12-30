@@ -23,6 +23,7 @@ export function controllerLogin(login: ILogin){
                 res.send({token, username: user.user});
                 
             } catch (error) {
+                console.error(error);
                 cb(error);
             }
         }

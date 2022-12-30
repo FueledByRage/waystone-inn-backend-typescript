@@ -17,9 +17,7 @@ export function findController(find: IFindCommunity){
             try {
                 const { id } = req.params;
                 const { token } = req.headers;
-
-                const response = await find.execute(id, token || '')
-                .catch( (e: Error) =>{ throw errorFactory('Error finding community.', 404) });
+                const response = await find.execute(id, token || '');
                 
                 res.status(200).json(response);
         

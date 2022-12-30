@@ -11,6 +11,7 @@ export const createLike = ( likeRepository : ILikeRepository, userRepository : I
                 const user = await userRepository.findById(DTOLike.userId).catch( error =>{
                     reject(new Error('Error finding user'));
                 });
+                
                 if(!user) reject( errorFactory('User not found', 404));
                 const created = await likeRepository.create(DTOLike).catch(e => reject(e));
 

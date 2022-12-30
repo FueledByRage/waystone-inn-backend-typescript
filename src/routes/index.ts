@@ -16,21 +16,25 @@ import { CreateCommentController } from "../cases/comment/create";
 import { ReadCommentsController } from "../cases/comment/read";
 import { DeleteCommentController } from "../cases/comment/delete";
 import { getByUsernameController } from "../cases/user/get";
+import { deleteLikeController } from "../cases/likes/delete";
+import { uploads } from "../middlewares/multer";
+import { controllerSub } from "../cases/subs/create";
+
 
 const router = Router();
 
-router.post('/user/register', CreateUserController.execute);
+router.post('/user/register', uploads.single('file'), CreateUserController.execute);
 router.post('/user/login', LoginController.login);
 router.get('/user/:username', getByUsernameController.execute)
 
 router.post('/community/register', CreateCommunityController.execute);
-router.get('/community/:id', findCommunityController.execute);
-router.get('/communities', FindManyCommunitiesController.execute);
+router.get('/community/read/:id', findCommunityController.execute);
+//router.get('/communities', FindManyCommunitiesController.execute);
 router.get('/communities/:name', findByNameController.execute);
 router.get('/community/sub/:id', SubController.execute);
 router.get('/community/unsub/:id', UnsubController.execute);
 
-router.post('/post/register', ControllerCreatePost.execute);
+router.post('/post/register', uploads.single("file") , ControllerCreatePost.execute);
 router.get('/posts/:id/:page/:registers', ReadPostsController.execute);
 router.get('/post/:id', ReadPostController.execute);
 router.get('/feed/:page/:registers', GetPostsFeedController.execute);
@@ -39,5 +43,9 @@ router.delete('/post/:id', DeletePostController.execute);
 router.post('/comment/register', CreateCommentController.execute);
 router.get('/comments/:id', ReadCommentsController.execute);
 router.delete('/comment/:id', DeleteCommentController.execute);
+
+router.get('/sub/:communityId', controllerSub.execute);
+
+router.delete('/like/:postId', deleteLikeController.execute);
 
 export { router };

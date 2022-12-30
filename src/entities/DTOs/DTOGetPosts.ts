@@ -2,7 +2,7 @@ export class DTOGetPosts{
 
 
     constructor(
-        public token : string,    
+        public id : string,    
         public page : number,   
         public register : number,   
     ){}

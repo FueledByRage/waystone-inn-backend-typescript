@@ -11,20 +11,22 @@ import { ICommunityAndPosts } from "../../cases/community/FindWithPosts/find";
 
 export function MongooseCommunity() : ICommunityRepository {
     return{
-        create(data : DTOCommunity): Promise<iCommunity | void | null> {
+        create(data : DTOCommunity): Promise<iCommunity> {
             return new Promise(async (resolve, reject)=>{
-                const userFound = await UserModel.findById(data.authorId);
-                if(!userFound) throw errorFactory('User not found.', 406);
+                try {
+                    const userFound = await UserModel.findById(data.authorId);
+                    if(!userFound) throw errorFactory('User not found.', 406);
+        
+                    const community = new Community(data);
     
-                const community = new Community(data);
-
-                const newCommunity = await ( await CommunityModel.create(community)).save().catch((e: Error)=>{
-                    reject(errorFactory('Error saving community.'));
-                });
-                
-                console.log('here')
-                newCommunity && await userFound.updateOne({$pull:{ subs: newCommunity._id }});
-                resolve(newCommunity);
+                    const newCommunity = await ( await CommunityModel.create(community)).save();
+                    
+                    newCommunity && await userFound.updateOne({$pull:{ subs: newCommunity._id }});
+                    resolve(newCommunity);
+                    
+                } catch (error) {
+                    reject(error);
+                }
             });
         },
         read(id: string): Promise<iCommunity | void | null> {
@@ -32,7 +34,7 @@ export function MongooseCommunity() : ICommunityRepository {
                 const community = await CommunityModel.findById(id).select('+members').catch((e: Error) =>{
                     reject(errorFactory('Error reading database'));
                 });
-    
+
                 if(!community) reject(errorFactory('Community not found.', 404));
     
                 resolve(community);

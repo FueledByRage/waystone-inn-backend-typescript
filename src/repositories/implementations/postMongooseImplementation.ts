@@ -40,19 +40,22 @@ export function MongoosePost(): IPostRepository{
 
                 try {
                     const userFound = await UserModel.findById(id).select('+subs');
+
+                    if(!userFound) throw errorFactory('User not found', 404);
                     
-                    const count = await PostModel.find({ communityId: userFound?.subs}).countDocuments()
-                    .catch(error => {throw new Error('Error executing query')});
+                    const count = await PostModel.find({ communityId: userFound.subs}).countDocuments();
                     
                     const posts = await PostModel.find({ communityId: userFound?.subs })
                     .skip(skip)
                     .limit(registers)
-                    .catch(error => {throw new Error('Error executing query')});
+                    .populate('communityId')
+                    .populate('authorId');
                     
-                    if(posts && count ) return resolve({ posts, count });  
+                    if(posts ) return resolve({ posts, count });  
                     throw new Error('Error reaching data');
                     
                 } catch (error) {
+                    console.error(error);
                     reject(error);
                 }
 
