@@ -28,7 +28,7 @@ export function CreateUser(userRepository: IUserRepository)  {
                 const credentialsError = await checkCredentials(user);
                 
                 if(credentialsError) reject( errorFactory(credentialsError, 406));
-
+                
                 const newUser = await userRepository.create(user).catch( e => { reject(e)});
                 resolve(newUser);
             }) 

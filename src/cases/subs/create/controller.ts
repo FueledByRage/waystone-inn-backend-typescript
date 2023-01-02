@@ -16,7 +16,6 @@ export function createSubController( createSub : ICreateSub ){
                 const { token } = req.headers;
 
                 if(!token) throw errorFactory('Error on validation', 406);
-                console.log(token);
                 //@ts-ignore
                 const data = new DTOSub(token, communityId, false);
 

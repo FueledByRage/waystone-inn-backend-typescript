@@ -6,5 +6,5 @@ import { createSub } from "./createSub";
 
 const subRepository = MongooseSub();
 const communityRepository = MongooseCommunity();
- const create = createSub(subRepository, communityRepository);
+const create = createSub(subRepository, communityRepository);
 export const controllerSub = createSubController(create); 

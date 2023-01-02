@@ -1,4 +1,5 @@
 import { DTOPost } from "../entities/DTOs/DTOPost";
+import { ISub } from "../entities/DTOs/ISub";
 import { IPost } from "../entities/IPosts";
 import { Post } from "../entities/Post";
 
@@ -11,7 +12,7 @@ export interface IReadPost {
 export interface IPostRepository{
     create(data : DTOPost): Promise<IPost>;
     readPosts(id: string, page: Number, registers: number): Promise<IReadPost>;
-    getPostsFeed(id: string, page: Number, registers: number): Promise<IReadPost>;
+    getPostsFeed(page: Number, registers: number, subs : string[]): Promise<IReadPost>;
     read(id: string) : Promise<IPost>;
     delete(id: string, userId: string) : Promise<void> 
 }

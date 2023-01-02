@@ -49,6 +49,17 @@ export function MongooseSub() : ISubRepository{
                     reject(error);
                 }
             });
-        }
+        },
+        getUserSubs(userId : string ) : Promise<ISub[]> {
+            return new Promise( async (resolve, reject) =>{
+                try {
+                    const subs = await SubModel.find({ userId });
+    
+                    resolve(subs);
+                } catch (error) {
+                    reject(errorFactory('Error reaching data'));
+                }
+            });
+        },
     }
 }

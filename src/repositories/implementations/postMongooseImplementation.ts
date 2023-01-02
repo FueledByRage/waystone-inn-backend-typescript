@@ -35,17 +35,13 @@ export function MongoosePost(): IPostRepository{
                 resolve({ posts: posts, count: count });  
             });
         },
-        getPostsFeed(id: string, skip: number, registers: number) : Promise<IReadPost> {
+        getPostsFeed(skip: number, registers: number, subs : string[]) : Promise<IReadPost> {
             return new Promise(async (resolve, reject) =>{
 
                 try {
-                    const userFound = await UserModel.findById(id).select('+subs');
-
-                    if(!userFound) throw errorFactory('User not found', 404);
+                    const count = await PostModel.find({ communityId: subs}).countDocuments();
                     
-                    const count = await PostModel.find({ communityId: userFound.subs}).countDocuments();
-                    
-                    const posts = await PostModel.find({ communityId: userFound?.subs })
+                    const posts = await PostModel.find({ communityId: subs })
                     .skip(skip)
                     .limit(registers)
                     .populate('communityId')
