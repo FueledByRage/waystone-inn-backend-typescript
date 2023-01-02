@@ -1,6 +1,6 @@
-import * as dotenv from "dotenv";
 import * as jwt from "jsonwebtoken";
 import { errorFactory } from "./errorFactory";
+import * as dotenv from "dotenv";
 dotenv.config();
 
 const { SECRET_KEY } = process.env;
