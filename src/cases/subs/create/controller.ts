@@ -13,11 +13,11 @@ export function createSubController( createSub : ICreateSub ){
          async execute  (req : Request, res : Response, next : NextFunction){
             try {
                 const { communityId } = req.params;
-                const { token } = req.headers;
+                const { userId } = req.headers;
 
-                if(!token) throw errorFactory('Error on validation', 406);
-                //@ts-ignore
-                const data = new DTOSub(token, communityId, false);
+                if(!userId) throw errorFactory('Authentication error', 406);
+
+                const data = new DTOSub(userId?.toString(), communityId, false);
 
                 const created = await createSub.execute(data);
 

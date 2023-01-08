@@ -14,7 +14,6 @@ export function createSub( repository : ISubRepository, communityRepository : IC
             return new Promise( async (resolve, reject) =>{
                 try {
                     const community = await communityRepository.read(data.communityId);
-                    data.userId = await decriptToken(data.userId);
                     await repository.read(data).catch( async error =>{
 
                         if(!community) throw errorFactory('Invalid community', 406);

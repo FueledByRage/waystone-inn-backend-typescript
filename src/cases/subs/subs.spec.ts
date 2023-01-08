@@ -22,8 +22,8 @@ afterAll(async ()=>{
     await Mongoose.disconnect();
 });
 
-const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzOTFkZjA0YmM3M2U0MDg1NGQ5NzA2YyIsImlhdCI6MTY3MjQxMDk2NH0.VPzxlKtvVT8KOWwG6miXc19JxiGZi6nakSsN8uubjaM';
-const communityId = '63aef96d705db24daf028278';
+const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzOTc0MjA2ZmQxOTc1YTdhYTAwMDJjMyIsImlhdCI6MTY3MzE4MjI5NH0.jXPDZoElXQz-j1NPZyC20QDgRLZhMz4cfhWBfWYrfpQ';
+const communityId = '63b9f5cf35c924c0cd02c97f';
 
 test('Create a subscription ', async () => {
     
@@ -42,12 +42,35 @@ test('Create a subscription - validation', async () => {
     expect(response.statusCode).toBe(406);
 });
 
-/*test('Create a subscription - already subscribed', async () => {
+test('Create a subscription - already subscribed', async () => {
     
     const response = await supertest(app).get(`/inn/sub/${communityId}`).set({
         token
     });
 
     expect(response.statusCode).toBe(406);
-});*/
+});
 
+test('This test must delete a sub register',async () => {
+    const response = await supertest(app).delete(`/inn/sub/${communityId}`).set({
+        token
+    });
+
+    expect(response.statusCode).toBe(200);
+});
+
+test('This test must get an authentication error trying to delete a sub register without a token',async () => {
+    const response = await supertest(app).delete(`/inn/sub/${communityId}`);
+    expect(response.statusCode).toBe(406);
+});
+
+test('This test must get an authentication error trying to delete a sub register with a not authorized token',async () => {
+    
+    const notAuthorizedToken = '';
+    
+    const response = await supertest(app).delete(`/inn/sub/${communityId}`).set({
+        token : notAuthorizedToken
+    });
+
+    expect(response.statusCode).toBe(406);
+});

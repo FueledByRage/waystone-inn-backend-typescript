@@ -44,7 +44,7 @@ router.post('/comment/register', CreateCommentController.execute);
 router.get('/comments/:id', ReadCommentsController.execute);
 router.delete('/comment/:id', DeleteCommentController.execute);
 
-router.get('/sub/:communityId', controllerSub.execute);
+router.get('/sub/:communityId', authMiddleware, controllerSub.execute);
 
 router.delete('/like/:postId', deleteLikeController.execute);
 
