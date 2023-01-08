@@ -20,6 +20,7 @@ import { deleteLikeController } from "../cases/likes/delete";
 import { uploads } from "../middlewares/multer";
 import { controllerSub } from "../cases/subs/create";
 import { authMiddleware } from "../middlewares/authenticationMiddleware";
+import { subDeleteController } from "../cases/subs/delete";
 
 
 const router = Router();
@@ -45,6 +46,7 @@ router.get('/comments/:id', ReadCommentsController.execute);
 router.delete('/comment/:id', DeleteCommentController.execute);
 
 router.get('/sub/:communityId', authMiddleware, controllerSub.execute);
+router.delete('/sub/delete/:communityId', authMiddleware,  subDeleteController.execute);
 
 router.delete('/like/:postId', deleteLikeController.execute);
 

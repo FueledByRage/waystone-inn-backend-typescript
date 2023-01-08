@@ -25,6 +25,13 @@ afterAll(async ()=>{
 const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzOTc0MjA2ZmQxOTc1YTdhYTAwMDJjMyIsImlhdCI6MTY3MzE4MjI5NH0.jXPDZoElXQz-j1NPZyC20QDgRLZhMz4cfhWBfWYrfpQ';
 const communityId = '63b9f5cf35c924c0cd02c97f';
 
+test('This test must delete a sub register',async () => {
+    const response = await supertest(app).delete(`/inn/sub/delete/${communityId}`).set({
+        token
+    });
+
+    expect(response.statusCode).toBe(200);
+});
 test('Create a subscription ', async () => {
     
     const response = await supertest(app).get(`/inn/sub/${communityId}`).set({
@@ -51,26 +58,19 @@ test('Create a subscription - already subscribed', async () => {
     expect(response.statusCode).toBe(406);
 });
 
-test('This test must delete a sub register',async () => {
-    const response = await supertest(app).delete(`/inn/sub/${communityId}`).set({
-        token
-    });
-
-    expect(response.statusCode).toBe(200);
-});
 
 test('This test must get an authentication error trying to delete a sub register without a token',async () => {
-    const response = await supertest(app).delete(`/inn/sub/${communityId}`);
+    const response = await supertest(app).delete(`/inn/sub/delete/${communityId}`);
     expect(response.statusCode).toBe(406);
 });
 
-test('This test must get an authentication error trying to delete a sub register with a not authorized token',async () => {
+test('This test must get an authentication error trying to delete a sub no registered',async () => {
     
-    const notAuthorizedToken = '';
+    const notRegisteredToken = '';
     
-    const response = await supertest(app).delete(`/inn/sub/${communityId}`).set({
-        token : notAuthorizedToken
+    const response = await supertest(app).delete(`/inn/sub/delete/${communityId}`).set({
+        token : notRegisteredToken
     });
 
-    expect(response.statusCode).toBe(406);
+    expect(response.statusCode).toBe(500);
 });

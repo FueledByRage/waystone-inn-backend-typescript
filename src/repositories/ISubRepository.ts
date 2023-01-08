@@ -4,7 +4,7 @@ import { Sub } from "../entities/sub";
 
 export interface ISubRepository{
     create(data : DTOSub ) : Promise<Sub>;
-    remove(data : DTOSub) : Promise<boolean>;
+    remove(data : DTOSub) : Promise<void>;
     read(data : DTOSub ) : Promise<ISub>;
     getUserSubs( userId : string ) : Promise<ISub[]>
 }

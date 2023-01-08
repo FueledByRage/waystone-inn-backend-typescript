@@ -20,7 +20,7 @@ export function MongooseSub() : ISubRepository{
                 }
             });            
         },
-        remove: (data : DTOSub) : Promise<boolean> =>{
+        remove: (data : DTOSub) : Promise<void> =>{
             return new Promise( async (resolve, reject) =>{
                 try {
                     const deleteSub = await SubModel.deleteOne({
@@ -28,8 +28,8 @@ export function MongooseSub() : ISubRepository{
                         userId : data.userId
                     });
 
-                    const deleted = deleteSub.deletedCount > 0;
-                    resolve(deleted);
+                    if(deleteSub.deletedCount < 1) throw errorFactory('Error deleting sub');
+                    resolve();
                 } catch (error) {
                     console.error(error);
                     reject(error);                    
