@@ -2,12 +2,13 @@ import { Request, Response, NextFunction } from "express";
 import { encrypt } from "../../../utils/cryptography";
 import { errorFactory } from "../../../utils/errorFactory";
 import { User } from "../../../entities/user";
+import { ICryptography } from "../../../services/cryptography/ICryptography";
 
 interface ILogin{
     execute: ( email : string, password : string ) => Promise<User>
 }
 
-export function controllerLogin(login: ILogin){
+export function controllerLogin(login: ILogin, crypto : ICryptography){
     return{
         login: async (req: Request, res: Response, cb: NextFunction)=>{
             
@@ -16,10 +17,7 @@ export function controllerLogin(login: ILogin){
 
                 const user = await login.execute(email, password);
 
-                const token = await encrypt({id : user._id}).catch( (e: Error)=>{
-                    throw errorFactory('Error generating user token.', 500);
-                });
-
+                const token = await crypto.encrypt({id : user._id});
                 res.send({token, username: user.user});
                 
             } catch (error) {

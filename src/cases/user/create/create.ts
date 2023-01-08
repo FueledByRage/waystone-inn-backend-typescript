@@ -2,8 +2,9 @@ import { DTOUser } from "../../../entities/DTOs/DTOUser";
 import { User } from "../../../entities/user";
 import { IUserRepository } from "../../../repositories/IUserRepository";
 import { errorFactory } from "../../../utils/errorFactory";
+import { ICreateUser } from "./controller";
 
-export function CreateUser(userRepository: IUserRepository)  {
+export function CreateUser(userRepository: IUserRepository) : ICreateUser  {
 
     const checkCredentials = async (data : DTOUser) : Promise<string | null>=>{
         return new Promise( async (resolve, reject) =>{
@@ -22,15 +23,20 @@ export function CreateUser(userRepository: IUserRepository)  {
     }
 
     return{
-        execute: (user: DTOUser) : Promise<User | void | null> => {
+        execute: (user: DTOUser) : Promise<User> => {
             return new Promise(async (resolve, reject)=>{
-
-                const credentialsError = await checkCredentials(user);
-                
-                if(credentialsError) reject( errorFactory(credentialsError, 406));
-                
-                const newUser = await userRepository.create(user).catch( e => { reject(e)});
-                resolve(newUser);
+                try {
+                    const credentialsError = await checkCredentials(user);
+                    
+                    if(credentialsError) reject( errorFactory(credentialsError, 406));
+                    
+                    const newUser = await userRepository.create(user);
+                    resolve(newUser);
+                    
+                } catch (error) {
+                    reject(errorFactory('Error saving user'))
+                }
+                    
             }) 
         }
     }

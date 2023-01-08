@@ -9,14 +9,13 @@ export function getPostsFeedController(getPostsFeed: IGetPostsFeed){
         async execute(req: Request, res: Response, cb: NextFunction){
             try {
                 const { page, registers } = req.params;
-                const { token } = req.headers;
+                const { userId } = req.headers;
 
-                if(!token) throw errorFactory('Missing authorization token.', 406);
+                if(!userId) throw errorFactory('Missing authorization token.', 406);
                 
-                //@ts-ignore
-                const data = new DTOGetPosts( token, parseInt(page), parseInt(registers) );
+                const data = new DTOGetPosts( userId.toString(), parseInt(page), parseInt(registers) );
 
-                let response = await getPostsFeed.execute(data);
+                const response = await getPostsFeed.execute(data);
 
                 res.json(response);
             } catch (error) {

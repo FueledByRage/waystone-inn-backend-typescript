@@ -8,22 +8,11 @@ export function SubCommunityController( sub: ISubCommunity ){
         async execute(req: Request, res: Response, cb: NextFunction){
             try {
                 const { id } = req.params;
-                const { token } = req.headers;
+                const { userId } = req.headers;
 
-                if(!token){ 
-                    const createdError = errorFactory('Token validation not sent.', 406);
-                    cb(createdError);
-                }
+                if(!userId)  throw errorFactory('Token validation not sent.', 406);                
 
-                //@ts-ignore
-                const userId = await decriptToken(token)
-                .catch((e: Error)=>{
-                    const createdError = errorFactory('Error validating token', 406);
-                    cb(createdError);
-                });
-
-                //@ts-ignore
-                await sub.execute(userId, id).catch((error: Error)=>{
+                await sub.execute(userId.toString(), id).catch((error: Error)=>{
                     const createdError = errorFactory('Error executing request.', 500);
                     throw createdError;
                 });

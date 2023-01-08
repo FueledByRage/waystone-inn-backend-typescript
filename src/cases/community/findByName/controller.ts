@@ -10,11 +10,7 @@ export function FindByNameController( find: IFindByName ){
             try {
                 const { name } = req.params;
     
-                const communities = await find.execute(name)
-                .catch((error: Error) =>{
-                    const createdError = errorFactory('Error executing search');
-                    throw createdError;
-                });
+                const communities = await find.execute(name);
                 
                 res.json(communities);
             } catch (error) {

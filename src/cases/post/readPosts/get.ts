@@ -21,30 +21,30 @@ export function ReadPosts(repository: IPostRepository, likeRepository : ILikeRep
     return{
         execute(data : DTOPostByCommunity) : Promise<IReadPostsReturn>{
             return new Promise(async (resolve, reject)=>{
-                const skip = (data.page - 1) * data.register;
-                const response = await repository.readPosts( data.communtityId, skip, data.register)
-                .catch((error: Error) =>{
-                    reject(error);
-                });
-                
-                const lastPage = response ? response.count - (skip + data.register) <=0 : false;
-                if(!data.token && response) return resolve({posts: response.posts, lastPage: lastPage});
-
-                const userId = await decriptToken(data.token)
-                .catch( error => reject(errorFactory('Authentication error', 406)));
-
-                const posts = response && await Promise.all(response.posts.map( async post =>{
-                    const dataLike = new DTOLike(userId || '', post._id);
-                    const isLiked = await likeRepository.read(dataLike).catch((error) =>{});
-
-                    const count = await likeRepository.getCount(dataLike.postId);
-                    post.likesCount = count;
-
-                    post.liked = isLiked != null;
-                    return post;
-                }));
-
-                resolve({posts : posts ? posts : [], lastPage});
+                try {
+                    const skip = (data.page - 1) * data.register;
+                    const response = await repository.readPosts( data.communtityId, skip, data.register);
+                    
+                    const lastPage =  response.count - (skip + data.register) <=0;
+                    if(!data.userId) return resolve({posts: response.posts, lastPage});
+    
+    
+                    const posts = await Promise.all(response.posts.map( async post =>{
+                        const dataLike = new DTOLike(data.userId, post._id);
+                        const isLiked = await likeRepository.read(dataLike);
+    
+                        const count = await likeRepository.getCount(dataLike.postId);
+                        post.likesCount = count;
+    
+                        post.liked = isLiked != null;
+                        return post;
+                    }));
+    
+                    resolve({ posts, lastPage });
+                    
+                } catch (error) {
+                    reject( error );
+                }
             });
         }
     }

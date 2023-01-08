@@ -9,14 +9,11 @@ export function deletePostController( deletePost : IDeletePost){
             
             try { 
                 const { id }= req.params;
-                const { token } = req.headers;
+                const { userId } = req.headers;
             
-                if(!token) throw errorFactory('Authorization token missing.', 406);
+                if(!userId) throw errorFactory('Authorization token missing.', 406);
 
-                //@ts-ignore
-                const userId = await decriptToken(token);
-
-                await deletePost.execute(id, userId);
+                await deletePost.execute(id, userId.toString());
 
                 res.send();
                 

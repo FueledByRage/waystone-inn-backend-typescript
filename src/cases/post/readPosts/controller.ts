@@ -9,10 +9,11 @@ export function readPostsController(readPosts: IReadPosts){
         async execute(req: Request, res: Response, cb: NextFunction){
             try {
                 const { id, page, registers } = req.params;
-                const { token } = req.headers;
+                const { userId } = req.headers;
                 
-                //@ts-ignore
-                const data = new DTOPostByCommunity(token, id, parseInt(page), parseInt(registers))
+                if(!userId) throw errorFactory('Missing authorization token.', 406);
+
+                const data = new DTOPostByCommunity(userId.toString() , id, parseInt(page), parseInt(registers));
                 
                 const response = await readPosts.execute(data);
 

@@ -8,7 +8,7 @@ export interface IFindCommunityOutput{
     sub : boolean | undefined
 } 
 interface IFindCommunity{
-    execute(id : string, token : string | string[]) : Promise<IFindCommunityOutput>
+    execute(id : string, userId : string ) : Promise<IFindCommunityOutput>
 }
 
 export function findController(find: IFindCommunity){
@@ -16,12 +16,13 @@ export function findController(find: IFindCommunity){
         execute: async (req: Request, res: Response, cb: NextFunction)=>{
             try {
                 const { id } = req.params;
-                const { token } = req.headers;
-                const response = await find.execute(id, token || '');
+                const { userId } = req.headers;
+                const response = await find.execute(id, userId?.toString() || '');
                 
                 res.status(200).json(response);
         
             } catch (error) {
+                console.error(error);
                 cb(error);
             }
         }

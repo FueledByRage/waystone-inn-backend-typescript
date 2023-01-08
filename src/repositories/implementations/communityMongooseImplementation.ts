@@ -31,7 +31,7 @@ export function MongooseCommunity() : ICommunityRepository {
         },
         read(id: string): Promise<iCommunity | void | null> {
             return new Promise( async (resolve, reject)=>{
-                const community = await CommunityModel.findById(id).select('+members').catch((e: Error) =>{
+                const community = await CommunityModel.findById(id).catch((e: Error) =>{
                     reject(errorFactory('Error reading database'));
                 });
 
@@ -52,16 +52,20 @@ export function MongooseCommunity() : ICommunityRepository {
                 resolve(communities);
             });
         },
-        getCommunitiesById(id: string): Promise<iCommunity[] | void | null> {
+        getCommunitiesById(id: string): Promise<iCommunity[]> {
             return new Promise( async (resolve, reject)=>{
-                const user = await UserModel.findById(id);
+                try {
+                    const user = await UserModel.findById(id);
 
-                const communities = await CommunityModel.find( { '_id': {$in: user?._id} }).limit(3)
-                .catch((error: Error) => {
-                    const createdError = errorFactory('Error executing search');
-                    reject(createdError);
-                });
-                resolve(communities);
+                    if(!user) throw errorFactory('User not found');
+    
+                    const communities = await CommunityModel.find( { '_id': {$in: user?._id} }).limit(3);
+
+                    resolve(communities);
+    
+                } catch (error) {
+                    reject(errorFactory('Error executing query.'));
+                }
             });
         },
         getCommunityAndPosts(data : DTOGetPosts): Promise<ICommunityAndPosts> {

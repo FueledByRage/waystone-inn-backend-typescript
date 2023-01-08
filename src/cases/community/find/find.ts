@@ -7,26 +7,20 @@ import { DTOSub } from "../../../entities/DTOs/DTOSub";
 
 export function find(communityRepository: ICommunityRepository, subRepository : ISubRepository){
     return{
-        execute:(id: string, token : string | string[] ) : Promise<IFindCommunityOutput> =>{
+        execute:(id: string, userId : string ) : Promise<IFindCommunityOutput> =>{
             return new Promise( async (resolve, reject)=>{
                 try {
-                    const community = await communityRepository.read(id)
-                    .catch( e =>{ 
-                        reject(new Error('Error finding community.')) });
+                    const community = await communityRepository.read(id);
     
-                    if(!token) resolve({ community, sub : false });
-    
-                    //@ts-ignore
-                    const userId = await decriptToken(token);              
-                    
+                    if(!userId || userId == '') resolve({ community, sub : false });
+            
                     const subData = new DTOSub(userId, id, false);
     
                     await subRepository.read(subData).catch(e =>{
                         resolve({ community,  sub: false});
-
                     })
+
                     resolve({ community,  sub: true});
-                    
                 } catch (error) {
                     reject(error);
                 }

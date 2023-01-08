@@ -10,13 +10,14 @@ export function findCommunityByName(repository : ICommunityRepository) : IFindBy
     return{
         execute: (name: string) : Promise<Array<iCommunity>> =>{
             return new Promise( async (resolve, reject)=>{
-                const response = await repository.getCommunitiesByName(name)
-                .catch((error: Error) =>{
+                try {
+                    const response = await repository.getCommunitiesByName(name);
+    
+                    resolve(response);
+                    
+                } catch (error) {
                     reject(error);
-                });
-
-                //@ts-ignore
-                resolve(response);
+                }
             });
         }
     }

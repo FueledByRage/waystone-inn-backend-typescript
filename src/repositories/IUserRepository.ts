@@ -3,7 +3,7 @@ import { IUser } from "../entities/IUser";
 import { DTOUser } from "../entities/DTOs/DTOUser";
 
 export interface IUserRepository{
-    create(user: DTOUser) : Promise<User | void | null >;
+    create(user: DTOUser) : Promise<User>;
     read(username: string) : Promise<User | void | null>;
     update(id: string, data: Object) : Promise<boolean>;
     delete(id: string) : Promise<boolean>;

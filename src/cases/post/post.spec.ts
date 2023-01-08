@@ -22,7 +22,7 @@ afterAll(async ()=>{
 });
 
 // token from an already registered user and id from a valid community
-const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzOTFkZjA0YmM3M2U0MDg1NGQ5NzA2YyIsImlhdCI6MTY3MTExNDU2MX0.ZGq1ou8gHRuFvZmXG6XKxkpusmkzyYwF5up1R4uSh8s';
+const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzOTFkZjA0YmM3M2U0MDg1NGQ5NzA2YyIsImlhdCI6MTY3MjQxMDk2NH0.VPzxlKtvVT8KOWwG6miXc19JxiGZi6nakSsN8uubjaM';
 const id = '62386d22c2f3f0cc6314b693';
 
 
@@ -116,14 +116,15 @@ test('GET - Get post data without token', async ()=>{
 
 test('GET - Get post data - expect error since the id is not valid', async()=>{
 
-    let postId = 'not'
+    //deleted post id
+    const postId = '63a071058d51eb20987c0445'
     const response = await supertest(app).get(`/inn/post/${postId}`);
 
     expect(response.statusCode).toBe(404);
 });
 
 test('DELETE - Delete a post', async ()=>{
-    let postId = '63a070dbdb5ef6db4a517701';
+    let postId = '63a071058d51eb20987c0445';
     const response = await supertest(app).delete(`/inn/post/${postId}`).set({
         token: token
     });
@@ -142,8 +143,8 @@ test('DELETE - Testing delete post authorization', async ()=>{
 
 test('DELETE - Testing delete post sending a not authorized token', async ()=>{
     
-    let postId = '63a070dbdb5ef6db4a517701';
-    let invalidToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyMzc1OGFhOGVhM2RmNzVkY2NhYzgwNSIsImlhdCI6MTY0Nzk1OTY2OH0.ewFs9LKxo_mCm7NZJCZu2qIbwwIopyeSY2dXEl4hUag';
+    let postId = '63a06e07b96cb574e5e10e78';
+    let invalidToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzOTc0MjA2ZmQxOTc1YTdhYTAwMDJjMyIsImlhdCI6MTY3MzEzNjMwOH0.dyDoTIJqG8g9XJc67AzY-qlFgNg8qtNrtxvwm2QWSKQ';
 
     //Sending a invalid token -
     const response = await supertest(app).delete(`/inn/post/${postId}`).set({

@@ -1,4 +1,4 @@
 export interface ICryptography{
-    encrypt( data : string ) : Promise<string>,
+    encrypt( data : Object ) : Promise<string>,
     decrypt( data : string ) : Promise<string>
 }

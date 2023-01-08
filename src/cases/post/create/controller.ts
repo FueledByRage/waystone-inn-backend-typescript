@@ -12,18 +12,13 @@ export function CreatePostController(createPost: ICreatePost){
         async execute(req: Request, res: Response, cb: NextFunction){
             try {
                 const { title, body, id } = req.body;
-                const { token } = req.headers;
+                const { userId } = req.headers;
                 const key = req.file?.filename;
 
-                if(!title || !body || !id || !token) throw errorFactory('Missing param.', 406);
+                if(!title || !body || !id || !userId) throw errorFactory('Missing param.', 406);
                 
-                //@ts-ignore
-                const userId = await decriptToken(token)
-                .catch((error: Error) =>{
-                    throw errorFactory('Error decripting token', 406);
-                });
 
-                const data = new DTOPost(userId, id, title, body, key);
+                const data = new DTOPost(userId.toString() , id, title, body, key);
 
                 const post = await createPost.execute(data);
 

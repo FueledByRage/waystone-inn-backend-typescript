@@ -12,7 +12,9 @@ export function create(communityRepository: ICommunityRepository, subRepository 
                 try {
                     const newCommunity = await communityRepository.create(data);
                     const dataSub = new DTOSub(data.authorId, newCommunity._id, true);
+
                     await subRepository.create(dataSub);
+                    
                     resolve(newCommunity);
                 } catch (error) {
                     reject(error);

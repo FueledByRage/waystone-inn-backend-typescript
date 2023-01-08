@@ -32,8 +32,8 @@ test('Testing the user register - Not sending params',async ()=>{
 test('Testing the user register',async ()=>{
     const response = await supertest(app).post('/inn/user/register').send({
        name: 'Erik Natan',
-       user: 'Example',
-       email: 'Example@gmail.com',
+       user: 'PaçocaDoce',
+       email: 'ExamplePa@gmail.com',
        password: 'senha123'
 
     });
@@ -84,5 +84,5 @@ test('Trying to register a taken username', async ()=>{
         password: 'senha123'
  
      });
-     expect(response.statusCode).toBe(500);
+     expect(response.statusCode).toBe(406);
 });

@@ -5,6 +5,7 @@ import { IPost } from "../../../entities/IPosts";
 import { ICommunityRepository } from "../../../repositories/ICommunityRepository";
 import { IPostRepository, IReadPost } from "../../../repositories/IPostsRepository";
 import { ISubRepository } from "../../../repositories/ISubRepository";
+import { ICryptography } from "../../../services/cryptography/ICryptography";
 import { decriptToken } from "../../../utils/cryptography";
 import { errorFactory } from "../../../utils/errorFactory";
 
@@ -16,16 +17,15 @@ export interface ICommunityAndPosts{
 }
 
 export interface IFindCommunityPost{
-    execute(data : DTOGetPosts, token : string | string[]):  Promise<ICommunityAndPosts>;
+    execute(data : DTOGetPosts, token : string):  Promise<ICommunityAndPosts>;
 }
 
-export function find(CommunityRepository: ICommunityRepository, PostRepository : IPostRepository, subRepository : ISubRepository){
+export function find(CommunityRepository: ICommunityRepository, PostRepository : IPostRepository, subRepository : ISubRepository, cryptography : ICryptography){
 
     return{
-        execute: ( data : DTOGetPosts, token : string | string[]) : Promise<ICommunityAndPosts> =>{
+        execute: ( data : DTOGetPosts, token : string) : Promise<ICommunityAndPosts> =>{
             return new Promise(async (resolve, reject)=>{
                 try {
-                    //data.userId = await decriptToken(data.userId);
     
                     const community = CommunityRepository.read(data.id)
                     const skip = (data.page - 1) * data.register;
@@ -37,10 +37,9 @@ export function find(CommunityRepository: ICommunityRepository, PostRepository :
                         ]
                     );
                     
-                    //@ts-ignore
-                    const userId = await decriptToken(token);
-        
                     const lastPage = result[1]?.count - (skip + data.register) <=0;
+
+                    const userId = await cryptography.decript(token);
 
                     const dataSub = new DTOSub(userId, data.id, false);
                     

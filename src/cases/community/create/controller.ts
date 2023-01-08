@@ -14,17 +14,16 @@ export function CreateController(create: ICreateCommunity){
     return{
         execute: async (req: Request, res: Response, cb: NextFunction)=>{
             try {
-                const { token } = req.headers;
+                const { userId } = req.headers;
                 const { name, description } = req.body;
 
-                if(!token || !name || !description) throw errorFactory('Missing params', 406);
+                console.log(userId);
+                if( !userId || !name || !description) throw errorFactory('Missing params', 406);
 
-                //@ts-ignore
-                const userId = await decriptToken(token);
                 
-                const data = new DTOCommunity(userId || '', name, description);
+                const data = new DTOCommunity(userId.toString() , name, description);
 
-                const createdCommunity = await create.execute(data).catch(e =>{ throw e });
+                const createdCommunity = await create.execute(data);
 
                 if(!createdCommunity) throw errorFactory('Error creating community', 500);
 

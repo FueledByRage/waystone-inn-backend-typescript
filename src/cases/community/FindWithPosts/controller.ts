@@ -15,7 +15,7 @@ export function findCommunityPosts(find: IFindCommunityPost){
 
                 const data = new DTOGetPosts(id, parseInt(page), parseInt(registers))
 
-                const response = await find.execute(data, token || '');
+                const response = await find.execute(data, token?.toString() || '');
                 
                 res.send(response);
             } catch (error) {

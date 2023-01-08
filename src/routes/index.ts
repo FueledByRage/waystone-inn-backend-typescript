@@ -19,6 +19,7 @@ import { getByUsernameController } from "../cases/user/get";
 import { deleteLikeController } from "../cases/likes/delete";
 import { uploads } from "../middlewares/multer";
 import { controllerSub } from "../cases/subs/create";
+import { authMiddleware } from "../middlewares/authenticationMiddleware";
 
 
 const router = Router();
@@ -27,18 +28,17 @@ router.post('/user/register', uploads.single('file'), CreateUserController.execu
 router.post('/user/login', LoginController.login);
 router.get('/user/:username', getByUsernameController.execute)
 
-router.post('/community/register', CreateCommunityController.execute);
+router.post('/community/register', authMiddleware, CreateCommunityController.execute);
 router.get('/community/read/:id', findCommunityController.execute);
-//router.get('/communities', FindManyCommunitiesController.execute);
+router.get('/communities', authMiddleware, FindManyCommunitiesController.execute);
 router.get('/communities/:name', findByNameController.execute);
-router.get('/community/sub/:id', SubController.execute);
-router.get('/community/unsub/:id', UnsubController.execute);
 
-router.post('/post/register', uploads.single("file") , ControllerCreatePost.execute);
-router.get('/posts/:id/:page/:registers', ReadPostsController.execute);
+
+router.post('/post/register', authMiddleware, uploads.single("file") , ControllerCreatePost.execute);
+router.get('/posts/:id/:page/:registers', authMiddleware, ReadPostsController.execute);
 router.get('/post/:id', ReadPostController.execute);
-router.get('/feed/:page/:registers', GetPostsFeedController.execute);
-router.delete('/post/:id', DeletePostController.execute);
+router.get('/feed/:page/:registers', authMiddleware, GetPostsFeedController.execute);
+router.delete('/post/:id', authMiddleware, DeletePostController.execute);
 
 router.post('/comment/register', CreateCommentController.execute);
 router.get('/comments/:id', ReadCommentsController.execute);

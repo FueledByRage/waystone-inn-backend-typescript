@@ -8,23 +8,13 @@ export function FindManyCommunityController(findMany: IFindManyCommunity){
     return{
         async execute(req: Request, res: Response, cb:NextFunction){
             try {
-                const { token } = req.headers;
-
-                if(!token){
-                    const createdError = errorFactory('Require validation token.', 406);
-                    cb(createdError);
-                }
-                console.log(token)
-
-                //@ts-ignore
-                const userId = await decriptToken(token);
+                const { userId } = req.headers;
                 
-                console.log(userId);
-                //@ts-ignore
-                const communities = await findMany.execute(userId);
+                if(!userId) throw errorFactory('Authentication error', 406);
+
+                const communities = await findMany.execute(userId.toString());
 
                 res.json(communities);
-                
             } catch (error) {
                 console.error(error);
                 cb(error);

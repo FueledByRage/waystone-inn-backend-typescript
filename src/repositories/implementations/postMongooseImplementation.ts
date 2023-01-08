@@ -59,14 +59,14 @@ export function MongoosePost(): IPostRepository{
         },
         read(id: string) : Promise<IPost>{
             return new Promise(async (resolve, reject) =>{
-                const post = await PostModel.findById(id)
-                .catch((error: Error)=>{
-                    const createdError = errorFactory('Could not execute search on database.', 500);
-                    reject(createdError);
-                });
-
-                post && resolve(post);
-                reject(errorFactory('Post not found', 404));
+                try {
+                    const post = await PostModel.findById(id);
+    
+                    post && resolve(post);
+                    throw errorFactory('Post not found', 404);
+                } catch (error) {
+                    reject(error);
+                }
             });
         },
         delete(id: string, userId: string) : Promise<void>{

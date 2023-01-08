@@ -22,17 +22,15 @@ export function getPostsFeed(repository: IPostRepository, likeRepository : ILike
             return new Promise(async (resolve, reject)=>{
                 try {
                     const skip = (data.page - 1) * data.register;
-                    const id = await decriptToken(data.id);
     
-                    //@ts-ignore
-                    const subs = await subRepository.getUserSubs(id);
+                    const subs = await subRepository.getUserSubs(data.id);
 
                     const subsId = subs.map( element => element.communityId );
     
                     const response = await repository.getPostsFeed(skip, data.register, subsId);
     
                     const posts = response && await Promise.all(response.posts.map(async post =>{
-                        const dtoLike = new DTOLike(id || '', post._id)
+                        const dtoLike = new DTOLike(data.id || '', post._id)
                         const like = await likeRepository.read(dtoLike);
                         if(like) post.liked = true;
                         const count = await likeRepository.getCount(dtoLike.postId);

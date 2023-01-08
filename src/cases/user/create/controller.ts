@@ -4,13 +4,14 @@ import { errorFactory } from "../../../utils/errorFactory";
 import { DTOUser } from "../../../entities/DTOs/DTOUser";
 import { encrypt } from "../../../utils/cryptography";
 import * as dotenv from 'dotenv';
+import { ICryptography } from "../../../services/cryptography/ICryptography";
 dotenv.config();
 
-interface ICreateUser{
-    execute: ( user : DTOUser )=> Promise<User | void | null>
+export interface ICreateUser{
+    execute: ( user : DTOUser )=> Promise<User>
 }
 
-export function CreateController(create: ICreateUser){
+export function CreateController(create: ICreateUser, cryptography : ICryptography){
     return{
         
         execute: async (req: Request, res: Response, cb: NextFunction)=>{
@@ -25,10 +26,11 @@ export function CreateController(create: ICreateUser){
                 const newUser = new DTOUser(user, name, password, email);
                 const createdUser = await create.execute(newUser);
 
-                const token = createdUser && await encrypt({id: createdUser._id});
+                const token = await cryptography.encrypt({id: createdUser._id});
 
                 res.status(201).send({ token, username : user });
             } catch (error) {
+                console.error(error);
                 cb(error);
             }
         }

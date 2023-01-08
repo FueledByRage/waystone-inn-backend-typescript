@@ -7,7 +7,7 @@ import { iCommunity } from "../entities/ICommunity";
 export interface ICommunityRepository{    
     create(data : DTOCommunity): Promise<iCommunity>
     read(id: string): Promise<iCommunity | void | null >
-    getCommunitiesById(id: string): Promise<Array<iCommunity> | null | void >
+    getCommunitiesById(id: string): Promise<Array<iCommunity>>
     getCommunitiesByName(name: string): Promise<Array<iCommunity>>
     getCommunityAndPosts(data : DTOGetPosts): Promise<ICommunityAndPosts>
     update(id: string, data: Object): Promise<Community>

@@ -20,25 +20,34 @@ export function MongooseLike() : ILikeRepository{
         },
         read(data : DTOLike) : Promise<Like | void | null >{
             return new Promise( async (resolve, reject) =>{
-                const like = await LikeModel.findOne({ userId : data.userId, postId : data.postId })
-                .catch(error => reject(new Error('Error executing search')));
-                
-                resolve(like);
+                try {
+                    const like = await LikeModel.findOne({ userId : data.userId, postId : data.postId });
+                    
+                    resolve(like);
+
+                } catch (error) {
+                    reject(error);
+                }
             });
         },
         delete(DTOLike : DTOLike) : Promise<boolean>{
             return new Promise( async (resolve, reject) =>{
-                const removeLike = await LikeModel.deleteOne({
-                    postId : DTOLike.postId,
-                    userId : DTOLike.userId
-                }).catch( error  =>{
-                    console.error(error);
-                    reject(errorFactory('Error deleting like'));
-                });
-
-                const removed = removeLike ? removeLike.deletedCount > 0 : false;
-
-                resolve(removed);
+                try {
+                    const removeLike = await LikeModel.deleteOne({
+                        postId : DTOLike.postId,
+                        userId : DTOLike.userId
+                    }).catch( error  =>{
+                        console.error(error);
+                        reject(errorFactory('Error deleting like'));
+                    });
+    
+                    const removed = removeLike ? removeLike.deletedCount > 0 : false;
+    
+                    resolve(removed);
+                    
+                } catch (error) {
+                    
+                }
         })
         },
         getCount(postId : string) : Promise<number> {

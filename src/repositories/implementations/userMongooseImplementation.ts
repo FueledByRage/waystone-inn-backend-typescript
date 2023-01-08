@@ -8,15 +8,16 @@ import { DTOUser } from "../../entities/DTOs/DTOUser";
 
 export function UserMongoose(): IUserRepository{
     return{
-    create(data: DTOUser): Promise< User | void | null> {
+    create(data: DTOUser): Promise< User > {
         return new Promise(async (resolve, reject)=>{
             try {
-                //if(data.profileFileName) data.
                 const newUser = await (await UserModel.create(data)).save();
                 
                 const user = new User(data, newUser._id);
                 
-                resolve(user);
+                if(user)resolve(user);
+            
+                throw errorFactory('Error saving user');
             } catch (error) {
                 reject(error);
             }

@@ -12,11 +12,14 @@ export function CreatePost(repository: IPostRepository) : ICreatePost{
     return{
         execute(data : DTOPost) :Promise<Post>{
             return new Promise( async (resolve, reject) =>{
-
-                const newPost = await repository.create(data).catch(error => reject('Error salving post'));
-                
-                if(newPost) resolve(newPost);
-                reject(Error('Error saving post'));
+                try {
+                    const newPost = await repository.create(data);
+                    
+                    if(newPost) return resolve(newPost);
+                    throw new Error( 'Error saving post');
+                } catch (error) {
+                    reject(Error('Error saving post'));
+                }
             });
         }
     }

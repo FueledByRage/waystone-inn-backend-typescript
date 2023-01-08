@@ -8,7 +8,7 @@ const { SECRET_KEY } = process.env;
 
 export function JWTImplementaion() : ICryptography{
     return{
-        encrypt(payload : string ) : Promise<string> {
+        encrypt(data : Object ) : Promise<string> {
             return new Promise((resolve, reject) =>{
                 try {
                     //@ts-ignore
