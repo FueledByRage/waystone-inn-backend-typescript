@@ -11,7 +11,8 @@
     "community": "jest ./src/cases/community/community.spec.ts",
     "post": "jest ./src/cases/post/post.spec.ts",
     "comment": "jest ./src/cases/comment/comment.spec.ts",
-    "sub" : "jest ./src/cases/subs/subs.spec.ts"
+    "sub" : "jest ./src/cases/subs/subs.spec.ts",
+    "likes" : "jest ./src/cases/likes/likes.spec.ts"
   },
   "devDependencies": {
     "-": "^0.0.1",

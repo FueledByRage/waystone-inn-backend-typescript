@@ -40,6 +40,17 @@ test('Testing the user register',async ()=>{
     expect(response.statusCode).toBe(201);
 });
 
+test('Testing the email validation on create a new user',async () => {
+    const response = await supertest(app).post('/inn/user/register').send({
+        name: 'Erik Natan',
+        user: 'PaçocaDoce',
+        email: '@gmail.com',
+        password: 'senha123'
+ 
+     });
+     expect(response.statusCode).toBe(406);
+})
+
 test('Login with wrong params', async ()=>{
 
     const response = await supertest(app).post('/inn/user/login').send({

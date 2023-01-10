@@ -11,13 +11,12 @@ export const removeLikeController = ( removeLike : IRemoveLike )=>{
     return{
         async execute(req: Request, res : Response, next : NextFunction){
             try {
-                const { postId } = req.body;
-                const { token } = req.headers;
+                const { postId } = req.params;
+                const { userId } = req.headers;
     
-                if(!token || typeof token != 'string') throw errorFactory('Authentication required', 406);
+                if(!userId) throw errorFactory('Authentication required', 406);
 
-
-                const data = new DTOLike(token, postId);
+                const data = new DTOLike(userId.toString(), postId);
 
                 const removed = await removeLike.execute(data);
 
@@ -25,6 +24,7 @@ export const removeLikeController = ( removeLike : IRemoveLike )=>{
 
                 throw errorFactory('Error removing like');
             } catch (error) {
+                console.error(error);
                 next(error);
             }
         }

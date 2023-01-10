@@ -21,15 +21,11 @@ afterAll(async ()=>{
     await Mongoose.disconnect();
 });
 
-const token = '';
+const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzOTc0MjA2ZmQxOTc1YTdhYTAwMDJjMyIsImlhdCI6MTY3MzI2NjA5M30.3Vy10jMYi3eJ1656JAPx23g4ubnhdQ_FbVwne1pEMUY';
 
 test('Testing the create like case', async ()=>{
-    const postId = ''
-    const response = await supertest(app).post('/inn/like/create').send(
-        {
-            postId
-        }
-    ).set({
+    const postId = '6391df029b9b8e3eb8e69e86'
+    const response = await supertest(app).get(`/inn/like/create/${postId}`).set({
         token
     });
 
@@ -37,60 +33,51 @@ test('Testing the create like case', async ()=>{
 });
 
 test('Testing the create like error case - not sending token ', async ()=>{
-    const postId = ''
+    const postId = '6391df029b9b8e3eb8e69e86'
     //not sending any token
-    const response = await supertest(app).post('/inn/like/create').send(
-        {
-            postId
-        }
-    );
+    const response = await supertest(app).get(`/inn/like/create/${postId}`);
 
     expect(response.statusCode).toBe(406);
 });
 
 test('Testing the create like error case - invalid token', async ()=>{
-    const postId = ''
+    const postId = '6391df029b9b8e3eb8e69e86'
     //not sending any token
-    const response = await supertest(app).post('/inn/like/create').send(
-        {
-            postId
-        }
-    ).set({
+    const response = await supertest(app).get(`/inn/like/create/${postId}`).set({
         token : 'lorem'
     });
 
     expect(response.statusCode).toBe(406);
 });
+test('Remove like - testing token validation',async () => {
+
+    const id = '6391df029b9b8e3eb8e69e86';
+
+    // Sending wrong token
+    const response = await supertest(app).delete(`/inn/like/${id}`).set({
+        token : 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzOTFkZjA0YmM3M2U0MDg1NGQ5NzA2YyIsImlhdCI6MTY3MzI2NzAyMn0.Rca-zG0KswkV27pgqrMme_90QyYtYGtJuz6YMhFc7j8'
+    });
+
+    expect(response.statusCode).toBe(500);
+});
 
 test('Remove like',async () => {
 
-    const id = '';
+    const id = '6391df029b9b8e3eb8e69e86';
 
     const response = await supertest(app).delete(`/inn/like/${id}`).set({
         token
     });
 
-    expect(response.statusCode).toBe(200);
+    expect(response.statusCode).toBe(201);
 });
 
 test('Remove like - testing token validation',async () => {
 
-    const id = '';
+    const id = '6391df029b9b8e3eb8e69e86';
 
     // Not sending token
     const response = await supertest(app).delete(`/inn/like/${id}`);
 
     expect(response.statusCode).toBe(406);
-});
-
-test('Remove like - testing token validation',async () => {
-
-    const id = '';
-
-    // Sending wrong token
-    const response = await supertest(app).delete(`/inn/like/${id}`).set({
-        token : ''
-    });
-
-    expect(response.statusCode).toBe(500);
 });

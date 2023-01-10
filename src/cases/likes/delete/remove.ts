@@ -8,11 +8,7 @@ export const removeLike = (likeRepository : ILikeRepository,) : IRemoveLike =>{
     return{
         execute(DTOLike : DTOLike ) : Promise<boolean>  {
             return new Promise( async (resolve, reject)=>{
-                try {
-                    const userId = await decriptToken(DTOLike.userId);
-    
-                    if(userId) DTOLike.userId = userId 
-                    
+                try {                    
                     const removed = await likeRepository.delete(DTOLike)
 
                     resolve(removed);
@@ -21,8 +17,6 @@ export const removeLike = (likeRepository : ILikeRepository,) : IRemoveLike =>{
                     console.error(error);
                     reject(errorFactory('Error removing like'));
                 }
-
-
             })
         },
     }

@@ -21,6 +21,7 @@ import { uploads } from "../middlewares/multer";
 import { controllerSub } from "../cases/subs/create";
 import { authMiddleware } from "../middlewares/authenticationMiddleware";
 import { subDeleteController } from "../cases/subs/delete";
+import { controllerCreateLike } from "../cases/likes/create";
 
 
 const router = Router();
@@ -48,6 +49,7 @@ router.delete('/comment/:id', DeleteCommentController.execute);
 router.get('/sub/:communityId', authMiddleware, controllerSub.execute);
 router.delete('/sub/delete/:communityId', authMiddleware,  subDeleteController.execute);
 
-router.delete('/like/:postId', deleteLikeController.execute);
+router.get('/like/create/:postId', authMiddleware, controllerCreateLike.execute);
+router.delete('/like/:postId', authMiddleware, deleteLikeController.execute);
 
 export { router };

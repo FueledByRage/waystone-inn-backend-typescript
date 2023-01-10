@@ -11,21 +11,16 @@ export const createLikeController = ( createLike : ICreateLike )=>{
     return{
         async execute(req: Request, res : Response, next : NextFunction){
             try {
-                const { postId } = req.body;
-                const { token } = req.headers;
+                const { postId } = req.params;
+                const { userId } = req.headers;
     
-                if(!token) throw errorFactory('Authentication required', 406);
+                if(!userId) throw errorFactory('Authentication required', 406);
 
-                //@ts-ignore
-                const userId = await decriptToken(token).catch(e => { 
-                    throw errorFactory(e.message, 406);
-                }); 
-
-                const data = new DTOLike(userId, postId);
+                const data = new DTOLike(userId.toString() , postId);
 
                 const created = await createLike.execute(data);
 
-                if(created) res.status(201).send();
+                if(created) return res.sendStatus(201);
 
                 throw errorFactory('Error saving like', 500);
             } catch (error) {

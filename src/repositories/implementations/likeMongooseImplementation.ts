@@ -36,17 +36,15 @@ export function MongooseLike() : ILikeRepository{
                     const removeLike = await LikeModel.deleteOne({
                         postId : DTOLike.postId,
                         userId : DTOLike.userId
-                    }).catch( error  =>{
-                        console.error(error);
-                        reject(errorFactory('Error deleting like'));
                     });
-    
-                    const removed = removeLike ? removeLike.deletedCount > 0 : false;
-    
+                    
+                    const removed = removeLike.deletedCount > 0;
+                    
                     resolve(removed);
                     
                 } catch (error) {
-                    
+                    console.error(error);
+                    reject(error);
                 }
         })
         },

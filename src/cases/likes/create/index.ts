@@ -6,5 +6,5 @@ import { createLike } from "./create";
 const likeRepository = MongooseLike();
 const userRepository = UserMongoose();
 const create = createLike(likeRepository, userRepository);
-export const controller = createLikeController(create);
+export const controllerCreateLike = createLikeController(create);
 
