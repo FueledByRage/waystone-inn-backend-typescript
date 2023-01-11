@@ -1,10 +1,20 @@
+import e from "express";
 import { DTOUser } from "../../../entities/DTOs/DTOUser";
 import { User } from "../../../entities/user";
 import { IUserRepository } from "../../../repositories/IUserRepository";
+import { IMessageStream } from "../../../services/messageStream/IMessageStream";
 import { errorFactory } from "../../../utils/errorFactory";
 import { ICreateUser } from "./controller";
 
-export function CreateUser(userRepository: IUserRepository) : ICreateUser  {
+export function CreateUser(userRepository: IUserRepository, messageBroker : IMessageStream) : ICreateUser  {
+
+    const emailUserIsInValid = ( user : DTOUser) : boolean =>{
+        const emailRegex = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+                    
+        if(emailRegex.test(user.email)) return false
+
+        return true;
+    }
 
     const checkCredentials = async (data : DTOUser) : Promise<string | null>=>{
         return new Promise( async (resolve, reject) =>{
@@ -26,15 +36,19 @@ export function CreateUser(userRepository: IUserRepository) : ICreateUser  {
         execute: (user: DTOUser) : Promise<User> => {
             return new Promise(async (resolve, reject)=>{
                 try {
+
+                    if(emailUserIsInValid(user)) throw errorFactory('This is not a valid email format', 406);
+                    
                     const credentialsError = await checkCredentials(user);
                     
-                    if(credentialsError) reject( errorFactory(credentialsError, 406));
+                    if(credentialsError) return reject( errorFactory(credentialsError, 406));
                     
                     const newUser = await userRepository.create(user);
+
                     resolve(newUser);
                     
                 } catch (error) {
-                    reject(errorFactory('Error saving user'))
+                    reject(error);
                 }
                     
             }) 

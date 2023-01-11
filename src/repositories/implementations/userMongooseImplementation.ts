@@ -5,6 +5,7 @@ import { IUser } from "../../entities/IUser";
 import { User } from "../../entities/user";
 import { errorFactory } from "../../utils/errorFactory";
 import { DTOUser } from "../../entities/DTOs/DTOUser";
+import { DTOUpdateUser } from "../../entities/DTOs/DTOUpdateUser";
 
 export function UserMongoose(): IUserRepository{
     return{
@@ -32,11 +33,16 @@ export function UserMongoose(): IUserRepository{
             return resolve(user);
         })
     },
-    update(id: string, data: Object): Promise<boolean> {
+    update( data : DTOUpdateUser ): Promise<boolean> {
         return new Promise(async (resolve, reject)=>{
-            await UserModel.updateOne({_id: id}, data).catch( e =>{ reject(false)});
-
-            resolve(true);
+            try {
+                const updated = await UserModel.updateOne({_id: data.userId}, data);
+    
+                return resolve(updated.modifiedCount > 0 );
+                
+            } catch (error) {
+                reject(error);
+            }
         })
     },
     delete(id: string): Promise<boolean> {

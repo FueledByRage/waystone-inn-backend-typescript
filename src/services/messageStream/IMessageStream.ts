@@ -1,5 +1,5 @@
 import { DTOSendMessageStream } from "../DTOs/DTOsendMessageStream";
 
 export interface IMessageStream{
-    sendMessage( data : DTOSendMessageStream ): void 
+    sendMessage( data : DTOSendMessageStream ): Promise<void> 
 }

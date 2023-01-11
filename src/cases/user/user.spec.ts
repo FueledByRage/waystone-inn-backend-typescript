@@ -97,3 +97,11 @@ test('Trying to register a taken username', async ()=>{
      });
      expect(response.statusCode).toBe(406);
 });
+
+test('Update user test', async () => {
+   const response = await supertest(app).put('/inn/user/update').send({
+    user: 'Chocolate' 
+   });
+   
+   expect(response.statusCode).toBe(201);
+});

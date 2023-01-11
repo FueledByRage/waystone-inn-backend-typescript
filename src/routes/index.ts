@@ -22,6 +22,7 @@ import { controllerSub } from "../cases/subs/create";
 import { authMiddleware } from "../middlewares/authenticationMiddleware";
 import { subDeleteController } from "../cases/subs/delete";
 import { controllerCreateLike } from "../cases/likes/create";
+import { userUpdateController } from "../cases/user/update";
 
 
 const router = Router();
@@ -29,6 +30,7 @@ const router = Router();
 router.post('/user/register', uploads.single('file'), CreateUserController.execute);
 router.post('/user/login', LoginController.login);
 router.get('/user/:username', getByUsernameController.execute)
+router.put('/user/update', authMiddleware, userUpdateController.execute);
 
 router.post('/community/register', authMiddleware, CreateCommunityController.execute);
 router.get('/community/read/:id', findCommunityController.execute);

@@ -5,24 +5,22 @@ import { DTOUser } from "../../../entities/DTOs/DTOUser";
 import { encrypt } from "../../../utils/cryptography";
 import * as dotenv from 'dotenv';
 import { ICryptography } from "../../../services/cryptography/ICryptography";
+import { IMessageStream } from "../../../services/messageStream/IMessageStream";
 dotenv.config();
 
 export interface ICreateUser{
     execute: ( user : DTOUser )=> Promise<User>
 }
 
-export function CreateController(create: ICreateUser, cryptography : ICryptography){
+export function CreateController(create: ICreateUser, cryptography : ICryptography ){
     return{
         
         execute: async (req: Request, res: Response, cb: NextFunction)=>{
             try {
                 const { user, name, email, password } = req.body;
-                //const key = req.file?.filename;
 
                 if(!user || !name || !email || !password) throw errorFactory('Missing params', 406);
                 
-                //const profileURL = key ?? `${process.env.UPLOAD_URL}img/profile/${key}`;
-
                 const newUser = new DTOUser(user, name, password, email);
                 const createdUser = await create.execute(newUser);
 
