@@ -44,9 +44,9 @@ router.get('/post/:id', ReadPostController.execute);
 router.get('/feed/:page/:registers', authMiddleware, GetPostsFeedController.execute);
 router.delete('/post/:id', authMiddleware, DeletePostController.execute);
 
-router.post('/comment/register', CreateCommentController.execute);
+router.post('/comment/register', authMiddleware, CreateCommentController.execute);
 router.get('/comments/:id', ReadCommentsController.execute);
-router.delete('/comment/:id', DeleteCommentController.execute);
+router.delete('/comment/:id', authMiddleware, DeleteCommentController.execute);
 
 router.get('/sub/:communityId', authMiddleware, controllerSub.execute);
 router.delete('/sub/delete/:communityId', authMiddleware,  subDeleteController.execute);

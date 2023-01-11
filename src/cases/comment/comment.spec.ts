@@ -21,15 +21,15 @@ afterAll(async ()=>{
     await Mongoose.disconnect();
 });
 
-const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzOTFkZjA0YmM3M2U0MDg1NGQ5NzA2YyIsImlhdCI6MTY3MTYzMTIyMn0.YOHp_R5PlLTDDei9WFpMJiIx7-T3ljcrbHCKV8ugTwU';
-const postId = '63a1a57a11d68a5aa2295301';
+const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzOTFkZjA0YmM3M2U0MDg1NGQ5NzA2YyIsImlhdCI6MTY3MzQ1NDE2N30.nKpSm93yLXeQvgGKSBF4waU-zYfapWS4WaFaF8i7erM';
+const postId = '63a06e07b96cb574e5e10e78';
 
 test('POST - Testing create comment', async() =>{
     const response = await supertest(app).post('/inn/comment/register').send({
-        comment: 'new test - 22:11',
+        comment: 'new test - 11/01',
         id: postId
     }).set({
-        token: token
+        token
     });
     expect(response.statusCode).toBe(201);
 });
@@ -53,7 +53,7 @@ test('GET - Testing get comments route', async()=>{
 });
 
 test('Delete - testing delete comment route', async ()=>{
-    const commentId = '6391df021af7227e7b75990f';
+    const commentId = '63a31d2d553b3fafce549a48';
     const response = await supertest(app).delete(`/inn/comment/${commentId}`).set({
         token
     });
@@ -70,8 +70,8 @@ test('Delete - testing delete comment route error handler - not sending token', 
 
 test('Delete - testing delete comment route - sending wrong token', async ()=>{
     
-    const commentId = '63a11025c882386a05b758fe';
-    const wrongToken = token;
+    const commentId = '63a31dc6049631a0ec53b4e0';
+    const wrongToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzYjlhOTg1YzRmYzA3MDY1ZjkwNDg2MSIsImlhdCI6MTY3MzQ0MzczNH0.nP90fyl3O92uifmfJwMUoz7eFXffl1LWOAj1YwOlCOQ';;
 
     const response = await supertest(app).delete(`/inn/comment/${commentId}`).set({
         token: wrongToken

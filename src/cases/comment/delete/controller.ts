@@ -9,17 +9,13 @@ export function deleteCommentController( deleteComment : IDeleteComment){
             
             try { 
                 const { id }= req.params;
-                const { token } = req.headers;
+                const { userId } = req.headers;
 
-                if(!token) throw errorFactory('Authorization token missing.', 406);
-                //@ts-ignore
-                const userId = await decriptToken(token).catch((error: Error)=>{
-                    throw errorFactory('Invalid authorization token.', 406);
-                }); 
+                if(!userId) throw errorFactory('Error on authentication.', 406);
 
-                await deleteComment.execute(id, userId);
+                await deleteComment.execute(id, userId.toString());
 
-                res.send();
+                res.sendStatus(200);
                 
             } catch (error) {
                 console.log(error);

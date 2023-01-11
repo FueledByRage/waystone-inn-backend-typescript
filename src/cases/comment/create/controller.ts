@@ -10,20 +10,14 @@ export function createCommentController(createComment: ICreateComment){
     return{
         async execute(req: Request, res: Response, cb: NextFunction){
             try {
-                const { token } = req.headers;
                 const { id, comment } = req.body;
+                const { userId } = req.headers;
     
-                if(!id || !token || !comment) throw errorFactory('Missing param.', 406);
+                if(!id || !userId || !comment) throw errorFactory('Missing param.', 406);
 
-                //@ts-ignore
-                const userId = await decriptToken(token)
-                .catch((error: Error) =>{
-                    throw errorFactory('Error decripting token', 406);
-                });
+                const data = new DTOComment(userId.toString(), id, comment);
 
-                const data = new DTOComment(userId, id, comment);
-
-                const newComment = createComment.execute(data); 
+                const newComment = await createComment.execute(data); 
 
                 res.status(201).json(newComment);
                 

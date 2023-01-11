@@ -2,6 +2,7 @@ import { Comment } from "../../../entities/Comments";
 import { DTOComment } from "../../../entities/DTOs/DTOComments";
 import { IComment } from "../../../entities/IComments";
 import { ICommentRepository } from "../../../repositories/ICommentRepository";
+import { errorFactory } from "../../../utils/errorFactory";
 
 
 
@@ -20,6 +21,8 @@ export function CreateComment(repository: ICommentRepository) : ICreateComment{
                 });
                 
                 newComment && resolve(newComment);
+
+                reject( errorFactory('Error saving comment.'));
             });
         }
     }
