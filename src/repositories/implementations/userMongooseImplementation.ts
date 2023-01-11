@@ -41,6 +41,7 @@ export function UserMongoose(): IUserRepository{
                 return resolve(updated.modifiedCount > 0 );
                 
             } catch (error) {
+                console.error(error);
                 reject(error);
             }
         })

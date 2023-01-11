@@ -30,6 +30,7 @@ export const updateUserController = ( updateUser : IUpdateUser ) =>{
 
                 throw errorFactory('Error updating data');
             } catch (error) {
+                console.error(error);
                 cb(error);
             }
         }
