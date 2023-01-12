@@ -11,7 +11,8 @@ async function authMiddleware(req: Request, res: Response, next: NextFunction) {
         // If the user is authenticated, allow them to continue
         if(token){
             //Gotta decript the token
-            req.headers.userId = await cryptoImplementation.decript(token.toString()); 
+            req.headers.userId = await cryptoImplementation.decript(token.toString());
+             
             return next();
         }
     

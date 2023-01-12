@@ -4,7 +4,7 @@ import { IComment } from "../entities/IComments";
 const commentSchema = new Schema({
     authorId:{
         type: Schema.Types.ObjectId,
-        ref: "users",
+        ref: "User",
         required: true
     },
     postId:{

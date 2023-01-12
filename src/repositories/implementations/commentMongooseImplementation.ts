@@ -24,11 +24,10 @@ export function MongooseComment() : ICommentRepository{
         },
         read(id: string) : Promise<Array<IComment>>{
             return new Promise( async (resolve, reject) =>{
-                const comments = await CommentModel.find({postId: id}).catch((error : Error)=>{
+                const comments = await CommentModel.find({ postId: id }).populate('authorId').catch((error : Error)=>{
                     const createdError = errorFactory('Error executing database request.', 500);
                     reject(createdError);
                 });
-
                 
                 comments && resolve(comments);
                 reject(new Error('Error finding requested data'))

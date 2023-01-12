@@ -16,8 +16,9 @@ export function findController(find: IFindCommunity){
         execute: async (req: Request, res: Response, cb: NextFunction)=>{
             try {
                 const { id } = req.params;
-                const { userId } = req.headers;
-                const response = await find.execute(id, userId?.toString() || '');
+                const { token } = req.headers;
+
+                const response = await find.execute(id, token?.toString() || '');
                 
                 res.status(200).json(response);
         

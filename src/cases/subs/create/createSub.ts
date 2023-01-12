@@ -20,7 +20,7 @@ export function createSub( repository : ISubRepository, communityRepository : IC
     
                         await repository.create(data);
     
-                        resolve(true);    
+                        return resolve(true);    
                     });
 
                     throw errorFactory('This user is already a sub.', 406);
