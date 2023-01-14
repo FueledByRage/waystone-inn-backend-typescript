@@ -1,5 +1,5 @@
 import { DTOLike } from "../../../entities/DTOs/DTOLikes";
-import { IPost } from "../../../entities/IPosts";
+import { IPost } from "../../../entities/Abstractions/IPosts";
 import { ILikeRepository } from "../../../repositories/ILikesRepository";
 import { IPostRepository } from "../../../repositories/IPostsRepository";
 import { decriptToken } from "../../../utils/cryptography";
@@ -23,7 +23,7 @@ export function ReadPost(repository: IPostRepository, likeRepository : ILikeRepo
                     const like = await likeRepository.read(dataLike);
     
                     const count = await likeRepository.getCount(dataLike.postId);
-                    post.likesCount = count;
+                    post.likes = count;
     
                     if(like) post.liked = true;
                     else if(!like) post.liked = false;

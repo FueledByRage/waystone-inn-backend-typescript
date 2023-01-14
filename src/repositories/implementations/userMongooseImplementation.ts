@@ -1,22 +1,22 @@
 import { Model } from "mongoose";
 import { UserModel,IUserSchema } from "../../models/user";
 import { IUserRepository } from "../IUserRepository";
-import { IUser } from "../../entities/IUser";
 import { User } from "../../entities/user";
 import { errorFactory } from "../../utils/errorFactory";
 import { DTOUser } from "../../entities/DTOs/DTOUser";
 import { DTOUpdateUser } from "../../entities/DTOs/DTOUpdateUser";
+import { IUser } from "../../entities/Abstractions/IUser";
 
 export function UserMongoose(): IUserRepository{
     return{
-    create(data: DTOUser): Promise< User > {
+    create(data: DTOUser): Promise< IUser > {
         return new Promise(async (resolve, reject)=>{
             try {
                 const newUser = await (await UserModel.create(data)).save();
                 
-                const user = new User(data, newUser._id);
+                //const user = new User(newUser);
                 
-                if(user)resolve(user);
+                if(newUser)resolve(newUser);
             
                 throw errorFactory('Error saving user');
             } catch (error) {
@@ -24,20 +24,28 @@ export function UserMongoose(): IUserRepository{
             }
         });
     },
-    read(username: string): Promise<User | void | null> {
+    read(username: string): Promise<IUser | void | null> {
         return new Promise(async (resolve, reject)=>{
-            const user = await UserModel.findOne({ user: username}).select("-password")
-            .catch( e =>{
-                return reject('An error has occurried finding the user')
-            });
-            return resolve(user);
+            try {
+                const user = await UserModel.findOne({ user: username}).select('-password');
+
+                if(!user) return resolve(null);
+
+    
+                return resolve(user);
+
+            } catch (error) {
+                reject(error);
+            }
         })
     },
     update( data : DTOUpdateUser ): Promise<boolean> {
         return new Promise(async (resolve, reject)=>{
             try {
+                console.log(data);
                 const updated = await UserModel.updateOne({_id: data.userId}, data);
-    
+                
+
                 return resolve(updated.modifiedCount > 0 );
                 
             } catch (error) {
@@ -53,23 +61,30 @@ export function UserMongoose(): IUserRepository{
             resolve(true);
         });
     },
-    getByEmail(email: string): Promise<User | void | null> {
+    getByEmail(email: string): Promise<IUser | void | null> {
         return new Promise(async (resolve, reject) =>{
         
             const user = await UserModel.findOne({ email }).catch( e =>{
                 reject('Error executing query.');
             });
+
+            if(!user) return resolve(user);
+
+            //const foundUser = new User(user);
             return resolve(user);
         });
     },
-    findById( id : string ) : Promise<User>{
+    findById( id : string ) : Promise<IUser>{
         return new Promise( async (resolve, reject )=>{
             const user = await UserModel.findById(id).catch(error =>{
                 reject(new Error('Error executing search'));
             });
+
+            if(!user) return reject(errorFactory('User not found', 404));
+
+            //const foundUser = new User(user);
             
-            user && resolve(user);
-            reject(errorFactory('Error finding user', 404));
+            return resolve(user);
         })
     }}
 }

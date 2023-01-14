@@ -1,7 +1,7 @@
 import { errorFactory } from "../../../utils/errorFactory";
 import { Request, Response, NextFunction } from "express";
 import { decriptToken } from "../../../utils/cryptography";
-import { iCommunity } from "../../../entities/ICommunity";
+import { iCommunity } from "../../../entities/Abstractions/ICommunity";
 
 export interface IFindCommunityOutput{
     community : iCommunity | null | void,

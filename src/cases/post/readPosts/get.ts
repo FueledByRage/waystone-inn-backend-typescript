@@ -1,6 +1,6 @@
 import { DTOLike } from "../../../entities/DTOs/DTOLikes";
 import { DTOPostByCommunity } from "../../../entities/DTOs/DTOPostByCommunity";
-import { IPost } from "../../../entities/IPosts";
+import { IPost } from "../../../entities/Abstractions/IPosts";
 import { Post } from "../../../entities/Post";
 import { ILikeRepository } from "../../../repositories/ILikesRepository";
 import { IPostRepository } from "../../../repositories/IPostsRepository";
@@ -34,7 +34,7 @@ export function ReadPosts(repository: IPostRepository, likeRepository : ILikeRep
                         const isLiked = await likeRepository.read(dataLike);
     
                         const count = await likeRepository.getCount(dataLike.postId);
-                        post.likesCount = count;
+                        post.likes = count;
     
                         post.liked = isLiked != null;
                         return post;

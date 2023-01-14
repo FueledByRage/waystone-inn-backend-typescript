@@ -20,7 +20,7 @@ export const removeLikeController = ( removeLike : IRemoveLike )=>{
 
                 const removed = await removeLike.execute(data);
 
-                if(removed) res.status(201).send();
+                if(removed) return res.status(204).send();
 
                 throw errorFactory('Error removing like');
             } catch (error) {

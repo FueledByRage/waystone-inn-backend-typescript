@@ -1,6 +1,6 @@
 import { DTOGetPosts } from "../../../entities/DTOs/DTOGetPosts";
 import { DTOLike } from "../../../entities/DTOs/DTOLikes";
-import { IPost } from "../../../entities/IPosts";
+import { IPost } from "../../../entities/Abstractions/IPosts";
 import { ILikeRepository } from "../../../repositories/ILikesRepository";
 import { IPostRepository } from "../../../repositories/IPostsRepository";
 import { ISubRepository } from "../../../repositories/ISubRepository";
@@ -34,7 +34,7 @@ export function getPostsFeed(repository: IPostRepository, likeRepository : ILike
                         const like = await likeRepository.read(dtoLike);
                         if(like) post.liked = true;
                         const count = await likeRepository.getCount(dtoLike.postId);
-                        post.likesCount = count;
+                        post.likes = count;
                         return post;
                     }));
     

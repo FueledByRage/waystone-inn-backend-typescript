@@ -1,6 +1,9 @@
 export class DTOComment{
+
+    public date : Date = new Date();
+
     constructor(
-        public userId : string,
+        public authorId : string,
         public postId : string,
         public comment : string
     ){}

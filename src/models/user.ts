@@ -6,7 +6,6 @@ export interface IUserSchema{
     email: string;
     password: string;
     date: Date;
-    subs: Array<string>;
     profileURL: string;
 }
 
@@ -29,12 +28,6 @@ const userSchema = new Schema({
     },
     date:{
         type: Date,
-        default: Date.now()
-    },
-    subs:{
-        type: Array,
-        default: [],
-        select: false
     },
     profileURL:{
         type: String,

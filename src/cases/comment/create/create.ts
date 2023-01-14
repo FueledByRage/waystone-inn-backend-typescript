@@ -1,6 +1,6 @@
 import { Comment } from "../../../entities/Comments";
 import { DTOComment } from "../../../entities/DTOs/DTOComments";
-import { IComment } from "../../../entities/IComments";
+import { IComment } from "../../../entities/Abstractions/IComments";
 import { ICommentRepository } from "../../../repositories/ICommentRepository";
 import { errorFactory } from "../../../utils/errorFactory";
 
@@ -13,7 +13,7 @@ export interface ICreateComment {
 
 export function CreateComment(repository: ICommentRepository) : ICreateComment{
     return{
-        execute(data : DTOComment) : Promise<IComment>{
+        execute(data : DTOComment) : Promise<Comment>{
             return new Promise( async (resolve, reject) =>{
 
                 const newComment = await repository.create(data).catch((error: Error)=>{

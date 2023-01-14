@@ -3,7 +3,6 @@ export interface iCommunity{
     _id: string;
     name: string;
     description: string;
-    members?: Array<string>;
     date: Date;
     sub?: boolean
 }

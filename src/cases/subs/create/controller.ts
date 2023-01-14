@@ -14,7 +14,7 @@ export function createSubController( createSub : ICreateSub ){
             try {
                 const { communityId } = req.params;
                 const { userId } = req.headers;
-                console.log(userId);
+                
                 if(!userId) throw errorFactory('Authentication error', 406);
 
                 const data = new DTOSub(userId?.toString(), communityId, false);

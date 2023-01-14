@@ -1,4 +1,5 @@
 import e from "express";
+import { IUser } from "../../../entities/Abstractions/IUser";
 import { DTOUser } from "../../../entities/DTOs/DTOUser";
 import { User } from "../../../entities/user";
 import { IUserRepository } from "../../../repositories/IUserRepository";
@@ -33,7 +34,7 @@ export function CreateUser(userRepository: IUserRepository, messageBroker : IMes
     }
 
     return{
-        execute: (user: DTOUser) : Promise<User> => {
+        execute: (user: DTOUser) : Promise<IUser> => {
             return new Promise(async (resolve, reject)=>{
                 try {
 

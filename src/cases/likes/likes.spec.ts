@@ -23,6 +23,17 @@ afterAll(async ()=>{
 
 const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzOTc0MjA2ZmQxOTc1YTdhYTAwMDJjMyIsImlhdCI6MTY3MzI2NjA5M30.3Vy10jMYi3eJ1656JAPx23g4ubnhdQ_FbVwne1pEMUY';
 
+test('Remove like',async () => {
+
+    const id = '6391df029b9b8e3eb8e69e86';
+
+    const response = await supertest(app).delete(`/inn/like/${id}`).set({
+        token
+    });
+
+    expect(response.statusCode).toBe(204);
+});
+
 test('Testing the create like case', async ()=>{
     const postId = '6391df029b9b8e3eb8e69e86'
     const response = await supertest(app).get(`/inn/like/create/${postId}`).set({
@@ -61,16 +72,7 @@ test('Remove like - testing token validation',async () => {
     expect(response.statusCode).toBe(500);
 });
 
-test('Remove like',async () => {
 
-    const id = '6391df029b9b8e3eb8e69e86';
-
-    const response = await supertest(app).delete(`/inn/like/${id}`).set({
-        token
-    });
-
-    expect(response.statusCode).toBe(201);
-});
 
 test('Remove like - testing token validation',async () => {
 

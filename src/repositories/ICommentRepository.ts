@@ -1,4 +1,4 @@
-import { IComment } from "../entities/IComments";
+import { IComment } from "../entities/Abstractions/IComments";
 import { Comment } from "../entities/Comments";
 import { DTOComment } from "../entities/DTOs/DTOComments";
 

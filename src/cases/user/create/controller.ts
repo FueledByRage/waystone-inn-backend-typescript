@@ -6,10 +6,11 @@ import { encrypt } from "../../../utils/cryptography";
 import * as dotenv from 'dotenv';
 import { ICryptography } from "../../../services/cryptography/ICryptography";
 import { IMessageStream } from "../../../services/messageStream/IMessageStream";
+import { IUser } from "../../../entities/Abstractions/IUser";
 dotenv.config();
 
 export interface ICreateUser{
-    execute: ( user : DTOUser )=> Promise<User>
+    execute: ( user : DTOUser )=> Promise<IUser>
 }
 
 export function CreateController(create: ICreateUser, cryptography : ICryptography ){

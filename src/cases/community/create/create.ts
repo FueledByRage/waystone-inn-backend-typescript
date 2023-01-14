@@ -1,6 +1,6 @@
 import { DTOCommunity } from "../../../entities/DTOs/DTOCommunity";
 import { DTOSub } from "../../../entities/DTOs/DTOSub";
-import { iCommunity } from "../../../entities/ICommunity";
+import { iCommunity } from "../../../entities/Abstractions/ICommunity";
 import { ICommunityRepository } from "../../../repositories/ICommunityRepository";
 import { ISubRepository } from "../../../repositories/ISubRepository";
 

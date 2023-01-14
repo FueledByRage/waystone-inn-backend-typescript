@@ -23,7 +23,7 @@ afterAll(async ()=>{
 
 // token from an already registered user and id from a valid community
 const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzOTFkZjA0YmM3M2U0MDg1NGQ5NzA2YyIsImlhdCI6MTY3MjQxMDk2NH0.VPzxlKtvVT8KOWwG6miXc19JxiGZi6nakSsN8uubjaM';
-const id = '62386d22c2f3f0cc6314b693';
+const id = '63c1f8819e7efade985aa9cf';
 
 
 test('Create post test - POST', async ()=>{

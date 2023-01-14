@@ -29,7 +29,6 @@ const communitySchema = new Schema({
     },
     date:{
         type: Date,
-        default: Date.now(),
     }
 });
 

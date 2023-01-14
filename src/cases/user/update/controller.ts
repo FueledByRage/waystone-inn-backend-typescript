@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 import { DTOUpdateUser } from "../../../entities/DTOs/DTOUpdateUser";
-import { IUser } from "../../../entities/IUser";
+import { IUser } from "../../../entities/Abstractions/IUser";
 import { errorFactory } from "../../../utils/errorFactory";
 import * as dotenv from 'dotenv';
 
@@ -20,9 +20,9 @@ export const updateUserController = ( updateUser : IUpdateUser ) =>{
                 const key = req.file?.filename;
             
                 if(!userId) throw errorFactory( 'Missing user authentication');
-                const profileURL = key && `${process.env.UPLOAD_URL}/user/${key}`;
+                //const profileURL = key && `${process.env.UPLOAD_URL}/img/user/${key}`;
                 
-                const data = new DTOUpdateUser(userId.toString(), username, name, profileURL);
+                const data = new DTOUpdateUser(userId.toString(), username, name, key);
                 
                 const updated = await updateUser.execute(data);
                 

@@ -1,3 +1,4 @@
+import { ILike } from "../../entities/Abstractions/ILikes";
 import { DTOLike } from "../../entities/DTOs/DTOLikes";
 import { Like } from "../../entities/like";
 import { LikeModel } from "../../models/like";
@@ -18,7 +19,7 @@ export function MongooseLike() : ILikeRepository{
                 resolve(false);
             });
         },
-        read(data : DTOLike) : Promise<Like | void | null >{
+        read(data : DTOLike) : Promise<ILike | void | null >{
             return new Promise( async (resolve, reject) =>{
                 try {
                     const like = await LikeModel.findOne({ userId : data.userId, postId : data.postId });

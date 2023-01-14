@@ -2,12 +2,11 @@ import { Community } from "../../entities/Community";
 import { CommunityModel } from "../../models/community";
 import { errorFactory } from "../../utils/errorFactory";
 import { UserModel } from "../../models/user";
-import { iCommunity } from "../../entities/ICommunity";
 import { ICommunityRepository } from "../ICommunityRepository";
-import { findIndex } from "./implementatiosUtils";
 import { DTOCommunity } from "../../entities/DTOs/DTOCommunity";
 import { DTOGetPosts } from "../../entities/DTOs/DTOGetPosts";
 import { ICommunityAndPosts } from "../../cases/community/FindWithPosts/find";
+import { iCommunity } from "../../entities/Abstractions/ICommunity";
 
 export function MongooseCommunity() : ICommunityRepository {
     return{
@@ -17,11 +16,10 @@ export function MongooseCommunity() : ICommunityRepository {
                     const userFound = await UserModel.findById(data.authorId);
                     if(!userFound) throw errorFactory('User not found.', 406);
         
-                    const community = new Community(data);
-    
-                    const newCommunity = await ( await CommunityModel.create(community)).save();
                     
-                    newCommunity && await userFound.updateOne({$pull:{ subs: newCommunity._id }});
+                    const newCommunity = await ( await CommunityModel.create(data)).save();
+                    
+                    //newCommunity && await userFound.updateOne({$pull:{ subs: newCommunity._id }});
                     resolve(newCommunity);
                     
                 } catch (error) {
@@ -35,21 +33,23 @@ export function MongooseCommunity() : ICommunityRepository {
                     reject(errorFactory('Error reading database'));
                 });
 
-                if(!community) reject(errorFactory('Community not found.', 404));
-    
+                if(!community) return reject(errorFactory('Community not found.', 404));
+                
+                //const foundCommunity = new Community(community);
+
                 resolve(community);
             });
         },
         getCommunitiesByName(name: string): Promise<iCommunity[]> {
             return new Promise(async (resolve, reject)=>{
-                const communities = await CommunityModel.find({name: {'$regex': name, '$options': 'i'}}).
-                catch((error: Error)=>{
-                   const createdError = errorFactory('Error executing search');
-                   reject(createdError); 
-                });
+                try {
+                    const communities = await CommunityModel.find({name: {'$regex': name, '$options': 'i'}});
 
-                //@ts-ignore
-                resolve(communities);
+                    return resolve(communities);
+                    
+                } catch (error) {
+                    reject(error);
+                }
             });
         },
         getCommunitiesById(id: string): Promise<iCommunity[]> {
@@ -74,7 +74,7 @@ export function MongooseCommunity() : ICommunityRepository {
             });
             
         },
-        update(id: string, data: Object): Promise<Community> {
+        update(id: string, data: Object): Promise<iCommunity> {
             return new Promise((resolve, reject)=>{});
         },
         delete(id: string): Promise<boolean> {

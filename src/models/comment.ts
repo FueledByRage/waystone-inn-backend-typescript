@@ -1,5 +1,5 @@
 import { Schema, model } from "mongoose";
-import { IComment } from "../entities/IComments";
+import { IComment } from "../entities/Abstractions/IComments";
 
 const commentSchema = new Schema({
     authorId:{

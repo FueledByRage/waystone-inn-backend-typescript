@@ -1,9 +1,7 @@
 import { Schema, model } from "mongoose";
+import { ILike } from "../entities/Abstractions/ILikes";
 
-export interface ILike{
-    userId : string,
-    postId: string
-}
+
 
 const LikeSchema = new Schema({
     userId:{

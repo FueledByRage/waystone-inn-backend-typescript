@@ -4,7 +4,7 @@ import { errorFactory } from "../../../utils/errorFactory";
 import { decriptToken } from "../../../utils/cryptography";
 import { Request, Response, NextFunction } from "express";
 import { DTOCommunity } from "../../../entities/DTOs/DTOCommunity";
-import { iCommunity } from "../../../entities/ICommunity";
+import { iCommunity } from "../../../entities/Abstractions/ICommunity";
 
 interface ICreateCommunity {
     execute(data : DTOCommunity) : Promise<iCommunity | void | null>

@@ -1,9 +1,10 @@
 import { User } from "../../../entities/user";
 import { NextFunction, Request, Response } from "express";
 import { errorFactory } from "../../../utils/errorFactory";
+import { IUser } from "../../../entities/Abstractions/IUser";
 
 interface IGetUser{
-    execute: (username : string) => Promise<User | void | null>
+    execute: (username : string) => Promise<IUser | void | null>
 }
 
 export const getUserController = ( get : IGetUser )=>{

@@ -1,6 +1,5 @@
 import { IFindByName } from "./findByName";
 import { Request, Response, NextFunction } from "express";
-import { errorFactory } from "../../../utils/errorFactory";
 
 export function FindByNameController( find: IFindByName ){
 

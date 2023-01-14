@@ -9,9 +9,6 @@ export interface IPost {
     fileName: string,
     likes: number,
     dislikes: number,
-    listOfUsersWhoLikedIt?: Array<String>,
-    listOfUsersWhoDislikedIt?: Array<String>,
-    liked? : boolean,
-    disliked? : boolean,
-    likesCount? : number
+    liked : boolean,
+    disliked : boolean,
 }

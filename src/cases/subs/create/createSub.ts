@@ -1,7 +1,6 @@
 import { DTOSub } from "../../../entities/DTOs/DTOSub";
 import { ICommunityRepository } from "../../../repositories/ICommunityRepository";
 import { ISubRepository } from "../../../repositories/ISubRepository";
-import { decriptToken } from "../../../utils/cryptography";
 import { errorFactory } from "../../../utils/errorFactory";
 import { ICreateSub } from "./controller";
 

@@ -1,6 +1,6 @@
 import { resolve } from "path";
+import { ISub } from "../../entities/Abstractions/ISub";
 import { DTOSub } from "../../entities/DTOs/DTOSub";
-import { ISub } from "../../entities/DTOs/ISub";
 import { Sub } from "../../entities/sub";
 import { SubModel } from "../../models/sub";
 import { errorFactory } from "../../utils/errorFactory";
@@ -8,7 +8,7 @@ import { ISubRepository } from "../ISubRepository";
 
 export function MongooseSub() : ISubRepository{
     return{
-        create: ( data : DTOSub ) : Promise<Sub> => {
+        create: ( data : DTOSub ) : Promise<ISub> => {
             return new Promise( async (resolve, reject) =>{
                 try {
                     const sub = await (await SubModel.create(data)).save();

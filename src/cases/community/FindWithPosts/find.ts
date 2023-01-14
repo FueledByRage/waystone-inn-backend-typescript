@@ -1,7 +1,7 @@
 import { DTOGetPosts } from "../../../entities/DTOs/DTOGetPosts";
 import { DTOSub } from "../../../entities/DTOs/DTOSub";
-import { iCommunity } from "../../../entities/ICommunity";
-import { IPost } from "../../../entities/IPosts";
+import { iCommunity } from "../../../entities/Abstractions/ICommunity";
+import { IPost } from "../../../entities/Abstractions/IPosts";
 import { ICommunityRepository } from "../../../repositories/ICommunityRepository";
 import { IPostRepository, IReadPost } from "../../../repositories/IPostsRepository";
 import { ISubRepository } from "../../../repositories/ISubRepository";

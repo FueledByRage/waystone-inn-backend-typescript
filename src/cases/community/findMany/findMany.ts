@@ -1,4 +1,4 @@
-import { iCommunity } from "../../../entities/ICommunity";
+import { iCommunity } from "../../../entities/Abstractions/ICommunity";
 import { ICommunityRepository } from "../../../repositories/ICommunityRepository";
 import { errorFactory } from "../../../utils/errorFactory";
 

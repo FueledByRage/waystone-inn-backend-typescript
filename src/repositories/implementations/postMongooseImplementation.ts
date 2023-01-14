@@ -1,5 +1,5 @@
 import { DTOPost } from "../../entities/DTOs/DTOPost";
-import { IPost } from "../../entities/IPosts";
+import { IPost } from "../../entities/Abstractions/IPosts";
 import { Post } from "../../entities/Post";
 import { PostModel } from "../../models/post";
 import { UserModel } from "../../models/user";
@@ -11,28 +11,29 @@ export function MongoosePost(): IPostRepository{
     return{
         create(data: DTOPost){
             return new Promise(async (resolve, reject)=>{
-                const post = new Post(data);
-                const createdPost = await (await PostModel.create(post)).save().catch((error: Error)=>{
-                    const createdError = errorFactory('Error creating post - Failed to execute', 500);
-                    reject(createdError);
-                });
-                if(!createdPost) reject(errorFactory('Error creating post.', 500));
-                
-                //@ts-ignore
-                resolve(createdPost);
+                try {
+                    const createdPost = await (await PostModel.create(data)).save();
+                    if(!createdPost) reject(errorFactory('Error creating post.', 500));
+                    
+                    resolve(createdPost);
+                } catch (error) {
+                    reject(error);
+                }
             });
         },
         readPosts(id: string, skip: number, registers: number) : Promise<IReadPost> {
             return new Promise(async (resolve, reject) =>{
-                
-                const count = await PostModel.find({ communityId: id}).countDocuments();
-                
-                const posts = await PostModel.find({ communityId: id })
-                .skip(skip).limit(registers)
-                .catch((error: Error) =>{ reject(new Error(`Error: ${error.message}`)) });
-
-                //@ts-ignore
-                resolve({ posts: posts, count: count });  
+                try {
+                    const count = await PostModel.find({ communityId: id}).countDocuments();
+                    
+                    const posts = await PostModel.find({ communityId: id })
+                    .skip(skip).limit(registers);
+    
+                    resolve({  posts, count });  
+                    
+                } catch (error) {
+                    reject(error);
+                }
             });
         },
         getPostsFeed(skip: number, registers: number, subs : string[]) : Promise<IReadPost> {
@@ -51,7 +52,6 @@ export function MongoosePost(): IPostRepository{
                     throw new Error('Error reaching data');
                     
                 } catch (error) {
-                    console.error(error);
                     reject(error);
                 }
 

@@ -1,6 +1,6 @@
 import { DTOPost } from "../entities/DTOs/DTOPost";
-import { ISub } from "../entities/DTOs/ISub";
-import { IPost } from "../entities/IPosts";
+import { ISub } from "../entities/Abstractions/ISub";
+import { IPost } from "../entities/Abstractions/IPosts";
 import { Post } from "../entities/Post";
 
 export interface IReadPost {
