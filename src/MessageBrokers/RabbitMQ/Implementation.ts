@@ -26,7 +26,7 @@ export const RabbitMqImplementation = () : IMessageStream =>{
                     await channel.close()
                     resolve();
                 } catch (error) {
-                    reject(error);
+                    console.error(error);
                 }
             });
         },

@@ -7,5 +7,5 @@ export const getChannel = async ( queue : string ) =>{
     if(!MESSAGE_BROKER_HOST) return null;
     const connection : Connection = await client.connect(MESSAGE_BROKER_HOST);
     const channel : Channel = await connection.createChannel();
-    return await channel.assertQueue( queue );
+    return channel
 }

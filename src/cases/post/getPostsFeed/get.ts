@@ -28,6 +28,7 @@ export function getPostsFeed(repository: IPostRepository, likeRepository : ILike
                     const subsId = subs.map( element => element.communityId );
     
                     const response = await repository.getPostsFeed(skip, data.register, subsId);
+
     
                     const posts = response && await Promise.all(response.posts.map(async post =>{
                         const dtoLike = new DTOLike(data.id || '', post._id)

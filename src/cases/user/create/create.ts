@@ -3,9 +3,12 @@ import { IUser } from "../../../entities/Abstractions/IUser";
 import { DTOUser } from "../../../entities/DTOs/DTOUser";
 import { User } from "../../../entities/user";
 import { IUserRepository } from "../../../repositories/IUserRepository";
+import { DTOSendMessageStream } from "../../../services/DTOs/DTOsendMessageStream";
 import { IMessageStream } from "../../../services/messageStream/IMessageStream";
 import { errorFactory } from "../../../utils/errorFactory";
 import { ICreateUser } from "./controller";
+import * as dotenv from 'dotenv';
+dotenv.config();
 
 export function CreateUser(userRepository: IUserRepository, messageBroker : IMessageStream) : ICreateUser  {
 
@@ -46,6 +49,20 @@ export function CreateUser(userRepository: IUserRepository, messageBroker : IMes
                     
                     const newUser = await userRepository.create(user);
 
+                    const { INN_EMAIL } = process.env;
+
+                    const message = {
+                        emailOwner : 'The Waystone Inn',
+                        emailFrom : INN_EMAIL,
+                        emailTo : user.email,
+                        subject : 'User register',
+                        text: 'Welcome to The Waystone Inn community.' 
+                    }
+
+                    const dataMessageBroker = new DTOSendMessageStream('msEmail', message);
+
+                    messageBroker.sendMessage(dataMessageBroker);
+                    
                     resolve(newUser);
                     
                 } catch (error) {
