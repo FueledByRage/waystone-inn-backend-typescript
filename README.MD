@@ -69,4 +69,4 @@ ENDPOINT | METHOD | PARAMS | EXPECTED SUCCESS | EXPECTED ERROR
 ENDPOINT | METHOD | PARAMS | EXPECTED SUCCESS | EXPECTED ERROR
 ---------|--------|--------|------------------|---------------|
 /like/create/:postId | GET | postId and authorization header | CODE 201 - Created | { message with error description }
-/like/:postId | DELETE | postId | Cose 204 - Success | { message with error description }
+/like/:postId | DELETE | postId | CODE 204 - Success | { message with error description }
