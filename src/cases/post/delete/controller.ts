@@ -15,7 +15,7 @@ export function deletePostController( deletePost : IDeletePost){
 
                 await deletePost.execute(id, userId.toString());
 
-                res.send();
+                res.sendStatus(204);
                 
             } catch (error) {
                 console.log(error);

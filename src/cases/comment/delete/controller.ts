@@ -15,7 +15,7 @@ export function deleteCommentController( deleteComment : IDeleteComment){
 
                 await deleteComment.execute(id, userId.toString());
 
-                res.sendStatus(200);
+                res.sendStatus(204);
                 
             } catch (error) {
                 console.log(error);

@@ -59,7 +59,7 @@ export function CreateUser(userRepository: IUserRepository, messageBroker : IMes
                         text: 'Welcome to The Waystone Inn community.' 
                     }
 
-                    const dataMessageBroker = new DTOSendMessageStream('msEmail', message);
+                    const dataMessageBroker = new DTOSendMessageStream('ms.email', message);
 
                     messageBroker.sendMessage(dataMessageBroker);
                     

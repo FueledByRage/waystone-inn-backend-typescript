@@ -22,7 +22,7 @@ export const deleteSubController = ( deleteSub : IDeleteSub ) =>{
 
                 await deleteSub.execute(data);
 
-                res.sendStatus(200);
+                res.sendStatus(204);
             } catch ( error ) {
                 console.error(error);
                 cb(error);

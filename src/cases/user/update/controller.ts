@@ -20,9 +20,9 @@ export const updateUserController = ( updateUser : IUpdateUser ) =>{
                 const key = req.file?.filename;
             
                 if(!userId) throw errorFactory( 'Missing user authentication');
-                //const profileURL = key && `${process.env.UPLOAD_URL}/img/user/${key}`;
+                const profileURL = key && `${process.env.UPLOAD_URL}/img/user/${key}`;
                 
-                const data = new DTOUpdateUser(userId.toString(), username, name, key);
+                const data = new DTOUpdateUser(userId.toString(), username, name, profileURL);
                 
                 const updated = await updateUser.execute(data);
                 

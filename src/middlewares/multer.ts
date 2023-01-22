@@ -8,12 +8,12 @@ import * as dotenv from 'dotenv';
 dotenv.config();
 
 const uploadImagePosts : string = path.resolve( __dirname, "..", ".." , "uploads", "img", "posts");
-const uploadImageProfile : string = path.resolve( __dirname, "..", "uploads", "img", "profile");
+const uploadImageProfile : string = path.resolve( __dirname, "..", "..", "uploads", "img", "user");
 
 const localStorage = multer.diskStorage({
     destination: function (req, file, cb){
         const uploadOptions : { [ key : string ] : ()=> void} = {
-            '/user/edit':() => cb(null, uploadImageProfile),
+            '/user/update':() => cb(null, uploadImageProfile),
             '/user/register': () => cb(null, uploadImageProfile),
             '/post/register':() => cb(null, uploadImagePosts)
         }

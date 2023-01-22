@@ -30,7 +30,7 @@ test('This test must delete a sub register',async () => {
         token
     });
 
-    expect(response.statusCode).toBe(200);
+    expect(response.statusCode).toBe(204);
 });
 test('Create a subscription ', async () => {
     

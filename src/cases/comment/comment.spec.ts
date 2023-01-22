@@ -58,7 +58,7 @@ test('Delete - testing delete comment route', async ()=>{
         token
     });
 
-    expect(response.statusCode).toBe(200);
+    expect(response.statusCode).toBe(204);
 });
 
 test('Delete - testing delete comment route error handler - not sending token', async ()=>{

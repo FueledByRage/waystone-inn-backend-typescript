@@ -129,7 +129,7 @@ test('DELETE - Delete a post', async ()=>{
         token: token
     });
 
-    expect(response.statusCode).toBe(200);
+    expect(response.statusCode).toBe(204);
 });
 
 test('DELETE - Testing delete post authorization', async ()=>{
