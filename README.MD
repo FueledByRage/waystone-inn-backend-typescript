@@ -1,4 +1,4 @@
-This is the new version of the backend from The Waystone Inn, my personal project that i've been working to pratice. I'ts rewritten in  Typescript, has a better implementatin of SOLID principles and a few more minor changes.
+This is the new version of the backend from [The Waystone Inn](https://github.com/FueledByRage/The-Waystone-Inn-Frontend), my personal project that i've been working to pratice. I'ts rewritten in  Typescript, has a better implementatin of SOLID principles and a few more minor changes.
 
 In a little overview, the main database implementation is with mongodb, using mongoose as ORM, and the server is powered by the classic Express. It also works with RabbitMQ as message broker.
 
@@ -19,7 +19,17 @@ Use the Docker-compose command to run the database and MessageBroker service, bo
 
 Use the .env.sample file as a guide to create a .env file with the local variables.
 
+## Tests 
 
+Some tests requires tokens and id's. You must do some registers to a full cover test.
+
+All individual .test files are inside their respective case directories.
+
+It's possible to test a service by running the test command taking the case name.
+
+Example: 
+
+`yarn run user`
 
 ## User:
 
