@@ -49,11 +49,8 @@ export function CreateUser(userRepository: IUserRepository, messageBroker : IMes
                     
                     const newUser = await userRepository.create(user);
 
-                    const { INN_EMAIL } = process.env;
-
                     const message = {
                         emailOwner : 'The Waystone Inn',
-                        emailFrom : INN_EMAIL,
                         emailTo : user.email,
                         subject : 'User register',
                         text: 'Welcome to The Waystone Inn community.' 
@@ -64,7 +61,6 @@ export function CreateUser(userRepository: IUserRepository, messageBroker : IMes
                     messageBroker.sendMessage(dataMessageBroker);
                     
                     resolve(newUser);
-                    
                 } catch (error) {
                     reject(error);
                 }
