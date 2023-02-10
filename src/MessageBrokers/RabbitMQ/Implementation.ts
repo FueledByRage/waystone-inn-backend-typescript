@@ -22,11 +22,13 @@ export const RabbitMqImplementation = () : IMessageStream =>{
                     const channel : Channel | null = await getConnection(data.queue);
                     if(!channel) throw errorFactory('Connection error to the message broker');
                     await channel.assertQueue(data.queue);
-                    channel.sendToQueue( data.queue, Buffer.from(data.message));
+
+                    channel.sendToQueue(data.queue, Buffer.from(data.message));
                     await channel.close()
                     resolve();
                 } catch (error) {
                     console.error(error);
+                    resolve();
                 }
             });
         },

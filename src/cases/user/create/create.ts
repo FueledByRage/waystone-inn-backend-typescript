@@ -1,6 +1,7 @@
 import e from "express";
 import { IUser } from "../../../entities/Abstractions/IUser";
 import { DTOUser } from "../../../entities/DTOs/DTOUser";
+import { IUserCreated } from '../../../MessageBrokers/Queues/IUserCreatedQ'
 import { User } from "../../../entities/user";
 import { IUserRepository } from "../../../repositories/IUserRepository";
 import { DTOSendMessageStream } from "../../../services/DTOs/DTOsendMessageStream";
@@ -49,16 +50,16 @@ export function CreateUser(userRepository: IUserRepository, messageBroker : IMes
                     
                     const newUser = await userRepository.create(user);
 
-                    const message = {
+                    const message : IUserCreated = {
                         emailOwner : 'The Waystone Inn',
                         emailTo : user.email,
                         subject : 'User register',
                         text: 'Welcome to The Waystone Inn community.' 
                     }
 
-                    const dataMessageBroker = new DTOSendMessageStream('ms.email', message);
+                    const dataMessageBroker = new DTOSendMessageStream('ms.email', JSON.stringify(message));
+                    await messageBroker.sendMessage(dataMessageBroker);
 
-                    messageBroker.sendMessage(dataMessageBroker);
                     
                     resolve(newUser);
                 } catch (error) {
