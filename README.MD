@@ -2,6 +2,18 @@ This is the new version of the backend from [The Waystone Inn](https://github.co
 
 In a little overview, the main database implementation is with mongodb, using mongoose as ORM, and the server is powered by the classic Express. It also works with RabbitMQ as message broker.
 
+```mermaid
+graph LR;
+    A["User Application fa:fa-cubes"]
+    B["API fa:fa-cubes"]
+    C[("Database fa:fa-globe")]
+    D["Message Broker fa:fa-cubes"]
+
+    A-->|HTTP Request|B;
+    B-->|Save data|C;
+    B-->|Send message|D;
+```
+
 # How to use it
 
 After clone the repository 
