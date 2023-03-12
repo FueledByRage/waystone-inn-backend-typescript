@@ -42,12 +42,9 @@ export function UserMongoose(): IUserRepository{
     update( data : DTOUpdateUser ): Promise<boolean> {
         return new Promise(async (resolve, reject)=>{
             try {
-                console.log(data);
                 const updated = await UserModel.updateOne({_id: data.userId}, data);
                 
-
                 return resolve(updated.modifiedCount > 0 );
-                
             } catch (error) {
                 console.error(error);
                 reject(error);

@@ -2,15 +2,17 @@ import { User } from "../../../entities/user";
 import { NextFunction, Request, Response } from "express";
 import { errorFactory } from "../../../utils/errorFactory";
 import { IUser } from "../../../entities/Abstractions/IUser";
+import { httpRequestAdapter } from "../../../adapters/httpRequestAdapter";
+import { IController } from "../../../adapters/adaptersImplementations/adaptRouter";
 
 interface IGetUser{
     execute: (username : string) => Promise<IUser | void | null>
 }
 
-export const getUserController = ( get : IGetUser )=>{
+export const getUserController = ( get : IGetUser ) : IController =>{
 
     return{
-        execute: async (req : Request, res : Response, next : NextFunction) =>{
+        execute: async (req : httpRequestAdapter) =>{
             try {
 
                 const { username } = req.params;
@@ -20,10 +22,11 @@ export const getUserController = ( get : IGetUser )=>{
                 const user = await get.execute(username);
 
                 if(!user) throw errorFactory('User not found', 404);
-
-                res.send(user);
+                return user;
+                //res.send(user);
             } catch (error) {
-                next(error);
+                return error;
+                //next(error);
             }
         }
     }

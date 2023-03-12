@@ -1,7 +1,7 @@
 import { app } from "./app";
-import * as dotenv from 'dotenv';
 import 'cors';
 import Mongoose from "mongoose";
+import * as dotenv from 'dotenv';
 dotenv.config();
 
 const { DATABASE_USER, DATABASE_PASSWORD, DATABASE_PORT, DATABASE_NAME, API_PORT } = process.env;
@@ -16,9 +16,7 @@ then( async ()=>{
     (e)=>{
         console.log( 'Error ' + e + ' has occuried' )
     }
-);
-
-
+)
 
 app.listen(API_PORT, ()=>{
     console.log('running');

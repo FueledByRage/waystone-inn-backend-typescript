@@ -2,7 +2,6 @@ import { app } from "../../app";
 import  Mongoose  from "mongoose";
 import * as dotenv from "dotenv";
 import supertest from "supertest";
-import { text } from "express";
 dotenv.config();
 
 beforeAll(async ()=>{
@@ -32,8 +31,8 @@ test('Testing the user register - Not sending params',async ()=>{
 test('Testing the user register',async ()=>{
     const response = await supertest(app).post('/inn/user/register').send({
        name: 'Erik Natan',
-       user: 'PaçocaDoce',
-       email: 'ExamplePa@gmail.com',
+       user: 'Clarita Amarela',
+       email: 'florAmarela@gmail.com',
        password: 'senha123'
 
     });
@@ -101,7 +100,7 @@ test('Trying to register a taken username', async ()=>{
 test('Update user test', async () => {
     const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzYjlhOTg1YzRmYzA3MDY1ZjkwNDg2MSIsImlhdCI6MTY3MzQ0MzczNH0.nP90fyl3O92uifmfJwMUoz7eFXffl1LWOAj1YwOlCOQ';
    const response = await supertest(app).put('/inn/user/update').send({
-        username: 'Panetone' 
+        username: 'Panetone1' 
    }).set({
         token
    });

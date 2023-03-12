@@ -15,8 +15,8 @@ export function CreateUser(userRepository: IUserRepository, messageBroker : IMes
 
     const emailUserIsInValid = ( user : DTOUser) : boolean =>{
         const emailRegex = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-                    
-        if(emailRegex.test(user.email)) return false
+                
+        if(emailRegex.test(user.email)) return false;
 
         return true;
     }
@@ -41,7 +41,6 @@ export function CreateUser(userRepository: IUserRepository, messageBroker : IMes
         execute: (user: DTOUser) : Promise<IUser> => {
             return new Promise(async (resolve, reject)=>{
                 try {
-
                     if(emailUserIsInValid(user)) throw errorFactory('This is not a valid email format', 406);
                     
                     const credentialsError = await checkCredentials(user);

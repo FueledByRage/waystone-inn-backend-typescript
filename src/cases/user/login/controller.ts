@@ -4,14 +4,16 @@ import { errorFactory } from "../../../utils/errorFactory";
 import { User } from "../../../entities/user";
 import { ICryptography } from "../../../services/cryptography/ICryptography";
 import { IUser } from "../../../entities/Abstractions/IUser";
+import { httpRequestAdapter } from "../../../adapters/httpRequestAdapter";
+import { IController } from "../../../adapters/adaptersImplementations/adaptRouter";
 
 interface ILogin{
     execute: ( email : string, password : string ) => Promise<IUser>
 }
 
-export function controllerLogin(login: ILogin, crypto : ICryptography){
+export function controllerLogin(login: ILogin, crypto : ICryptography) : IController {
     return{
-        login: async (req: Request, res: Response, cb: NextFunction)=>{
+        execute: async ( req: httpRequestAdapter )=>{
             
             try {
                 const { email, password } = req.body;
@@ -20,11 +22,12 @@ export function controllerLogin(login: ILogin, crypto : ICryptography){
 
                 const token = await crypto.encrypt({id : user._id});
                 
-                res.send({token, username: user.user});
+                return {token, username: user.user};
                 
             } catch (error) {
                 console.error(error);
-                cb(error);
+                return error;
+                //cb(error);
             }
         }
     }
