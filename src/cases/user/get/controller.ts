@@ -22,7 +22,7 @@ export const getUserController = ( get : IGetUser ) : IController =>{
                 const user = await get.execute(username);
 
                 if(!user) throw errorFactory('User not found', 404);
-                return user;
+                return { data: user};
                 //res.send(user);
             } catch (error) {
                 return error;

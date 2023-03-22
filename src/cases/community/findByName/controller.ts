@@ -1,19 +1,19 @@
 import { IFindByName } from "./findByName";
 import { Request, Response, NextFunction } from "express";
+import { httpRequestAdapter } from "../../../adapters/httpRequestAdapter";
 
 export function FindByNameController( find: IFindByName ){
 
     return{
-        async execute(req: Request, res: Response, cb: NextFunction){
+        async execute(req: httpRequestAdapter){
 
             try {
                 const { name } = req.params;
     
                 const communities = await find.execute(name);
-                
-                res.json(communities);
+                return { data: communities };
             } catch (error) {
-                cb(error);
+                return error;
             }
 
 

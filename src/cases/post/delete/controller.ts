@@ -1,25 +1,26 @@
-import { NextFunction, Request, Response } from "express";
 import { errorFactory } from "../../../utils/errorFactory";
-import { decriptToken } from "../../../utils/cryptography";
 import { IDeletePost } from "./delete";
+import { httpRequestAdapter } from "../../../adapters/httpRequestAdapter";
+import { IController } from "../../../adapters/adaptersImplementations/adaptRouter";
 
-export function deletePostController( deletePost : IDeletePost){
+export function deletePostController( deletePost : IDeletePost) : IController {
     return{
-        async execute(req: Request, res : Response, cb: NextFunction){
+        async execute(req: httpRequestAdapter){
             
             try { 
                 const { id }= req.params;
-                const { userId } = req.headers;
+                const { userId } = req.header;
             
                 if(!userId) throw errorFactory('Authorization token missing.', 406);
 
                 await deletePost.execute(id, userId.toString());
 
-                res.sendStatus(204);
+                return 204;
+                //res.sendStatus(204);
                 
             } catch (error) {
                 console.log(error);
-                cb(error);
+                return error;
             }
         }
     }

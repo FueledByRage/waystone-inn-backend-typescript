@@ -2,6 +2,8 @@ import { app } from "../../app";
 import  Mongoose  from "mongoose";
 import * as dotenv from "dotenv";
 import supertest from "supertest";
+import { Readable, Writable } from "stream";
+import fs from "fs"
 dotenv.config();
 
 beforeAll(async ()=>{
@@ -15,6 +17,14 @@ beforeAll(async ()=>{
             console.log( 'Error ' + e + ' has occuried' );
         }
     );
+    
+    fs.readFileSync('../../../db/mongo/users/', 'utf-8');
+    
+    const readStream = new Readable({
+        read: ()=>{
+
+        }
+    });
 });
 
 afterAll(async ()=>{

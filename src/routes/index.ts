@@ -34,17 +34,17 @@ router.post('/user/login', adaptRouter(LoginController));
 router.get('/user/:username', adaptRouter(getByUsernameController))
 router.put('/user/update', adapterMiddleware(authenticationMiddleware), uploads.single('file'),  adaptRouter(userUpdateController) );
 
-router.post('/community/register', adapterMiddleware(authenticationMiddleware), CreateCommunityController.execute);
-router.get('/community/read/:id', findCommunityController.execute);
-router.get('/communities', adapterMiddleware(authenticationMiddleware), FindManyCommunitiesController.execute);
-router.get('/communities/:name', findByNameController.execute);
+router.post('/community/register', adapterMiddleware(authenticationMiddleware), adaptRouter(CreateCommunityController));
+router.get('/community/read/:id', adapterMiddleware(authenticationMiddleware), adaptRouter(findCommunityController));
+router.get('/communities', adapterMiddleware(authenticationMiddleware), adaptRouter(FindManyCommunitiesController));
+router.get('/communities/:name', adaptRouter(findByNameController));
 
 
 router.post('/post/register', adapterMiddleware(authenticationMiddleware), uploads.single('file'), adaptRouter( createPostController ));
-router.get('/posts/:id/:page/:registers', adapterMiddleware(authenticationMiddleware), ReadPostsController.execute);
-router.get('/post/:id', ReadPostController.execute);
-router.get('/feed/:page/:registers', adapterMiddleware(authenticationMiddleware), GetPostsFeedController.execute);
-router.delete('/post/:id', adapterMiddleware(authenticationMiddleware), DeletePostController.execute);
+router.get('/posts/:id/:page/:registers', adapterMiddleware(authenticationMiddleware), adaptRouter(ReadPostsController));
+router.get('/post/:id', adaptRouter(ReadPostController));
+router.get('/feed/:page/:registers', adapterMiddleware(authenticationMiddleware), adaptRouter(GetPostsFeedController));
+router.delete('/post/:id', adapterMiddleware(authenticationMiddleware), adaptRouter(DeletePostController));
 
 router.post('/comment/register', adapterMiddleware(authenticationMiddleware), CreateCommentController.execute);
 router.get('/comments/:id', ReadCommentsController.execute);

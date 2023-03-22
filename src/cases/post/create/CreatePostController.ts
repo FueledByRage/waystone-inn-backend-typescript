@@ -20,7 +20,7 @@ export const CreatePostAdaptedController = ( createPost : ICreatePost ) =>{
 
                 const post = await createPost.execute(data);
 
-                return post;
+                return { status: 201, post};
             } catch (error) {
                 const key = req.file?.filename;
 

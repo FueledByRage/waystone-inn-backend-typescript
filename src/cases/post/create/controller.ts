@@ -4,14 +4,15 @@ import { ICreatePost } from "./create";
 import { DTOPost } from "../../../entities/DTOs/DTOPost";
 import fs from 'fs';
 import { resolve } from "path";
+import { httpRequestAdapter } from "../../../adapters/httpRequestAdapter";
 
 export function CreatePostController(createPost: ICreatePost){
 
     return{
-        async execute(req: Request, res: Response, cb: NextFunction){
+        async execute(req: httpRequestAdapter) {
             try {
                 const { title, body, id } = req.body;
-                const { userId } = req.headers;
+                const { userId } = req.header;
                 const key = req.file?.filename;
 
                 if(!title || !body || !id || !userId) throw errorFactory('Missing param.', 406);
@@ -20,8 +21,7 @@ export function CreatePostController(createPost: ICreatePost){
 
                 const post = await createPost.execute(data);
 
-                res.status(201).json(post);
-                
+                return { status: 201, data: post }                
             } catch (error) {
                 const key = req.file?.filename;
 
@@ -29,7 +29,7 @@ export function CreatePostController(createPost: ICreatePost){
                     const filePath = resolve(__dirname, '..', '..', '..', '..', 'uploads', 'img', 'posts', key)
                     fs.unlink(filePath, error => console.error(error));
                 }
-                cb(error);
+                return error;
             }
         }
     }

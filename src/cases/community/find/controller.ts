@@ -2,6 +2,7 @@ import { errorFactory } from "../../../utils/errorFactory";
 import { Request, Response, NextFunction } from "express";
 import { decriptToken } from "../../../utils/cryptography";
 import { iCommunity } from "../../../entities/Abstractions/ICommunity";
+import { httpRequestAdapter } from "../../../adapters/httpRequestAdapter";
 
 export interface IFindCommunityOutput{
     community : iCommunity | null | void,
@@ -13,18 +14,17 @@ interface IFindCommunity{
 
 export function findController(find: IFindCommunity){
     return{
-        execute: async (req: Request, res: Response, cb: NextFunction)=>{
+        execute: async (req: httpRequestAdapter)=>{
             try {
                 const { id } = req.params;
-                const { token } = req.headers;
+                const { token } = req.header;
 
                 const response = await find.execute(id, token?.toString() || '');
-                
-                res.status(200).json(response);
+                return { status : 200, data: response }
         
             } catch (error) {
                 console.error(error);
-                cb(error);
+                return error;
             }
         }
     }

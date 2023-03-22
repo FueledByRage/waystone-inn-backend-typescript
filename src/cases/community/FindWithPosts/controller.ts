@@ -1,25 +1,22 @@
-import { errorFactory } from "../../../utils/errorFactory";
-import { Request, Response, NextFunction } from "express";
 import { IFindCommunityPost } from "./find";
 import { DTOGetPosts } from "../../../entities/DTOs/DTOGetPosts";
+import { httpRequestAdapter } from "../../../adapters/httpRequestAdapter";
 
 export function findCommunityPosts(find: IFindCommunityPost){
 
     return{
-        async execute(req: Request, res: Response, cb: NextFunction){
-            
+        async execute(req: httpRequestAdapter){
             try {
-                
                 const { id, page, registers } = req.params;
-                const { token } = req.headers;
+                const { token } = req.header;
 
                 const data = new DTOGetPosts(id, parseInt(page), parseInt(registers))
 
                 const response = await find.execute(data, token?.toString() || '');
                 
-                res.send(response);
+                return { data: response };
             } catch (error) {
-                cb(error);   
+                return error;
             }
         }
     }

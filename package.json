@@ -12,7 +12,9 @@
     "post": "jest ./src/cases/post/post.spec.ts",
     "comment": "jest ./src/cases/comment/comment.spec.ts",
     "sub": "jest ./src/cases/subs/subs.spec.ts",
-    "like": "jest ./src/cases/likes/likes.spec.ts"
+    "like": "jest ./src/cases/likes/likes.spec.ts",
+    "export-user": "nodemon ./db/mongo/scripts/import.ts",
+    "hwd": "node run hello.ts"
   },
   "devDependencies": {
     "-": "^0.0.1",

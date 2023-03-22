@@ -1,0 +1,372 @@
+[{
+  "_id": {
+    "$oid": "6391df04bc73e40854d9706c"
+  },
+  "name": "Erik Natan",
+  "user": "Example",
+  "email": "Example@gmail.com",
+  "password": "senha123",
+  "date": {
+    "$date": {
+      "$numberLong": "1670504195963"
+    }
+  },
+  "subs": [],
+  "__v": 0,
+  "profileURL": "http://localhost:3333/inn/uploads//img/user/1674308844987.jpeg"
+},{
+  "_id": {
+    "$oid": "63974206fd1975a7aa0002c3"
+  },
+  "name": "Erik Natan",
+  "user": "Example",
+  "email": "Example1@gmail.com",
+  "password": "senha123",
+  "date": {
+    "$date": {
+      "$numberLong": "1670857221180"
+    }
+  },
+  "subs": [],
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "6397423033bd30d0acceefe4"
+  },
+  "name": "Erik Natan",
+  "user": "Example",
+  "email": "Example1@gmail.com",
+  "password": "senha123",
+  "date": {
+    "$date": {
+      "$numberLong": "1670857263056"
+    }
+  },
+  "subs": [],
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "63987bfc4eb8b7525542db25"
+  },
+  "name": "Erik Natan",
+  "user": "Example",
+  "email": "Example1@gmail.com",
+  "password": "senha123",
+  "date": {
+    "$date": {
+      "$numberLong": "1670937592688"
+    }
+  },
+  "subs": [],
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "63987c6b0ebf2bf7d75d6c78"
+  },
+  "name": "Erik Natan",
+  "user": "Example",
+  "email": "Example1@gmail.com",
+  "password": "senha123",
+  "date": {
+    "$date": {
+      "$numberLong": "1670937706658"
+    }
+  },
+  "subs": [],
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "63987c9aa69c2ce148bb10f7"
+  },
+  "name": "Erik Natan",
+  "user": "Example",
+  "email": "Example1@gmail.com",
+  "password": "senha123",
+  "date": {
+    "$date": {
+      "$numberLong": "1670937753719"
+    }
+  },
+  "subs": [],
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "63987ccb08569292016cfb86"
+  },
+  "name": "Erik Natan",
+  "user": "Example",
+  "email": "Example1@gmail.com",
+  "password": "senha123",
+  "date": {
+    "$date": {
+      "$numberLong": "1670937802085"
+    }
+  },
+  "subs": [],
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "63987e6b7e10064895ce676c"
+  },
+  "name": "Erik Natan",
+  "user": "Example",
+  "email": "Example1@gmail.com",
+  "password": "senha123",
+  "date": {
+    "$date": {
+      "$numberLong": "1670938217709"
+    }
+  },
+  "subs": [],
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "639b2e01d5aed48536824b4b"
+  },
+  "name": "Erik Natan",
+  "user": "Example",
+  "email": "Example1@gmail.com",
+  "password": "senha123",
+  "date": {
+    "$date": {
+      "$numberLong": "1671114236339"
+    }
+  },
+  "subs": [],
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "639b573d9b2a3120b32b38a5"
+  },
+  "name": "Erik Natan",
+  "user": "Example",
+  "email": "Example@gmail.com",
+  "password": "senha123",
+  "date": {
+    "$date": {
+      "$numberLong": "1671124795980"
+    }
+  },
+  "subs": [],
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "639b573d9b2a3120b32b38ae"
+  },
+  "name": "Erik Natan",
+  "user": "Example",
+  "email": "Example1@gmail.com",
+  "password": "senha123",
+  "date": {
+    "$date": {
+      "$numberLong": "1671124795980"
+    }
+  },
+  "subs": [],
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "639b59457a0425b5648b6296"
+  },
+  "name": "Erik Natan",
+  "user": "Example",
+  "email": "Example@gmail.com",
+  "password": "senha123",
+  "date": {
+    "$date": {
+      "$numberLong": "1671125316322"
+    }
+  },
+  "subs": [],
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "639b59457a0425b5648b629f"
+  },
+  "name": "Erik Natan",
+  "user": "Example",
+  "email": "Example1@gmail.com",
+  "password": "senha123",
+  "date": {
+    "$date": {
+      "$numberLong": "1671125316322"
+    }
+  },
+  "subs": [],
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "639b5a4a4520a3fbb7be0f8a"
+  },
+  "name": "Erik Natan",
+  "user": "Example",
+  "email": "Example@gmail.com",
+  "password": "senha123",
+  "date": {
+    "$date": {
+      "$numberLong": "1671125478602"
+    }
+  },
+  "subs": [],
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "639b5a883ee8355809f4cb69"
+  },
+  "name": "Erik Natan",
+  "user": "Example",
+  "email": "Example@gmail.com",
+  "password": "senha123",
+  "date": {
+    "$date": {
+      "$numberLong": "1671125636952"
+    }
+  },
+  "subs": [],
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "639c6490e4d96c6295e262ae"
+  },
+  "name": "Erik Natan",
+  "user": "Example",
+  "email": "Example@gmail.com",
+  "password": "senha123",
+  "date": {
+    "$date": {
+      "$numberLong": "1671193724053"
+    }
+  },
+  "subs": [],
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "639c6495e4d96c6295e262b7"
+  },
+  "name": "Erik Natan",
+  "user": "Example",
+  "email": "Example1@gmail.com",
+  "password": "senha123",
+  "date": {
+    "$date": {
+      "$numberLong": "1671193724053"
+    }
+  },
+  "subs": [],
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "63b9a985c4fc07065f904861"
+  },
+  "name": "NatanMorgoroth",
+  "user": "Panetone1",
+  "email": "ExamplePa@gmail.com",
+  "password": "senha123",
+  "date": {
+    "$date": {
+      "$numberLong": "1673111936561"
+    }
+  },
+  "subs": [],
+  "__v": 0,
+  "profileURL": "http://localhost:3333/inn/uploads//img/user/undefined"
+},{
+  "_id": {
+    "$oid": "63b9a986c4fc07065f90486a"
+  },
+  "name": "Erik Natan",
+  "user": "Example",
+  "email": "Example1@gmail.com",
+  "password": "senha123",
+  "date": {
+    "$date": {
+      "$numberLong": "1673111936561"
+    }
+  },
+  "subs": [],
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "63b9aa40af7b135d69441be6"
+  },
+  "name": "Erik Natan",
+  "user": "PaçocaDoce",
+  "email": "ExamplePa@gmail.com",
+  "password": "senha123",
+  "date": {
+    "$date": {
+      "$numberLong": "1673112127046"
+    }
+  },
+  "subs": [],
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "63b9aa40af7b135d69441bef"
+  },
+  "name": "Erik Natan",
+  "user": "Example",
+  "email": "Example1@gmail.com",
+  "password": "senha123",
+  "date": {
+    "$date": {
+      "$numberLong": "1673112127046"
+    }
+  },
+  "subs": [],
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "63e68071643537fad497a6e5"
+  },
+  "name": "Erik Natan",
+  "user": "so down",
+  "email": "lorememail@gmail.com",
+  "password": "senha123",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "63e6813b039590a869691fa7"
+  },
+  "name": "Erik Natan",
+  "user": "bel",
+  "email": "bell@gmail.com",
+  "password": "senha123",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "63e6823cbf90d6450cb475cd"
+  },
+  "name": "Erik Natan",
+  "user": "bela",
+  "email": "bella@gmail.com",
+  "password": "senha123",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "63e682ef41f57e8e1c74a401"
+  },
+  "name": "Erik Natan",
+  "user": "Clara",
+  "email": "girasol@gmail.com",
+  "password": "senha123",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "63e6834f2b2f4d8a3e20c80f"
+  },
+  "name": "Erik Natan",
+  "user": "Clarita",
+  "email": "girasoll@gmail.com",
+  "password": "senha123",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "640e1a9c7194f9b0600e63de"
+  },
+  "name": "Erik Natan",
+  "user": "Clarita Amarela",
+  "email": "florAmarela@gmail.com",
+  "password": "senha123",
+  "__v": 0
+}]

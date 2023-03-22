@@ -27,7 +27,7 @@ export function CreateController(create: ICreateUser, cryptography : ICryptograp
                 const createdUser = await create.execute(newUser);
 
                 const token = await cryptography.encrypt({id: createdUser._id});
-                return { status: 201, token };
+                return { status: 201, data: token };
             } catch (error) {
                 return error;
             }

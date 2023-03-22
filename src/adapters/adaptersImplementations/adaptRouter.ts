@@ -12,6 +12,6 @@ export const adaptRouter = ( controller : IController ) =>{
         const response = await controller.execute(request);
         if(typeof response == "number") return res.sendStatus(response);
         else if(response instanceof Error) return next(response);
-        return res.status(response.status || 200).send(response);
+        return res.status(response.status || 200).send(response.data);
     }
 }

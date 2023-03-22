@@ -22,7 +22,7 @@ export function controllerLogin(login: ILogin, crypto : ICryptography) : IContro
 
                 const token = await crypto.encrypt({id : user._id});
                 
-                return {token, username: user.user};
+                return { data: {token, username: user.user} };
                 
             } catch (error) {
                 console.error(error);

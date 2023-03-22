@@ -5,31 +5,32 @@ import { decriptToken } from "../../../utils/cryptography";
 import { Request, Response, NextFunction } from "express";
 import { DTOCommunity } from "../../../entities/DTOs/DTOCommunity";
 import { iCommunity } from "../../../entities/Abstractions/ICommunity";
+import { httpRequestAdapter } from "../../../adapters/httpRequestAdapter";
+import { IController } from "../../../adapters/adaptersImplementations/adaptRouter";
 
 interface ICreateCommunity {
     execute(data : DTOCommunity) : Promise<iCommunity | void | null>
 }
 
-export function CreateController(create: ICreateCommunity){
+export function CreateController(create: ICreateCommunity) : IController {
     return{
-        execute: async (req: Request, res: Response, cb: NextFunction)=>{
+        execute: async (req : httpRequestAdapter)=>{
             try {
-                const { userId } = req.headers;
+                const { userId } = req.header;
                 const { name, description } = req.body;
 
-                console.log(userId);
                 if( !userId || !name || !description) throw errorFactory('Missing params', 406);
 
-                
                 const data = new DTOCommunity(userId.toString() , name, description);
 
                 const createdCommunity = await create.execute(data);
 
                 if(!createdCommunity) throw errorFactory('Error creating community', 500);
 
-                res.status(201).json(createdCommunity);
+                return { status: 201, data: createdCommunity }
+
             } catch (error) {
-                cb(error);
+                return error;
             }
         }
     }
