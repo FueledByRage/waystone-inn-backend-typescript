@@ -7,6 +7,6 @@ export const expressReqAdapter = ( request : Request ) : httpRequestAdapter => {
         body: request.body,
         header : request.headers,
         url: request.url,
-        file : null
+        file : request.file 
     }
 } 

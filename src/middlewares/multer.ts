@@ -30,13 +30,12 @@ const localStorage = multer.diskStorage({
 
 const imageFilter = ()=>{
     return (req : Request, file : Express.Multer.File, cb : multer.FileFilterCallback)=>{
-        console.log('here');
         const type = mime.extension(file.mimetype);
 
         const conditions = ["png", "jpg", "jpeg"];
 
         if (conditions.includes(`${type}`)) cb(null, true);
-    
+        
         cb(null, false);
     }
 }

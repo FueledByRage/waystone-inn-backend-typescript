@@ -13,14 +13,12 @@ export const CreatePostAdaptedController = ( createPost : ICreatePost ) =>{
                 const { title, body, id } = req.body;
                 const { userId } = req.header;
                 const key = req.file?.filename;
-
                 if(!title || !body || !id || !userId) throw errorFactory('Missing param.', 406);
 
                 const data = new DTOPost(userId.toString() , id, title, body, key);
 
                 const post = await createPost.execute(data);
-
-                return { status: 201, post};
+                return { status: 201, data: post};
             } catch (error) {
                 const key = req.file?.filename;
 

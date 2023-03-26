@@ -13,7 +13,6 @@ export const adaptedAuthenticationMiddleware = () =>{
                 if(token){
                     //Gotta decript the token
                     httpRequest.header.userId = await cryptoImplementation.decript(token.toString());
-
                     return httpRequest;
                 }
             
